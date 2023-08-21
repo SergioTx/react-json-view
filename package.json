@@ -190,6 +190,7 @@
     "@babel/plugin-syntax-class-properties": "~7.12.1",
     "@babel/plugin-syntax-jsx": "~7.12.1",
     "@babel/register": "7.12.10",
+    "@types/react": "^18.2.20",
     "babel-plugin-react-html-attrs": "~2.1.0",
     "chai": "~4.2.0",
     "css-loader": "~4.3.0",
