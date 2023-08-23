@@ -13,7 +13,7 @@ This component provides a responsive interface for displaying arrays or JSON in 
 ### Implementation Example
 ```js
 // import the react-json-view component
-import ReactJson from 'react-json-view'
+import ReactJson from '@microlink/react-json-view'
 
 // use the component in your app!
 <ReactJson src={my_json_object} />
@@ -28,12 +28,12 @@ import ReactJson from 'react-json-view'
 ### Installation Instructions
 Install this component with [NPM](https://www.npmjs.com/package/react-json-view).
 ```shell
-npm install --save react-json-view
+npm install --save @microlink/react-json-view
 ```
 Or add to your package.json config file:
 ```json
 "dependencies": {
-    "react-json-view": "latest"
+    "@microlink/react-json-view": "latest"
 }
 ```
 
