@@ -26,7 +26,7 @@ import ReactJson from '@microlink/react-json-view'
 ![alt text](https://github.com/mac-s-g/react-json-view/blob/master/doc/output-example-14.png?raw=true "Output Example 2")
 
 ### Installation Instructions
-Install this component with [NPM](https://www.npmjs.com/package/react-json-view).
+Install this component with [NPM](https://www.npmjs.com/package/@microlink/react-json-view).
 ```shell
 npm install --save @microlink/react-json-view
 ```
