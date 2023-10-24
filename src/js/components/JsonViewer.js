@@ -8,7 +8,9 @@ export default class extends React.PureComponent {
         let namespace = [props.name];
         let ObjectComponent = JsonObject;
         if (typeof props.name === 'object' && !Array.isArray(props.name)) {
-            namespace = [props.displayName || 'Anonymous'];
+            // Support Classes and Functional Components
+            const ComponentName = props.name?.displayName || props.name?.name || props.name?.type?.name;
+            namespace = [ComponentName || 'Anonymous'];
         }
 
         if (
