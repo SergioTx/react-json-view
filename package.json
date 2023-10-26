@@ -179,7 +179,6 @@
     "treeview"
   ],
   "dependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "flux": "~4.0.1",
     "react-base16-styling": "~0.6.0",
     "react-lifecycles-compat": "~3.0.4",
@@ -188,6 +187,7 @@
   "devDependencies": {
     "@babel/core": "^7.13.0",
     "@babel/eslint-parser": "~7.12.1",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/plugin-syntax-class-properties": "~7.12.1",
     "@babel/plugin-syntax-jsx": "~7.12.1",
     "@babel/register": "7.12.10",
