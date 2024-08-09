@@ -8,7 +8,7 @@ RJV is a React component for displaying and editing javascript **arrays** and **
 
 This component provides a responsive interface for displaying arrays or JSON in a web browser.  NPM offers a distribution of the source that's transpiled to ES5; so you can include this component with *any web-based javascript application*.
 
-[Check out the Interactive Demo](https://mac-s-g.github.io/react-json-view/demo/dist/)
+[Check out the Interactive Demo](https://react-json-view.microlink.io/)
 
 
 ### Implementation Example
@@ -43,7 +43,7 @@ Name|Type|Default|Description
 |:---|:---|:---|:---
 `src`|`JSON Object`|None|This property contains your input JSON
 `name`|`string`|`JSX.Element` or `false`|"root"|Contains the name of your root node.  Use `null` or `false` for no name.
-`theme`|`string`|"rjv-default"|RJV supports base-16 themes.  Check out the list of supported themes [in the demo](https://mac-s-g.github.io/react-json-view/demo/dist/). A custom "rjv-default" theme applies by default.
+`theme`|`string`|"rjv-default"|RJV supports base-16 themes.  Check out the list of supported themes [in the demo](https://react-json-view.microlink.io/). A custom "rjv-default" theme applies by default.
 `style`|`object`|`{}`|Style attributes for react-json-view container.  Explicit style attributes will override attributes provided by a theme.
 `iconStyle`|`string`|"circle"| Style of expand/collapse icons.  Accepted values are "circle", triangle" or "square".
 `indentWidth`|`integer`|4|Set the indent-width for nested objects
@@ -84,7 +84,7 @@ You can specify a `theme` name or object when you instantiate your rjv component
 ```jsx
 <ReactJson src={my_important_json} theme="monokai" />
 ```
-Check out the list of supported themes [in the component demo](https://mac-s-g.github.io/react-json-view/demo/dist/).
+Check out the list of supported themes [in the component demo](https://react-json-view.microlink.io/).
 
 #### Monokai theme example
 ![alt text](https://raw.githubusercontent.com/microlinkhq/react-json-view/master/doc/output-example-monokai-2.png "Base-16 Theme Example")
