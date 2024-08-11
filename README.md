@@ -112,38 +112,3 @@ The following object will be passed to your method:
 ```
 
 Returning `false` from a callback method will prevent the src from being affected.
-
-### Contributing to the source code
-#### Run the Dev Server
-
-```bash
-# clone this repository
-git clone git@github.com:microlinkhq/react-json-view.git && cd react-json-view
-# install dependencies
-npm install --save-dev
-# run the dev server with hot reloading
-npm run dev
-```
-Webpack Dev Server should automatically open up http://localhost:2000 in your web browser.  If it does not, open a browser and navigate to port 2000. The hot reloader will automatically reload when files are modified in the `/src/` directory.
-
-#### Run the Production Build
-
-```bash
-# run the build (note: you may need to use `sudo` priveledges to run the build successfully)
-npm run build
-```
-Please add tests for your code before posting a pull request.
-
-You can run the test suite with `npm run test` or `npm run test:watch` to automatically reload when files are modified.
-
-#### Docker Tools
-
-I recommend using docker for development because it enforces environmental consistency.
-
-For information about contributing with Docker, see the [README in ./docker](https://github.com/microlinkhq/react-json-view/blob/master/docker/README.md#contributing-to-this-project-using-docker).
-
-
-### Inspiration
-I drew a ton of design ideas from [react-json-tree](https://github.com/alexkuz/react-json-tree).  Thanks to the RJT contributors for putting together an awesome component!
-
-I'm also inspired by users who come up with interesting feature requests.  Reach out to me with ideas for this project or other projects you want to collaborate on.  My email address is listed on my [github user page](https://github.com/mac-s-g).
