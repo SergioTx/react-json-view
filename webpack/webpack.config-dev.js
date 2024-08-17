@@ -10,6 +10,7 @@ const PATHS = {
 }
 
 const config = {
+  mode: 'development',
   entry: [PATHS.devServer + "/src/index.js"],
   externals: {
     react: "React",
@@ -18,10 +19,8 @@ const config = {
   devServer: {
     host: "localhost",
     port: 2000,
-    hot: true,
-    inline: true,
     historyApiFallback: true,
-    contentBase: PATHS.build
+    static: PATHS.build
   },
   output: {
     path: PATHS.build,

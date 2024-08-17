@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const PATHS = {
     src: path.join(__dirname, '..', 'src'),
@@ -10,6 +11,7 @@ const PATHS = {
 };
 
 const config = {
+    mode: 'production',
     entry: [PATHS.demo + '/src/js/entry.js'],
     externals: {
         react: 'React',
@@ -22,9 +24,6 @@ const config = {
         libraryTarget: 'umd'
     },
     plugins: [],
-    optimization: {
-        minimize: true
-    },
     resolve: {
         extensions: ['.js', '.json', '.css', '.scss']
     },
@@ -53,6 +52,14 @@ const config = {
                     }
                 ]
             }
+        ]
+    },
+    optimization: {
+        minimize: true,
+        minimizer: [
+            new TerserPlugin({
+                extractComments: false
+            })
         ]
     }
 };

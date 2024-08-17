@@ -1,5 +1,6 @@
 const path = require("path")
 const webpack = require("webpack")
+const TerserPlugin = require("terser-webpack-plugin");
 
 const PATHS = {
   src: path.join(__dirname, "..", "src"),
@@ -9,6 +10,7 @@ const PATHS = {
 }
 
 const config = {
+  mode: 'production',
   entry: [PATHS.js + "/index.js"],
   externals: {
     cheerio: "window",
@@ -35,9 +37,6 @@ const config = {
     globalObject: "this"
   },
   plugins: [],
-  optimization: {
-    minimize: true
-  },
   resolve: {
     extensions: [".js", ".json", ".css", ".scss"]
   },
@@ -53,7 +52,15 @@ const config = {
         include: [PATHS.js]
       }
     ]
-  }
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        extractComments: false
+      }),
+    ],
+  },
 }
 
 module.exports = config
