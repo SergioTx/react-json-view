@@ -179,7 +179,7 @@
     "treeview"
   ],
   "dependencies": {
-    "cheerio": "~1.0.0-rc.3",
+    "cheerio": "~1.0.0",
     "flux": "~4.0.1",
     "react-base16-styling": "~0.6.0",
     "react-lifecycles-compat": "~3.0.4",
