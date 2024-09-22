@@ -179,6 +179,7 @@
     "treeview"
   ],
   "dependencies": {
+    "cheerio": "~1.0.0-rc.3",
     "flux": "~4.0.1",
     "react-base16-styling": "~0.6.0",
     "react-lifecycles-compat": "~3.0.4",
@@ -194,13 +195,13 @@
     "@types/react": "^18.2.20",
     "babel-plugin-react-html-attrs": "~2.1.0",
     "chai": "~4.2.0",
-    "github-generate-release": "latest",
     "css-loader": "~4.3.0",
-    "enzyme": "~3.2.0",
+    "enzyme": "~3.11.0",
     "enzyme-adapter-react-16": "~1.15.5",
     "eslint": "~7.16.0",
     "eslint-plugin-prettier": "~3.3.1",
     "eslint-plugin-react": "~7.21.5",
+    "github-generate-release": "latest",
     "html-webpack-plugin": "^4.5.2",
     "ignore-styles": "~5.0.1",
     "jsdom": "~16.4.0",
