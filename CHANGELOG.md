@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.23.2](https://github.com/microlinkhq/react-json-view/compare/v1.23.1...v1.23.2) (2024-09-22)
+
+
+### Bug Fixes
+
+* add legacy ssl flag ([4005834](https://github.com/microlinkhq/react-json-view/commit/4005834bb4234ddfdef66f2173a53a686641cb21))
+
 ### [1.23.1](https://github.com/microlinkhq/react-json-view/compare/v1.23.0...v1.23.1) (2024-07-02)
 
 ## [1.23.0](https://github.com/microlinkhq/react-json-view/compare/v1.22.2...v1.23.0) (2023-10-26)
