@@ -13,12 +13,12 @@
       "email": "mac.gainor@gmail.com"
     },
     {
-      "name": "Brad Adams",
-      "email": "hi@breadadams.com"
-    },
-    {
       "name": "Kiko Beats",
       "email": "josefrancisco.verdu@gmail.com"
+    },
+    {
+      "name": "Brad Adams",
+      "email": "hi@breadadams.com"
     },
     {
       "name": "Xuefei Li",
@@ -29,8 +29,20 @@
       "email": "caina.leao@endemolshine.com"
     },
     {
+      "name": "Mikolaj",
+      "email": "mikolaj@grid.gg"
+    },
+    {
       "name": "Tom McLaughlin",
       "email": "tom@codedown.io"
+    },
+    {
+      "name": "Vadim Zainetdinov",
+      "email": "vadim.zvf@gmail.com"
+    },
+    {
+      "name": "Nicolas DUBIEN",
+      "email": "github@dubien.org"
     },
     {
       "name": "Andy Baird",
@@ -45,52 +57,88 @@
       "email": "mac@conversica.com"
     },
     {
-      "name": "Pravdomil",
-      "email": "pravdomil.toman@gmail.com"
-    },
-    {
       "name": "jorgejar",
       "email": "jorge.jaramillo@docker.com"
+    },
+    {
+      "name": "Pravdomil",
+      "email": "pravdomil.toman@gmail.com"
     },
     {
       "name": "superfaz",
       "email": "16510828+superfaz@users.noreply.github.com"
     },
     {
+      "name": "Orta Therox",
+      "email": "git@orta.io"
+    },
+    {
       "name": "Varad Chemburkar",
       "email": "vhc1992@gmail.com"
     },
     {
-      "name": "Jason Etcovitch",
-      "email": "jasonetco@gmail.com"
+      "name": "Ashwin Menkudle",
+      "email": "ashwinmenkudle@gmail.com"
     },
     {
-      "name": "John Arthur",
-      "email": "thorjarhun@users.noreply.github.com"
+      "name": "Aaron Cunnington",
+      "email": "azcn2503@gmail.com"
     },
     {
-      "name": "Jack",
-      "email": "jackdh@users.noreply.github.com"
+      "name": "Bob Thomas",
+      "email": "BThomas@tripwire.com"
     },
     {
-      "name": "Guillaume FORTAINE",
-      "email": "guillaume.fortaine@ingenico.com"
+      "name": "Cai Leao",
+      "email": "cainaleaouk@users.noreply.github.com"
     },
     {
-      "name": "Michael Reynolds",
-      "email": "michael.reynolds@paybase.io"
+      "name": "Craig Kochis",
+      "email": "cjkochis@gmail.com"
     },
     {
-      "name": "Oleg Proskurin",
-      "email": "regx@usul.su"
+      "name": "casey langen",
+      "email": "clangen@nerdwallet.com"
+    },
+    {
+      "name": "Dheeraj Yennam",
+      "email": "dyennam@gmail.com"
+    },
+    {
+      "name": "Dylan Dirlam",
+      "email": "dylan@dirlam.dev"
+    },
+    {
+      "name": "shybyte",
+      "email": "ein@volloeko.de"
     },
     {
       "name": "EvertE",
       "email": "evert.etienne@sitemark.com"
     },
     {
-      "name": "REDMOND\\xuefl",
-      "email": "xuefl@microsoft.com"
+      "name": "Guillaume FORTAINE",
+      "email": "guillaume.fortaine@ingenico.com"
+    },
+    {
+      "name": "Jack",
+      "email": "jackdh@users.noreply.github.com"
+    },
+    {
+      "name": "Jason Etcovitch",
+      "email": "jasonetco@gmail.com"
+    },
+    {
+      "name": "Michael Reynolds",
+      "email": "michael.reynolds@paybase.io"
+    },
+    {
+      "name": "Jeremy Liberman",
+      "email": "mrleebo@msn.com"
+    },
+    {
+      "name": "Oleg Proskurin",
+      "email": "regx@usul.su"
     },
     {
       "name": "Rubens Mariuzzo",
@@ -105,48 +153,20 @@
       "email": "tabirkeland@gmail.com"
     },
     {
-      "name": "Dheeraj Yennam",
-      "email": "dyennam@gmail.com"
+      "name": "John Arthur",
+      "email": "thorjarhun@users.noreply.github.com"
     },
     {
       "name": "Uzi Kilon",
       "email": "uzikilon@users.noreply.github.com"
     },
     {
-      "name": "Aaron Cunnington",
-      "email": "azcn2503@gmail.com"
-    },
-    {
       "name": "DELORD Vincent",
       "email": "vincent.delord@renault.com"
     },
     {
-      "name": "casey langen",
-      "email": "clangen@nerdwallet.com"
-    },
-    {
-      "name": "Craig Kochis",
-      "email": "cjkochis@gmail.com"
-    },
-    {
-      "name": "Cai Leao",
-      "email": "cainaleaouk@users.noreply.github.com"
-    },
-    {
-      "name": "Bob Thomas",
-      "email": "BThomas@tripwire.com"
-    },
-    {
-      "name": "Ashwin Menkudle",
-      "email": "ashwinmenkudle@gmail.com"
-    },
-    {
-      "name": "shybyte",
-      "email": "ein@volloeko.de"
-    },
-    {
-      "name": "Jeremy Liberman",
-      "email": "mrleebo@msn.com"
+      "name": "REDMOND\\xuefl",
+      "email": "xuefl@microsoft.com"
     }
   ],
   "repository": {
