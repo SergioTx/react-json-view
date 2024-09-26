@@ -35,7 +35,7 @@ export default class extends React.PureComponent {
         );
 
         if (navigator.clipboard) {
-            await navigator.clipboard.writeText(textToCopy);
+            navigator.clipboard.writeText(textToCopy);
         } else {
             console.error(
                 'react-json-view error:',
