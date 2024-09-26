@@ -2,7 +2,7 @@ import React from 'react';
 
 import { toType } from './../helpers/util';
 
-//clibboard icon
+//clipboard icon
 import { Clippy } from './icons';
 
 //theme
@@ -26,20 +26,23 @@ export default class extends React.PureComponent {
     }
 
     handleCopy = () => {
-        const container = document.createElement('textarea');
         const { clickCallback, src, namespace } = this.props;
 
-        container.innerHTML = JSON.stringify(
+        const textToCopy = JSON.stringify(
             this.clipboardValue(src),
             null,
             '  '
         );
 
-        document.body.appendChild(container);
-        container.select();
-        document.execCommand('copy');
-
-        document.body.removeChild(container);
+        if (navigator.clipboard) {
+            await navigator.clipboard.writeText(textToCopy);
+        } else {
+            console.error(
+                'react-json-view error:',
+                'navigator.clipboard not supported by this browser'
+            );
+            return;
+        };
 
         this.copiedTimer = setTimeout(() => {
             this.setState({
