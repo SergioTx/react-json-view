@@ -35,7 +35,15 @@ export default class extends React.PureComponent {
         );
 
         if (navigator.clipboard) {
-            navigator.clipboard.writeText(textToCopy);
+            navigator.clipboard.writeText(textToCopy).catch(err => {
+                // Fallback for non-secure contexts (i.e. http)
+                const textArea = document.createElement('textarea');
+                textArea.value = textToCopy;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+            });
         } else {
             console.error(
                 'react-json-view error:',
