@@ -46,11 +46,11 @@ export default class extends React.PureComponent {
         if (navigator.clipboard) {
             navigator.clipboard.writeText(textToCopy).catch(() => {
                 // Fallback for non-secure contexts (i.e. http)
-                copyToClipboardFallback(textToCopy);
+                this.copyToClipboardFallback(textToCopy);
             });
         } else {
             // Fallback for old browsers and test environments
-            copyToClipboardFallback(textToCopy);
+            this.copyToClipboardFallback(textToCopy);
         };
 
         this.copiedTimer = setTimeout(() => {
