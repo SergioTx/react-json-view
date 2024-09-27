@@ -25,6 +25,15 @@ export default class extends React.PureComponent {
         }
     }
 
+    copyToClipboardFallback = (textToCopy) => {
+        const textArea = document.createElement('textarea');
+        textArea.value = textToCopy;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+    }
+
     handleCopy = () => {
         const { clickCallback, src, namespace } = this.props;
 
@@ -35,21 +44,13 @@ export default class extends React.PureComponent {
         );
 
         if (navigator.clipboard) {
-            navigator.clipboard.writeText(textToCopy).catch(err => {
+            navigator.clipboard.writeText(textToCopy).catch(() => {
                 // Fallback for non-secure contexts (i.e. http)
-                const textArea = document.createElement('textarea');
-                textArea.value = textToCopy;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textArea);
+                copyToClipboardFallback(textToCopy);
             });
         } else {
-            console.error(
-                'react-json-view error:',
-                'navigator.clipboard not supported by this browser'
-            );
-            return;
+            // Fallback for old browsers and test environments
+            copyToClipboardFallback(textToCopy);
         };
 
         this.copiedTimer = setTimeout(() => {
