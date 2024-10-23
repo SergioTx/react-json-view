@@ -1,7 +1,7 @@
 
 <h1 align="center">
   <a href="https://react-json-view.microlink.io/">
-  <img src="https://raw.githubusercontent.com/microlinkhq/react-json-view/master/doc/rjv-icon-alt.png" alt="react-json-view" width="200"></a>
+  <img src="https://raw.githubusercontent.com/microlinkhq/react-json-view/master/docs/assets/rjv-icon-alt.png" alt="react-json-view" width="200"></a>
   <br>
   react-json-view
   <br>
