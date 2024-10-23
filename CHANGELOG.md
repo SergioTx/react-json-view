@@ -4,7 +4,12 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.23.3](https://github.com/microlinkhq/react-json-view/compare/v1.23.2...v1.23.3) (2024-09-27)
 
+
 ### Bug Fixes
+
+* function call ([86bbd60](https://github.com/microlinkhq/react-json-view/commit/86bbd60caef8d80b812a45c8ea9326df62fcb02f))
+
+### [1.23.2](https://github.com/microlinkhq/react-json-view/compare/v1.23.1...v1.23.2) (2024-09-22)
 
 - function call ([86bbd60](https://github.com/microlinkhq/react-json-view/commit/86bbd60caef8d80b812a45c8ea9326df62fcb02f))
 
