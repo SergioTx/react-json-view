@@ -1,5 +1,7 @@
+
 <h1 align="center">
-  <a href="https://react-json-view.microlink.io/"><img src="https://raw.githubusercontent.com/microlinkhq/react-json-view/master/doc/rjv-icon-alt.png" alt="react-json-view" width="200"></a>
+  <a href="https://react-json-view.microlink.io/">
+  <img src="https://raw.githubusercontent.com/microlinkhq/react-json-view/master/doc/rjv-icon-alt.png" alt="react-json-view" width="200"></a>
   <br>
   react-json-view
   <br>
@@ -11,10 +13,7 @@
 
 **react-json-view** (rjv) is a React component for displaying and editing javascript **arrays** and **JSON objects**.
 
-<div style="display: flex;">
-  <img src="https://raw.githubusercontent.com/microlinkhq/react-json-view/master/doc/output-example-15.png" alt="Output Example 1" style="width: 50%;">
-  <img src="https://raw.githubusercontent.com/microlinkhq/react-json-view/master/doc/output-example-14.png" alt="Output Example 2" style="width: 50%;">
-</div>
+![](https://raw.githubusercontent.com/microlinkhq/react-json-view/docs/docs/assets/banner.png)
 
 ### Highlights
 
@@ -158,3 +157,10 @@ Check [react-json-view.microlink.io](https://react-json-view.microlink.io/) to s
 **rjv** supports any base-16 theme. You can supply your own base-16 theme object.
 
 To better understand custom themes, take a look at [my example implementation](https://github.com/microlinkhq/react-json-view/blob/7c154b9a7d83ea89dce2c171ebdf4d163ff49233/dev-server/src/index.js#L135) and the [base-16 theme styling guidelines](https://github.com/chriskempson/base16/blob/master/styling.md).
+
+## License
+
+**react-json-view** © [microlink.io](https://microlink.io), released under the [MIT](https://github.com/microlinkhq/cards/blob/master/LICENSE.md) License.<br>
+Authored by [Mac Gainor](https://github.com/mac-s-g) and maintained by [Kiko Beats](https://kikobeats.com) with help from [contributors](https://github.com/microlinkhq/cards/contributors).
+
+> [microlink.io](https://microlink.io) · GitHub [microlink.io](https://github.com/microlinkhq) · X [@microlinkhq](https://x.com/microlinkhq)

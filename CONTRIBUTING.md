@@ -21,9 +21,3 @@ npm run build
 Please add tests for your code before posting a pull request.
 
 You can run the test suite with `npm run test` or `npm run test:watch` to automatically reload when files are modified.
-
-## Docker Tools
-
-I recommend using docker for development because it enforces environmental consistency.
-
-For information about contributing with Docker, see the [README in ./docker](https://github.com/microlinkhq/react-json-view/blob/master/docker/README.md#contributing-to-this-project-using-docker).
