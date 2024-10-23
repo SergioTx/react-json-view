@@ -8,7 +8,7 @@ import './../../style/scss/rjv-demo.scss'
 import 'react-select/dist/react-select.css'
 import 'react-github-button/assets/style.css'
 
-//index entrypoint component
+// index entrypoint component
 class Demo extends React.PureComponent {
   constructor (props) {
     super(props)
@@ -19,7 +19,7 @@ class Demo extends React.PureComponent {
   }
 
   static defaultProps = {
-    theme: 'monokai',
+    theme: 'rjv-default',
     src: null,
     collapsed: false,
     collapseStringsAfter: 15,
@@ -31,6 +31,97 @@ class Demo extends React.PureComponent {
     indentWidth: 4,
     displayDataTypes: true,
     iconStyle: 'triangle'
+  }
+
+  // componentDidMount () {
+  //   const themes = [
+  //     'apathy',
+  //     'apathy:inverted',
+  //     'ashes',
+  //     'bespin',
+  //     'brewer',
+  //     'bright:inverted',
+  //     'bright',
+  //     'chalk',
+  //     'codeschool',
+  //     'colors',
+  //     'eighties',
+  //     'embers',
+  //     'flat',
+  //     'google',
+  //     'grayscale',
+  //     'grayscale:inverted',
+  //     'greenscreen',
+  //     'harmonic',
+  //     'hopscotch',
+  //     'isotope',
+  //     'marrakesh',
+  //     'mocha',
+  //     'monokai',
+  //     'ocean',
+  //     'paraiso',
+  //     'pop',
+  //     'railscasts',
+  //     'rjv-default',
+  //     'shapeshifter',
+  //     'shapeshifter:inverted',
+  //     'solarized',
+  //     'summerfruit',
+  //     'summerfruit:inverted',
+  //     'threezerotwofour',
+  //     'tomorrow',
+  //     'tube',
+  //     'twilight'
+  //   ]
+  //   let currentIndex = 0
+  //   this.themeInterval = setInterval(() => {
+  //     if (currentIndex < themes.length) {
+  //       this.setState({ theme: themes[currentIndex] })
+  //       currentIndex++
+  //     } else {
+  //       clearInterval(this.themeInterval)
+  //     }
+  //   }, 1000)
+  // }
+
+  // componentWillUnmount () {
+  //   clearInterval(this.themeInterval)
+  // }
+
+  componentDidMount () {
+    this.updateStyles()
+    this.observer = new MutationObserver(this.updateStyles)
+    this.observer.observe(document.querySelector('.react-json-view'), {
+      attributes: true,
+      childList: true,
+      subtree: true
+    })
+  }
+
+  componentWillUnmount () {
+    if (this.observer) {
+      this.observer.disconnect()
+    }
+  }
+
+  updateStyles = () => {
+    const $ = document.querySelector.bind(document)
+    const siteTheme = {
+      color: $('.object-key').style.color,
+      bgColor: $('.react-json-view').style.backgroundColor,
+      borderColor: $('.variable-row').style.borderLeftColor
+    }
+
+    this.setState({ siteTheme })
+
+    // console.log(siteTheme)
+    // this.setState({
+    //   siteTheme: {
+    //     color: document.querySelector('.object-key').style.color,
+    //     bgColor: document.querySelector('.react-json-view').style.backgroundColor,
+    //     borderColor: document.querySelector('.variable-row').style.borderLeftColor
+    //   }
+    // })
   }
 
   render () {
@@ -48,6 +139,7 @@ class Demo extends React.PureComponent {
       indentWidth,
       displayDataTypes
     } = this.state
+
     const style = {
       padding: '10px',
       borderRadius: '3px',
@@ -55,121 +147,151 @@ class Demo extends React.PureComponent {
     }
 
     return (
-      <div class='rjv-demo'>
-        <div class='rjv-header'>
-          <div class='header-1'>react-json-view</div>
-          <div class='header-2'>component demo</div>
-          <img
-            class='rjv-logo'
-            src='https://raw.githubusercontent.com/microlinkhq/react-json-view/master/doc/rjv-icon-alt.png'
-            onClick={() => {
-              window.open(
-                'https://github.com/microlinkhq/react-json-view',
-                '_blank'
-              )
-            }}
+      <>
+        {this.state.siteTheme && (
+          <style>
+            {`
+          body {
+            color: ${this.state.siteTheme.color};
+            background-color: ${this.state.siteTheme.bgColor};
+          }
+
+          .react-json-view {
+            border: 1px solid ${this.state.siteTheme.borderColor};
+          }
+
+          .Select-control,
+          .Select.is-open>.Select-control,
+          .Select-option,
+          .Select-option.is-selected,
+          .Select-option.is-focused {
+            background-color: ${this.state.siteTheme.bgColor};
+            color: ${this.state.siteTheme.color};
+          }
+          .Select-option.is-focused {
+            opacity: 0.8;
+          }
+          .Select.has-value.Select--single>.Select-control .Select-value .Select-value-label, .Select.has-value.is-pseudo-focused.Select--single>.Select-control .Select-value .Select-value-label {
+            color: ${this.state.siteTheme.color};
+          }
+        `}
+          </style>
+        )}
+        <div class='rjv-demo'>
+          <div class='rjv-header'>
+            <div class='header-1'>@microlink/react-json-view</div>
+            <img
+              class='rjv-logo'
+              src='https://raw.githubusercontent.com/microlinkhq/react-json-view/master/doc/rjv-icon-alt.png'
+              onClick={() => {
+                window.open(
+                  'https://github.com/microlinkhq/react-json-view',
+                  '_blank'
+                )
+              }}
+            />
+            <GitHubButton
+              type='stargazers'
+              namespace='microlinkhq'
+              repo='react-json-view'
+            />
+          </div>
+          <ReactJson
+            name={false}
+            collapsed={collapsed}
+            style={style}
+            theme={theme}
+            src={src}
+            collapseStringsAfterLength={collapseStringsAfter}
+            onEdit={
+              onEdit
+                ? e => {
+                  console.log(e)
+                  this.setState({ src: e.updated_src })
+                }
+                : false
+            }
+            onDelete={
+              onDelete
+                ? e => {
+                  console.log(e)
+                  this.setState({ src: e.updated_src })
+                }
+                : false
+            }
+            onAdd={
+              onAdd
+                ? e => {
+                  console.log(e)
+                  this.setState({ src: e.updated_src })
+                }
+                : false
+            }
+            displayObjectSize={displayObjectSize}
+            enableClipboard={enableClipboard}
+            indentWidth={indentWidth}
+            displayDataTypes={displayDataTypes}
+            iconStyle={iconStyle}
           />
-          <GitHubButton
-            type='stargazers'
-            namespace='microlinkhq'
-            repo='react-json-view'
-          />
-        </div>
-        <ReactJson
-          name={false}
-          collapsed={collapsed}
-          style={style}
-          theme={theme}
-          src={src}
-          collapseStringsAfterLength={collapseStringsAfter}
-          onEdit={
-            onEdit
-              ? e => {
-                console.log(e)
-                this.setState({ src: e.updated_src })
-              }
-              : false
-          }
-          onDelete={
-            onDelete
-              ? e => {
-                console.log(e)
-                this.setState({ src: e.updated_src })
-              }
-              : false
-          }
-          onAdd={
-            onAdd
-              ? e => {
-                console.log(e)
-                this.setState({ src: e.updated_src })
-              }
-              : false
-          }
-          displayObjectSize={displayObjectSize}
-          enableClipboard={enableClipboard}
-          indentWidth={indentWidth}
-          displayDataTypes={displayDataTypes}
-          iconStyle={iconStyle}
-        />
 
-        <div class='rjv-settings'>
-          <div class='rjv-input'>
-            <div class='rjv-label'>Theme:</div>
-            {this.getThemeInput(theme)}
+          <div class='rjv-settings'>
+            <div class='rjv-input'>
+              <div class='rjv-label'>Theme:</div>
+              {this.getThemeInput(theme)}
+            </div>
+            <div class='rjv-input'>
+              <div class='rjv-label'>Icon Style:</div>
+              {this.getIconStyleInput(iconStyle)}
+            </div>
+            <div class='rjv-input'>
+              <div class='rjv-label'>Enable Edit:</div>
+              {this.getEditInput(onEdit)}
+            </div>
+            <div class='rjv-input'>
+              <div class='rjv-label'>Enable Add:</div>
+              {this.getAddInput(onAdd)}
+            </div>
+            <div class='rjv-input'>
+              <div class='rjv-label'>Enable Delete:</div>
+              {this.getDeleteInput(onDelete)}
+            </div>
+            <div class='rjv-input'>
+              <div class='rjv-label'>Enable Clipboard:</div>
+              {this.getEnableClipboardInput(enableClipboard)}
+            </div>
           </div>
-          <div class='rjv-input'>
-            <div class='rjv-label'>Icon Style:</div>
-            {this.getIconStyleInput(iconStyle)}
-          </div>
-          <div class='rjv-input'>
-            <div class='rjv-label'>Enable Edit:</div>
-            {this.getEditInput(onEdit)}
-          </div>
-          <div class='rjv-input'>
-            <div class='rjv-label'>Enable Add:</div>
-            {this.getAddInput(onAdd)}
-          </div>
-          <div class='rjv-input'>
-            <div class='rjv-label'>Enable Delete:</div>
-            {this.getDeleteInput(onDelete)}
-          </div>
-          <div class='rjv-input'>
-            <div class='rjv-label'>Enable Clipboard:</div>
-            {this.getEnableClipboardInput(enableClipboard)}
-          </div>
-        </div>
 
-        <div class='rjv-settings'>
-          <div class='rjv-input'>
-            <div class='rjv-label'>Display Data Types:</div>
-            {this.getDataTypesInput(displayDataTypes)}
+          <div class='rjv-settings'>
+            <div class='rjv-input'>
+              <div class='rjv-label'>Display Data Types:</div>
+              {this.getDataTypesInput(displayDataTypes)}
+            </div>
+            <div class='rjv-input'>
+              <div class='rjv-label'>Display Object Size:</div>
+              {this.getObjectSizeInput(displayObjectSize)}
+            </div>
+            <div class='rjv-input'>
+              <div class='rjv-label'>Indent Width:</div>
+              {this.getIndentWidthInput(indentWidth)}
+            </div>
+            <div class='rjv-input'>
+              <div class='rjv-label'>Collapsed:</div>
+              {this.getCollapsedInput(collapsed)}
+            </div>
+            <div class='rjv-input'>
+              <div class='rjv-label'>Collapse Strings After Length:</div>
+              {this.getCollapsedStringsInput(collapseStringsAfter)}
+            </div>
           </div>
-          <div class='rjv-input'>
-            <div class='rjv-label'>Display Object Size:</div>
-            {this.getObjectSizeInput(displayObjectSize)}
-          </div>
-          <div class='rjv-input'>
-            <div class='rjv-label'>Indent Width:</div>
-            {this.getIndentWidthInput(indentWidth)}
-          </div>
-          <div class='rjv-input'>
-            <div class='rjv-label'>Collapsed:</div>
-            {this.getCollapsedInput(collapsed)}
-          </div>
-          <div class='rjv-input'>
-            <div class='rjv-label'>Collapse Strings After Length:</div>
-            {this.getCollapsedStringsInput(collapseStringsAfter)}
-          </div>
-        </div>
 
-        {this.getNotes(onEdit, onAdd)}
-      </div>
+          {this.getNotes(onEdit, onAdd)}
+        </div>
+      </>
     )
   }
 
   getNotes = (on_edit_enabled, on_add_enabled) => {
-    let notes = []
+    const notes = []
     if (on_edit_enabled) {
       notes.push(
         <span>
@@ -453,19 +575,19 @@ class Demo extends React.PureComponent {
   }
 
   set = (field, value) => {
-    let state = {}
+    const state = {}
     state[field] = value.value
     this.setState(state)
   }
 
-  //just a function to get an example JSON object
+  // just a function to get an example JSON object
   getExampleJson = () => {
     return {
       string: 'this is a test string',
       integer: 42,
       array: [1, 2, 3, 'test', NaN],
       float: 3.14159,
-      undefined: undefined,
+      undefined,
       object: {
         'first-child': true,
         'second-child': false,

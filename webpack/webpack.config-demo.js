@@ -1,5 +1,4 @@
 const path = require('path')
-const webpack = require('webpack')
 const TerserPlugin = require('terser-webpack-plugin')
 
 const PATHS = {
@@ -23,7 +22,6 @@ const config = {
     library: 'reactJsonView',
     libraryTarget: 'umd'
   },
-  plugins: [],
   resolve: {
     extensions: ['.js', '.json', '.css', '.scss']
   },

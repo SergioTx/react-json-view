@@ -112,7 +112,46 @@ You can specify a `theme` name or object when you instantiate your rjv component
 <ReactJsonView src={my_important_json} theme="monokai" />
 ```
 
-Check out the list of supported themes [in the component demo](https://react-json-view.microlink.io/).
+The following themes are builtin with the library:
+
+- `'apathy'`
+- `'ashes'`
+- `'atelierDune'`
+- `'atelierForest'`
+- `'atelierHeath'`
+- `'atelierLakeside'`
+- `'atelierSeaside'`
+- `'bespin'`
+- `'brewer'`
+- `'bright'`
+- `'chalk'`
+- `'codeschool'`
+- `'colors'`
+- `'eighties'`
+- `'embers'`
+- `'flat'`
+- `'google'`
+- `'grayscale'`
+- `'greenscreen'`
+- `'harmonic'`
+- `'hopscotch'`
+- `'isotope'`
+- `'marrakesh'`
+- `'mocha'`
+- `'monokai'`
+- `'ocean'`
+- `'paraiso'`
+- `'pop'`
+- `'railscasts'`
+- `'shapeshifter'`
+- `'solarized'`
+- `'summerfruit'`
+- `'threezerotwofour'`
+- `'tomorrow'`
+- `'tube'`
+- `'twilight'`
+
+Check [react-json-view.microlink.io](https://react-json-view.microlink.io/) to see how they look like.
 
 #### Custom theme
 
