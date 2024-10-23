@@ -8,14 +8,12 @@ npm-debug.log
 /demo
 /dev-server
 /doc
-/docker
 /entrypoints
 /node_modules
 /src
 /test
 /webpack
 
-Dockerfile
 .babelrc
 .coveralls.yml
 .gitignore

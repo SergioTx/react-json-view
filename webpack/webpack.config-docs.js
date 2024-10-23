@@ -5,19 +5,19 @@ const PATHS = {
   src: path.join(__dirname, '..', 'src'),
   js: path.join(__dirname, '..', 'src', 'js'),
   style: path.join(__dirname, '..', 'src', 'style'),
-  build: path.join(__dirname, '..', 'demo', 'dist'),
-  demo: path.join(__dirname, '..', 'demo')
+  build: path.join(__dirname, '..', 'docs', 'dist'),
+  docs: path.join(__dirname, '..', 'docs')
 }
 
 const config = {
   mode: 'production',
-  entry: [PATHS.demo + '/src/js/entry.js'],
+  entry: [PATHS.docs + '/src/js/entry.js'],
   externals: {
     react: 'React',
     'react-dom': 'ReactDOM'
   },
   output: {
-    path: PATHS.demo + '/dist',
+    path: PATHS.docs + '/dist',
     filename: 'main.js',
     library: 'reactJsonView',
     libraryTarget: 'umd'
@@ -34,7 +34,7 @@ const config = {
             loader: 'babel-loader'
           }
         ],
-        include: [PATHS.js, PATHS.demo]
+        include: [PATHS.js, PATHS.docs]
       },
       {
         test: /\.s?css$/,
