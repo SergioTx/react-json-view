@@ -2,7 +2,7 @@
   "name": "@microlink/react-json-view",
   "description": "Interactive react component for displaying javascript arrays and JSON objects.",
   "homepage": "https://github.com/microlinkhq/react-json-view",
-  "version": "1.23.3",
+  "version": "1.23.4",
   "main": "dist/main.js",
   "author": {
     "name": "Mac Gainor"
@@ -266,8 +266,8 @@
     "dev": "NODE_ENV=development webpack serve --config webpack/webpack.config-dev.js --open",
     "docs:build": "NODE_ENV=production webpack --node-env production --config webpack/webpack.config-docs.js --progress",
     "docs:dev": "tinyrun 'npm run docs:dev:watch' 'npm run docs:dev:browserync'",
-    "docs:dev:watch": "npm run docs:build -- --watch",
     "docs:dev:browserync": "browser-sync start --serveStatic docs/ --server --files 'index.html, **/*.(css|js|md)'",
+    "docs:dev:watch": "npm run docs:build -- --watch",
     "lint": "standard",
     "modules:size-analyzer": "webpack --config webpack/webpack.config.js --json | webpack-bundle-size-analyzer",
     "modules:tree": "webpack --config webpack/webpack.config.js --json ",
@@ -310,13 +310,13 @@
     "pre-commit": "npx nano-staged"
   },
   "standard": {
-    "ignore": [
-      "demo/dist",
-      "dev-server"
-    ],
     "globals": [
       "describe",
       "it"
+    ],
+    "ignore": [
+      "demo/dist",
+      "dev-server"
     ]
   }
 }
