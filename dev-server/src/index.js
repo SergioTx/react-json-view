@@ -180,6 +180,13 @@ ReactDom.render(
       }
       src={getExampleJson2()}
     />
+
+    {/* String with special escape sequences */}
+    <JsonViewer
+      theme='monokai'
+      name='String with special escape sequences'
+      src={getExampleWithStringEscapeSequences()}
+    />
   </div>,
   document.getElementById('app-container')
 )
@@ -293,4 +300,8 @@ function getExampleArray () {
       pretty_cool: true
     }
   ]
+}
+
+function getExampleWithStringEscapeSequences () {
+  return { '\\\n\t\r\f\\n': '\\\n\t\r\f\\n' }
 }
