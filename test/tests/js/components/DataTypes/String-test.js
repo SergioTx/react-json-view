@@ -6,11 +6,9 @@ import JsonString from './../../../../../src/js/components/DataTypes/String'
 
 describe('<JsonString />', function () {
   it('string component should have a data type label', function () {
-    const rjvId = 1
     const wrapper = mount(
       <JsonString
         value='test'
-        rjvId={rjvId}
         displayDataTypes
         theme='rjv-default'
       />
@@ -19,10 +17,8 @@ describe('<JsonString />', function () {
   })
 
   it('string with hidden data type', function () {
-    const rjvId = 1
     const props = {
       value: 'test',
-      rjvId: 1,
       theme: 'rjv-default',
       displayDataTypes: false
     }
@@ -32,10 +28,8 @@ describe('<JsonString />', function () {
 
   // test collapsed string and expand click
   it('string displaying data type', function () {
-    const rjvId = 1
     const props = {
       value: 'test',
-      rjvId: 1,
       displayDataTypes: false,
       theme: 'rjv-default'
     }
@@ -44,11 +38,9 @@ describe('<JsonString />', function () {
   })
 
   it('collapsed string content', function () {
-    const rjvId = 1
     const props = {
       value: '123456789',
       collapseStringsAfterLength: 3,
-      rjvId: 1,
       displayDataTypes: false,
       theme: 'rjv-default'
     }
@@ -63,10 +55,8 @@ describe('<JsonString />', function () {
   })
 
   it('string with special escape sequences', function () {
-    const rjvId = 1
     const props = {
       value: '\\\n\t\r\f\\n',
-      rjvId: 1,
       displayDataTypes: false,
       theme: 'rjv-default'
     }
