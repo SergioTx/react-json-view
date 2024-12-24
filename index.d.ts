@@ -159,6 +159,12 @@ export interface ReactJsonViewProps {
    * Default: (e) => e.metaKey || e.ctrlKey
    */
   keyModifier?: (event: Event, type: 'edit' | 'submit') => boolean
+  /**
+   * Set to true to escape strings sequences such as \n, \t, \r, \f
+   *
+   * Default: true
+   */
+  escapeStrings?: boolean
 }
 
 export interface OnCopyProps {
