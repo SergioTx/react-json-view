@@ -58,11 +58,25 @@ describe('<JsonString />', function () {
     const props = {
       value: '\\\n\t\r\f\\n',
       displayDataTypes: false,
+      escapeStrings: true,
       theme: 'rjv-default'
     }
     const component = mount(<JsonString {...props} />).render()
     expect(component.find('.string-value').text()).to.equal(
       '"\\\\\\n\\t\\r\\f\\\\n"'
+    )
+  })
+
+  it('string with special escape sequences is not escaped', function () {
+    const props = {
+      value: '\\\n\t\r\f\\n',
+      displayDataTypes: false,
+      escapeStrings: false,
+      theme: 'rjv-default'
+    }
+    const component = mount(<JsonString {...props} />).render()
+    expect(component.find('.string-value').text()).to.equal(
+      '"\\\n\t\n\f\\n"'
     )
   })
 })
