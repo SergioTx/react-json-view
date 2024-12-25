@@ -171,6 +171,10 @@
     {
       "name": "REDMOND\\xuefl",
       "email": "xuefl@microsoft.com"
+    },
+    {
+      "name": "Mert Donmezyurek",
+      "email": "info@mertdy.com"
     }
   ],
   "repository": {
@@ -203,7 +207,6 @@
     "treeview"
   ],
   "dependencies": {
-    "flux": "~4.0.1",
     "react-base16-styling": "~0.9.0",
     "react-lifecycles-compat": "~3.0.4",
     "react-textarea-autosize": "~8.3.2"
