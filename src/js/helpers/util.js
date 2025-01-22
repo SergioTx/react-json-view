@@ -1,5 +1,8 @@
 // returns a string "type" of input object
-export function toType (obj) {
+export function toType (obj, bigNumber) {
+  if (bigNumber && obj?.constructor?.name === bigNumber?.name) {
+    return 'bigNumber'
+  }
   let type = getType(obj)
   // some extra disambiguation for numbers
   if (type === 'number') {

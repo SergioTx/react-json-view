@@ -1,11 +1,11 @@
-export default function parseInput (input) {
+export default function parseInput (input, bigNumber) {
   // following code is to make a best guess at
   // the type for a variable being submitted.
 
   // we are working with a serialized data representation
   input = input.trim()
   try {
-    input = JSON.stringify(JSON.parse(input))
+    input = structuredClone(input)
     if (input[0] === '[') {
       // array
       return formatResponse('array', JSON.parse(input))
@@ -16,6 +16,9 @@ export default function parseInput (input) {
       input.match(/\-?\d+\.\d+/) &&
       input.match(/\-?\d+\.\d+/)[0] === input
     ) {
+      if (bigNumber && parseFloat(input).toString() !== input) {
+        return formatResponse('bigNumber', input)
+      }
       // float
       return formatResponse('float', parseFloat(input))
     } else if (
@@ -25,6 +28,9 @@ export default function parseInput (input) {
       // scientific float
       return formatResponse('float', Number(input))
     } else if (input.match(/\-?\d+/) && input.match(/\-?\d+/)[0] === input) {
+      if (bigNumber && parseInt(input).toString() !== input) {
+        return formatResponse('bigNumber', input)
+      }
       // integer
       return formatResponse('integer', parseInt(input))
     } else if (

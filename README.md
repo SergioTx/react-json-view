@@ -51,7 +51,8 @@ import ReactJsonView from '@microlink/react-json-view'
     'last-child': null
     },
   string_number: '1234',
-  date: new Date()
+  date: new Date(),
+  bigNumber: new BigNumber('0.0060254656709730629123')
 }} />
 ```
 
@@ -81,7 +82,8 @@ import ReactJsonView from '@microlink/react-json-view'
 | `quotesOnKeys`               | `boolean`                                        | `true`                   | Set to `false` to remove quotes from keys (e.g., `"name":` vs. `name:`).                                                                                                                                                                                                  |
 | `validationMessage`          | `string`                                         | "Validation Error"       | Custom message for validation failures to `onEdit`, `onAdd`, or `onDelete` callbacks.                                                                                                                                                                                     |
 | `displayArrayKey`            | `boolean`                                        | `true`                   | When set to `true`, the index of the elements prefix values.                                                                                                                                                                                                              |
-| `escapeStrings`              | `boolean`                                        | `true`                   | When set to `true`, strings sequences such as \n, \t, \r, \f will be escaped.                                                                                                                                                                                                              |
+| `escapeStrings`              | `boolean`                                        | `true`                   | When set to `true`, strings sequences such as \n, \t, \r, \f will be escaped.                                                                                                                                                                                                          |
+| `bigNumber`                  | `BigNumber \| Decimal \| Big`                      | `null`                   | When set to a BigNumber class (from `bignumber.js`, `decimal.js` or `big.js`), numbers will be parsed and displayed using that class for high precision decimal handling.                                                                                                                |
 
 #### Callbacks
 

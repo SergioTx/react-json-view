@@ -25,7 +25,8 @@ const colorMap = theme => ({
     null: theme.base0A,
     undefined: theme.base05,
     regexp: theme.base0A,
-    background: theme.base02
+    background: theme.base02,
+    bigNumber: theme.base09
   },
   editVariable: {
     editIcon: theme.base0E,
@@ -181,6 +182,10 @@ const getDefaultThemeStyling = theme => {
     integer: {
       display: 'inline-block',
       color: colors.dataTypes.integer
+    },
+    bigNumber: {
+      display: 'inline-block',
+      color: colors.dataTypes.bigNumber
     },
     string: {
       display: 'inline-block',
