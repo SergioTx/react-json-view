@@ -16,6 +16,7 @@ export default function parseInput (input, bigNumber) {
       input.match(/\-?\d+\.\d+/) &&
       input.match(/\-?\d+\.\d+/)[0] === input
     ) {
+      // big number
       if (bigNumber && parseFloat(input).toString() !== input) {
         return formatResponse('bigNumber', input)
       }
@@ -28,6 +29,7 @@ export default function parseInput (input, bigNumber) {
       // scientific float
       return formatResponse('float', Number(input))
     } else if (input.match(/\-?\d+/) && input.match(/\-?\d+/)[0] === input) {
+      // big number
       if (bigNumber && parseInt(input).toString() !== input) {
         return formatResponse('bigNumber', input)
       }

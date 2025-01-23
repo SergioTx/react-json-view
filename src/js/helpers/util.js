@@ -1,5 +1,9 @@
 // returns a string "type" of input object
 export function toType (obj, bigNumber) {
+
+  /* Check if the object is an instance of the custom BigNumber class passed in as a prop
+   * If it matches, return 'bigNumber' type so it can be displayed appropriately
+   */
   if (bigNumber && obj?.constructor?.name === bigNumber?.name) {
     return 'bigNumber'
   }

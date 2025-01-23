@@ -9,11 +9,23 @@ import Moment from 'moment'
 //import the react-json-view component (installed with npm)
 import JsonViewer from './../../src/js/index'
 
+// custom big number class, You can use existing libraries like `bignumber.js`, `decimal.js`, `big.js` etc.
+class BigNumber {
+  name = 'customName'
+  constructor(value) {
+    this.value = value
+  }
+  toString() {
+    return this.value.toString()
+  }
+}
+
 //render 2 different examples of the react-json-view component
 ReactDom.render(
   <div>
     {/* just pass in your JSON to the src attribute */}
     <JsonViewer
+      bigNumber={BigNumber}
       sortKeys
       style={{ padding: '30px', backgroundColor: 'white' }}
       src={getExampleJson1()}
@@ -59,6 +71,7 @@ ReactDom.render(
     {/* use a base16 theme */}
     <JsonViewer
       src={getExampleJson1()}
+      bigNumber={BigNumber}
       theme='railscasts'
       validationMessage="You're doing something wrong."
       collapseStringsAfterLength={15}
@@ -139,6 +152,7 @@ ReactDom.render(
     <JsonViewer
       enableClipboard={false}
       src={getExampleJson1()}
+      bigNumber={BigNumber}
       shouldCollapse={({ src, namespace, type }) =>
         namespace.indexOf('moment') > -1
       }
@@ -220,7 +234,8 @@ function getExampleJson1 () {
     string_number: '1234',
     date: new Date(),
     moment: Moment(),
-    regexp: /[0-9]/gi
+    regexp: /[0-9]/gi,
+    bigNumber: new BigNumber('0.0060254656709730629123')
   }
 }
 
