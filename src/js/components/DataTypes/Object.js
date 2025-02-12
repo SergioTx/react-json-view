@@ -245,12 +245,12 @@ class RjvObject extends React.PureComponent {
     }
 
     keys.forEach(name => {
-      variable = new JsonVariable(name, variables[name])
+      variable = new JsonVariable(name, variables[name], props.bigNumber)
 
       if (parent_type === 'array_group' && index_offset) {
         variable.name = parseInt(variable.name) + index_offset
       }
-      if (!variables.hasOwnProperty(name)) {
+      if (!Object.prototype.hasOwnProperty.call(variables, name)) {
       } else if (variable.type === 'object') {
         elements.push(
           <JsonObject
@@ -286,6 +286,7 @@ class RjvObject extends React.PureComponent {
           />
         )
       } else {
+        // include bigNumber
         elements.push(
           <VariableEditor
             key={variable.name + '_' + namespace}
@@ -305,10 +306,10 @@ class RjvObject extends React.PureComponent {
 
 // just store name, value and type with a variable
 class JsonVariable {
-  constructor (name, value) {
+  constructor (name, value, bigNumber) {
     this.name = name
     this.value = value
-    this.type = toType(value)
+    this.type = toType(value, bigNumber)
   }
 }
 

@@ -1,7 +1,7 @@
 import { toType } from './util'
 
-export default value => {
-  const type = toType(value)
+export default (value, bigNumber) => {
+  const type = toType(value, bigNumber)
   let string_value
   switch (type) {
     case 'undefined': {
@@ -13,6 +13,9 @@ export default value => {
       break
     case 'string':
       string_value = value
+      break
+    case 'bigNumber':
+      string_value = value.toString()
       break
     case 'date':
       string_value = value.toString()

@@ -51,7 +51,8 @@ import ReactJsonView from '@microlink/react-json-view'
     'last-child': null
     },
   string_number: '1234',
-  date: new Date()
+  date: new Date(),
+  bigNumber: new BigNumber('0.0060254656709730629123')
 }} />
 ```
 
@@ -81,7 +82,8 @@ import ReactJsonView from '@microlink/react-json-view'
 | `quotesOnKeys`               | `boolean`                                        | `true`                   | Set to `false` to remove quotes from keys (e.g., `"name":` vs. `name:`).                                                                                                                                                                                                  |
 | `validationMessage`          | `string`                                         | "Validation Error"       | Custom message for validation failures to `onEdit`, `onAdd`, or `onDelete` callbacks.                                                                                                                                                                                     |
 | `displayArrayKey`            | `boolean`                                        | `true`                   | When set to `true`, the index of the elements prefix values.                                                                                                                                                                                                              |
-| `escapeStrings`              | `boolean`                                        | `true`                   | When set to `true`, strings sequences such as \n, \t, \r, \f will be escaped.                                                                                                                                                                                                              |
+| `escapeStrings`              | `boolean`                                        | `true`                   | When set to `true`, strings sequences such as \n, \t, \r, \f will be escaped.                                                                                                                                                                                                          |
+| `bigNumber`                  | `Class`                                          | `null`                   | A custom class for handling large numbers. The class should have a constructor that accepts a numeric string/value and a `name` property for display purposes. You can use existing libraries like `bignumber.js`, `decimal.js`, `big.js`, or provide your own implementation.                                                                                                               |
 
 #### Callbacks
 

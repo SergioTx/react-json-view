@@ -18,7 +18,8 @@ import {
   JsonNull,
   JsonRegexp,
   JsonString,
-  JsonUndefined
+  JsonUndefined,
+  JsonBigNumber
 } from './DataTypes/DataTypes'
 
 // clibboard icon
@@ -166,8 +167,8 @@ class VariableEditor extends React.PureComponent {
 
   prepopInput = variable => {
     if (this.props.onEdit !== false) {
-      const stringifiedValue = stringifyVariable(variable.value)
-      const detected = parseInput(stringifiedValue)
+      const stringifiedValue = stringifyVariable(variable.value, this.props.bigNumber)
+      const detected = parseInput(stringifiedValue, this.props.bigNumber)
       this.setState({
         editMode: true,
         editValue: stringifiedValue,
@@ -236,6 +237,8 @@ class VariableEditor extends React.PureComponent {
         return <JsonDate value={variable.value} {...props} />
       case 'regexp':
         return <JsonRegexp value={variable.value} {...props} />
+      case 'bigNumber':
+        return <JsonBigNumber value={variable.value} {...props} />
       default:
         // catch-all for types that weren't anticipated
         return <div class='object-value'>{JSON.stringify(variable.value)}</div>
@@ -259,7 +262,7 @@ class VariableEditor extends React.PureComponent {
           class='variable-editor'
           onChange={event => {
             const value = event.target.value
-            const detected = parseInput(value)
+            const detected = parseInput(value, this.props.bigNumber)
             this.setState({
               editValue: value,
               parsedInput: {
@@ -320,12 +323,15 @@ class VariableEditor extends React.PureComponent {
   }
 
   submitEdit = submit_detected => {
-    const { variable, namespace, rjvId } = this.props
+    const { variable, namespace, rjvId, bigNumber: BigNumber } = this.props
     const { editValue, parsedInput } = this.state
     let new_value = editValue
     if (submit_detected && parsedInput.type) {
       new_value = parsedInput.value
-    }
+      if (BigNumber && parsedInput.type === 'bigNumber') {
+        new_value = new BigNumber(new_value)
+      }
+    } 
     this.setState({
       editMode: false
     })
@@ -456,6 +462,8 @@ class VariableEditor extends React.PureComponent {
           return <JsonUndefined {...props} />
         case 'date':
           return <JsonDate value={new Date(value)} {...props} />
+        case 'bignumber':
+          return <JsonBigNumber value={value} {...props} />
       }
     }
   }
