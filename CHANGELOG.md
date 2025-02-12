@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.25.0](https://github.com/microlinkhq/react-json-view/compare/v1.24.1...v1.25.0) (2025-02-12)
+
+
+### Features
+
+* Enhance VariableEditor to support BigNumber type handling ([98d2d1e](https://github.com/microlinkhq/react-json-view/commit/98d2d1e508f7121f46c2513435949a69454a75bf))
+
 ### [1.24.1](https://github.com/microlinkhq/react-json-view/compare/v1.24.0...v1.24.1) (2025-02-12)
 
 ## [1.24.0](https://github.com/microlinkhq/react-json-view/compare/v1.23.4...v1.24.0) (2024-12-25)
