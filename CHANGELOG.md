@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.26.0](https://github.com/microlinkhq/react-json-view/compare/v1.25.0...v1.26.0) (2025-02-13)
+
+
+### Features
+
+* 优化 rjvId 生成方式，添加随机字符串增加唯一性 ([6d85757](https://github.com/microlinkhq/react-json-view/commit/6d85757b6e51ddb9c7cbf4f99c9688cf965bd90f))
+
 ## [1.25.0](https://github.com/microlinkhq/react-json-view/compare/v1.24.1...v1.25.0) (2025-02-12)
 
 
