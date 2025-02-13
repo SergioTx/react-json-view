@@ -31,7 +31,7 @@ class ReactJsonView extends React.PureComponent {
   }
 
   // reference id for this instance
-  rjvId = Date.now().toString()
+  rjvId = Date.now().toString() + Math.random().toString(36).slice(2)
 
   // all acceptable props and default values
   static defaultProps = {
@@ -205,46 +205,39 @@ class ReactJsonView extends React.PureComponent {
   }
 
   updateSrc = () => {
-    const {
-      name,
-      namespace,
-      new_value,
-      existing_value,
-      variable_removed,
-      updated_src,
-      type
-    } = ObjectAttributes.get(this.rjvId, 'action', 'variable-update')
+    const { name, namespace, newValue, existingValue, updatedSrc, type } =
+      ObjectAttributes.get(this.rjvId, 'action', 'variable-update')
     const { onEdit, onDelete, onAdd } = this.props
 
     const { src } = this.state
 
     let result
 
-    const on_edit_payload = {
-      existing_src: src,
-      new_value,
-      updated_src,
+    const onEditPayload = {
+      existingSrc: src,
+      newValue,
+      updatedSrc,
       name,
       namespace,
-      existing_value
+      existingValue
     }
 
     switch (type) {
       case 'variable-added':
-        result = onAdd(on_edit_payload)
+        result = onAdd(onEditPayload)
         break
       case 'variable-edited':
-        result = onEdit(on_edit_payload)
+        result = onEdit(onEditPayload)
         break
       case 'variable-removed':
-        result = onDelete(on_edit_payload)
+        result = onDelete(onEditPayload)
         break
     }
 
     if (result !== false) {
-      ObjectAttributes.set(this.rjvId, 'global', 'src', updated_src)
+      ObjectAttributes.set(this.rjvId, 'global', 'src', updatedSrc)
       this.setState({
-        src: updated_src
+        src: updatedSrc
       })
     } else {
       this.setState({
