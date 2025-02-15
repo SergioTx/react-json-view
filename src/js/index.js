@@ -205,8 +205,14 @@ class ReactJsonView extends React.PureComponent {
   }
 
   updateSrc = () => {
-    const { name, namespace, newValue, existingValue, updatedSrc, type } =
-      ObjectAttributes.get(this.rjvId, 'action', 'variable-update')
+    const {
+      name,
+      namespace,
+      new_value: newValue,
+      existing_value: existingValue,
+      updated_src: updatedSrc,
+      type
+    } = ObjectAttributes.get(this.rjvId, 'action', 'variable-update')
     const { onEdit, onDelete, onAdd } = this.props
 
     const { src } = this.state
@@ -214,12 +220,12 @@ class ReactJsonView extends React.PureComponent {
     let result
 
     const onEditPayload = {
-      existingSrc: src,
-      newValue,
-      updatedSrc,
+      existing_src: src,
+      new_value: newValue,
+      updated_src: updatedSrc,
       name,
       namespace,
-      existingValue
+      existing_value: existingValue
     }
 
     switch (type) {
