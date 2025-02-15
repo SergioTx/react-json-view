@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.26.1](https://github.com/microlinkhq/react-json-view/compare/v1.26.0...v1.26.1) (2025-02-15)
+
+
+### Bug Fixes
+
+* resolve test failures in Node 20+ and below Node 17 ([c00d5cc](https://github.com/microlinkhq/react-json-view/commit/c00d5cc907c6200b6c7d9076c9e4a0a0bb8433b6))
+* rolling back the changes directly ([4c17310](https://github.com/microlinkhq/react-json-view/commit/4c173108ffc74974864ff8dbb845f5d4c24caed4))
+
 ## [1.26.0](https://github.com/microlinkhq/react-json-view/compare/v1.25.0...v1.26.0) (2025-02-13)
 
 
