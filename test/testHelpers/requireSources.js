@@ -14,9 +14,12 @@ function setUpDomEnvironment () {
 
   global.window = window
   global.document = window.document
-  global.navigator = {
-    userAgent: 'node.js'
-  }
+  Object.defineProperty(global, 'navigator', {
+    value: {
+      userAgent: 'node.js'
+    },
+    writable: true
+  })
   copyProps(window, global)
 }
 

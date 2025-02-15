@@ -232,6 +232,7 @@
     "css-loader": "~4.3.0",
     "enzyme": "~3.11.0",
     "enzyme-adapter-react-16": "~1.15.5",
+    "finepack": "latest",
     "github-generate-release": "latest",
     "html-webpack-plugin": "^4.5.2",
     "ignore-styles": "~5.0.1",
@@ -259,6 +260,9 @@
     "webpack-bundle-size-analyzer": "~3.1.0",
     "webpack-cli": "~5.1.4",
     "webpack-dev-server": "~5.0.4"
+  },
+  "engines": {
+    "node": ">=17"
   },
   "files": [
     "dist",
