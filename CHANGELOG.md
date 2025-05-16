@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.26.2](https://github.com/microlinkhq/react-json-view/compare/v1.26.1...v1.26.2) (2025-05-16)
+
 ### [1.26.1](https://github.com/microlinkhq/react-json-view/compare/v1.26.0...v1.26.1) (2025-02-15)
 
 
