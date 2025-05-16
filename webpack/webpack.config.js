@@ -60,6 +60,9 @@ const config = {
         extractComments: false
       })
     ]
+  },
+  node: {
+    global: false // Prevents webpack from breaking CSP, see https://github.com/microlinkhq/react-json-view/issues/76
   }
 }
 
