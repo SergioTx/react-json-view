@@ -4,9 +4,7 @@
   "homepage": "https://github.com/microlinkhq/react-json-view",
   "version": "1.27.0",
   "main": "dist/main.js",
-  "author": {
-    "name": "Mac Gainor"
-  },
+  "author": "Mac Gainor",
   "contributors": [
     {
       "name": "mac",
@@ -329,5 +327,9 @@
       "demo/dist",
       "dev-server"
     ]
+  },
+  "directories": {
+    "doc": "docs",
+    "test": "test"
   }
 }
