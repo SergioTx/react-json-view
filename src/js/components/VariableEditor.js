@@ -67,7 +67,7 @@ class VariableEditor extends React.PureComponent {
         })}
         onMouseEnter={() => this.setState({ ...this.state, hovered: true })}
         onMouseLeave={() => this.setState({ ...this.state, hovered: false })}
-        class='variable-row'
+        className='variable-row'
         key={variable.name}
       >
         {type == 'array'
@@ -88,7 +88,7 @@ class VariableEditor extends React.PureComponent {
             <span>
               <span
                 {...Theme(theme, 'object-name')}
-                class='object-key'
+                className='object-key'
                 key={variable.name + '_' + namespace}
               >
                 {!!quotesOnKeys && (
@@ -103,7 +103,7 @@ class VariableEditor extends React.PureComponent {
             </span>
             )}
         <div
-          class='variable-value'
+          className='variable-value'
           onClick={
             onSelect === false && onEdit === false
               ? null
@@ -148,14 +148,14 @@ class VariableEditor extends React.PureComponent {
 
     return (
       <div
-        class='click-to-edit'
+        className='click-to-edit'
         style={{
           verticalAlign: 'top',
           display: this.state.hovered ? 'inline-block' : 'none'
         }}
       >
         <Edit
-          class='click-to-edit-icon'
+          className='click-to-edit-icon'
           {...Theme(theme, 'editVarIcon')}
           onClick={() => {
             this.prepopInput(variable)
@@ -185,14 +185,14 @@ class VariableEditor extends React.PureComponent {
 
     return (
       <div
-        class='click-to-remove'
+        className='click-to-remove'
         style={{
           verticalAlign: 'top',
           display: this.state.hovered ? 'inline-block' : 'none'
         }}
       >
         <Remove
-          class='click-to-remove-icon'
+          className='click-to-remove-icon'
           {...Theme(theme, 'removeVarIcon')}
           onClick={() => {
             dispatcher.dispatch({
@@ -241,7 +241,7 @@ class VariableEditor extends React.PureComponent {
         return <JsonBigNumber value={variable.value} {...props} />
       default:
         // catch-all for types that weren't anticipated
-        return <div class='object-value'>{JSON.stringify(variable.value)}</div>
+        return <div className='object-value'>{JSON.stringify(variable.value)}</div>
     }
   }
 
@@ -259,7 +259,7 @@ class VariableEditor extends React.PureComponent {
             }
           }}
           value={editValue}
-          class='variable-editor'
+          className='variable-editor'
           onChange={event => {
             const value = event.target.value
             const detected = parseInput(value, this.props.bigNumber)
@@ -295,7 +295,7 @@ class VariableEditor extends React.PureComponent {
         />
         <div {...Theme(theme, 'edit-icon-container')}>
           <Remove
-            class='edit-cancel'
+            className='edit-cancel'
             {...Theme(theme, 'cancel-icon')}
             onClick={e => {
               if (e) {
@@ -306,7 +306,7 @@ class VariableEditor extends React.PureComponent {
             }}
           />
           <CheckCircle
-            class='edit-check string-value'
+            className='edit-check string-value'
             {...Theme(theme, 'check-icon')}
             onClick={e => {
               if (e) {
@@ -358,7 +358,7 @@ class VariableEditor extends React.PureComponent {
           <div {...Theme(theme, 'detected-row')}>
             {detected}
             <CheckCircle
-              class='edit-check detected'
+              className='edit-check detected'
               style={{
                 verticalAlign: 'top',
                 paddingLeft: '3px',

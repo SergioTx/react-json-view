@@ -65,7 +65,7 @@ export default class extends React.PureComponent {
     return (
       <div {...Theme(theme, 'string')}>
         <DataTypeLabel type_name={type_name} {...props} />
-        <span class='string-value' {...style} onClick={this.toggleCollapsed}>
+        <span className='string-value' {...style} onClick={this.toggleCollapsed}>
           "{value}"
         </span>
       </div>
