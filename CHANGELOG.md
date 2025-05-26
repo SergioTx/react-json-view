@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.27.0](https://github.com/n1c0de/react-json-view/compare/v1.26.3...v1.27.0) (2025-05-26)
+
+
+### Features
+
+- **json viewer:** add a new prop to add custom buttons according to the data type ([e8df37a](https://github.com/n1c0de/react-json-view/commit/e8df37aa76e2eaeb586a63a6b5dd1cc0c05892b4))
+
 ### [1.26.3](https://github.com/n1c0de/react-json-view/compare/v1.26.2...v1.26.3) (2025-05-26)
 
 ### [1.26.2](https://github.com/microlinkhq/react-json-view/compare/v1.26.1...v1.26.2) (2025-05-16)
