@@ -99,9 +99,9 @@ class RjvObject extends React.PureComponent {
 
   getObjectContent = (depth, src, props) => {
     return (
-      <div class='pushed-content object-container'>
+      <div className='pushed-content object-container'>
         <div
-          class='object-content'
+          className='object-content'
           {...Theme(this.props.theme, 'pushed-content')}
         >
           {this.renderObjectContents(src, props)}
@@ -120,7 +120,7 @@ class RjvObject extends React.PureComponent {
       return (
         <div
           {...Theme(this.props.theme, 'ellipsis')}
-          class='node-ellipsis'
+          className='node-ellipsis'
           onClick={this.toggleCollapsed}
         >
           ...
@@ -159,7 +159,7 @@ class RjvObject extends React.PureComponent {
           }}
           {...Theme(theme, 'brace-row')}
         >
-          <div class='icon-container' {...Theme(theme, 'icon-container')}>
+          <div className='icon-container' {...Theme(theme, 'icon-container')}>
             <IconComponent {...{ theme, iconStyle }} />
           </div>
           <ObjectName {...this.props} />
@@ -200,7 +200,7 @@ class RjvObject extends React.PureComponent {
 
     return (
       <div
-        class='object-key-val'
+        className='object-key-val'
         onMouseEnter={() => this.setState({ ...this.state, hovered: true })}
         onMouseLeave={() => this.setState({ ...this.state, hovered: false })}
         {...Theme(theme, jsvRoot ? 'jsv-root' : 'objectKeyVal', styles)}
@@ -213,7 +213,7 @@ class RjvObject extends React.PureComponent {
             ...rest
           })
           : this.getEllipsis()}
-        <span class='brace-row'>
+        <span className='brace-row'>
           <span
             style={{
               ...Theme(theme, 'brace').style,
