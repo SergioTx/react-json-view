@@ -6,7 +6,6 @@ import dispatcher from './../helpers/dispatcher'
 import parseInput from './../helpers/parseInput'
 import stringifyVariable from './../helpers/stringifyVariable'
 import CopyToClipboard from './CopyToClipboard'
-import CustomButton from './CustomButton'
 
 // data type components
 import {
@@ -58,11 +57,9 @@ class VariableEditor extends React.PureComponent {
       onSelect,
       displayArrayKey,
       quotesOnKeys,
-      keyModifier,
-      customButtons
+      keyModifier
     } = this.props
     const { editMode } = this.state
-
     return (
       <div
         {...Theme(theme, 'objectKeyVal', {
@@ -137,18 +134,6 @@ class VariableEditor extends React.PureComponent {
               src={variable.value}
               clickCallback={enableClipboard}
               {...{ theme, namespace: [...namespace, variable.name] }}
-            />
-            )
-          : null}
-        {customButtons[variable.type]
-          ? (
-            <CustomButton
-              rowHovered={this.state.hovered}
-              hidden={editMode}
-              variableName={escapeString(variable.name)}
-              src={variable.value}
-              {...customButtons[variable.type]}
-              {...{ theme, namespace: [...namespace, variable.type] }}
             />
             )
           : null}
@@ -346,7 +331,7 @@ class VariableEditor extends React.PureComponent {
       if (BigNumber && parsedInput.type === 'bigNumber') {
         new_value = new BigNumber(new_value)
       }
-    }
+    } 
     this.setState({
       editMode: false
     })
