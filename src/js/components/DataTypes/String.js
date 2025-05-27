@@ -44,12 +44,12 @@ export default class extends React.PureComponent {
     const { collapseStringsAfterLength, theme, escapeStrings } = props
     let { value } = props
     const collapsible = toType(collapseStringsAfterLength) === 'integer'
-    const style = { style: { cursor: 'default' } }
+    const style = { style: { cursor: 'default', 'word-break': 'break-all' } }
 
     if (escapeStrings) {
       value = escapeString(value)
     }
-    
+
     if (collapsible && value.length > collapseStringsAfterLength) {
       style.style.cursor = 'pointer'
       if (collapsed) {
