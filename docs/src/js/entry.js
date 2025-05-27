@@ -7,7 +7,7 @@ const app = document.getElementById('mac-react-container')
 
 //app entrypoint
 ReactDom.render(
-  <div className='app-entry'>
+  <div class='app-entry'>
     <Index />
   </div>,
   app

@@ -15,7 +15,7 @@ export default class extends React.PureComponent {
     const { size, theme, displayObjectSize } = this.props
     if (displayObjectSize) {
       return (
-        <span className='object-size' {...Theme(theme, 'object-size')}>
+        <span class='object-size' {...Theme(theme, 'object-size')}>
           {size} item{size === 1 ? '' : 's'}
         </span>
       )
@@ -27,14 +27,14 @@ export default class extends React.PureComponent {
 
     return (
       <span
-        className='click-to-add'
+        class='click-to-add'
         style={{
           verticalAlign: 'top',
           display: rowHovered ? 'inline-block' : 'none'
         }}
       >
         <Add
-          className='click-to-add-icon'
+          class='click-to-add-icon'
           {...Theme(theme, 'addVarIcon')}
           onClick={() => {
             const request = {
@@ -75,13 +75,13 @@ export default class extends React.PureComponent {
     }
     return (
       <span
-        className='click-to-remove'
+        class='click-to-remove'
         style={{
           display: rowHovered ? 'inline-block' : 'none'
         }}
       >
         <Remove
-          className='click-to-remove-icon'
+          class='click-to-remove-icon'
           {...Theme(theme, 'removeVarIcon')}
           onClick={() => {
             dispatcher.dispatch({
@@ -113,7 +113,7 @@ export default class extends React.PureComponent {
     return (
       <div
         {...Theme(theme, 'object-meta-data')}
-        className='object-meta-data'
+        class='object-meta-data'
         onClick={e => {
           e.stopPropagation()
         }}

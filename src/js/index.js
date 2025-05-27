@@ -177,7 +177,7 @@ class ReactJsonView extends React.PureComponent {
 
     return (
       <div
-        className='react-json-view'
+        class='react-json-view'
         style={{ ...Theme(theme, 'app-container').style, ...style }}
       >
         <ValidationFailure

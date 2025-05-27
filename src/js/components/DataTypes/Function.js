@@ -47,7 +47,7 @@ export default class extends React.PureComponent {
         <DataTypeLabel type_name={type_name} {...props} />
         <span
           {...Theme(props.theme, 'function-value')}
-          className='rjv-function-container'
+          class='rjv-function-container'
           onClick={this.toggleCollapsed}
         >
           {this.getFunctionDisplay(collapsed)}
@@ -65,7 +65,7 @@ export default class extends React.PureComponent {
             .toString()
             .slice(9, -1)
             .replace(/\{[\s\S]+/, '')}
-          <span className='function-collapsed' style={{ fontWeight: 'bold' }}>
+          <span class='function-collapsed' style={{ fontWeight: 'bold' }}>
             <span>{'{'}</span>
             <span {...Theme(props.theme, 'ellipsis')}>...</span>
             <span>{'}'}</span>

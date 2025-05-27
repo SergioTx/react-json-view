@@ -15,15 +15,15 @@ export function ExpandedIcon (props) {
   switch (iconStyle) {
     case 'triangle':
       return (
-        <ArrowDown {...Theme(theme, 'expanded-icon')} className='expanded-icon' />
+        <ArrowDown {...Theme(theme, 'expanded-icon')} class='expanded-icon' />
       )
     case 'square':
       return (
-        <SquareMinus {...Theme(theme, 'expanded-icon')} className='expanded-icon' />
+        <SquareMinus {...Theme(theme, 'expanded-icon')} class='expanded-icon' />
       )
     default:
       return (
-        <CircleMinus {...Theme(theme, 'expanded-icon')} className='expanded-icon' />
+        <CircleMinus {...Theme(theme, 'expanded-icon')} class='expanded-icon' />
       )
   }
 }
@@ -35,21 +35,21 @@ export function CollapsedIcon (props) {
       return (
         <ArrowRight
           {...Theme(theme, 'collapsed-icon')}
-          className='collapsed-icon'
+          class='collapsed-icon'
         />
       )
     case 'square':
       return (
         <SquarePlus
           {...Theme(theme, 'collapsed-icon')}
-          className='collapsed-icon'
+          class='collapsed-icon'
         />
       )
     default:
       return (
         <CirclePlus
           {...Theme(theme, 'collapsed-icon')}
-          className='collapsed-icon'
+          class='collapsed-icon'
         />
       )
   }
