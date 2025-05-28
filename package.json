@@ -1,10 +1,12 @@
 {
-  "name": "@n1c0de/react-json-view",
+  "name": "@microlink/react-json-view",
   "description": "Interactive react component for displaying javascript arrays and JSON objects.",
   "homepage": "https://github.com/microlinkhq/react-json-view",
-  "version": "1.27.0",
+  "version": "1.26.2",
   "main": "dist/main.js",
-  "author": "Mac Gainor",
+  "author": {
+    "name": "Mac Gainor"
+  },
   "contributors": [
     {
       "name": "mac",
@@ -327,9 +329,5 @@
       "demo/dist",
       "dev-server"
     ]
-  },
-  "directories": {
-    "doc": "docs",
-    "test": "test"
   }
 }
