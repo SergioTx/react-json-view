@@ -144,7 +144,6 @@ class RjvObject extends React.PureComponent {
           <span {...Theme(theme, 'brace')}>
             {object_type === 'array' ? '[' : '{'}
           </span>
-          {expanded ? this.getObjectMetaData(src) : null}
         </span>
       )
     }
@@ -167,7 +166,6 @@ class RjvObject extends React.PureComponent {
             {object_type === 'array' ? '[' : '{'}
           </span>
         </span>
-        {expanded ? this.getObjectMetaData(src) : null}
       </span>
     )
   }
@@ -185,6 +183,8 @@ class RjvObject extends React.PureComponent {
       theme,
       jsvRoot,
       iconStyle,
+      showComma,
+      isLast,
       ...rest
     } = this.props
 
@@ -222,8 +222,13 @@ class RjvObject extends React.PureComponent {
           >
             {object_type === 'array' ? ']' : '}'}
           </span>
-          {expanded ? null : this.getObjectMetaData(src)}
         </span>
+        {showComma && !isLast && !jsvRoot && (
+          <span {...Theme(theme, 'comma')}>
+            ,
+          </span>
+        )}
+        {this.getObjectMetaData(src)}
       </div>
     )
   }
@@ -234,7 +239,8 @@ class RjvObject extends React.PureComponent {
       parent_type,
       index_offset,
       groupArraysAfterLength,
-      namespace
+      namespace,
+      showComma,
     } = this.props
     const { object_type } = this.state
     const elements = []
@@ -244,8 +250,9 @@ class RjvObject extends React.PureComponent {
       keys = keys.sort()
     }
 
-    keys.forEach(name => {
+    keys.forEach((name, index) => {
       variable = new JsonVariable(name, variables[name], props.bigNumber)
+      const isLast = index === keys.length - 1
 
       if (parent_type === 'array_group' && index_offset) {
         variable.name = parseInt(variable.name) + index_offset
@@ -260,6 +267,8 @@ class RjvObject extends React.PureComponent {
             src={variable.value}
             namespace={namespace.concat(variable.name)}
             parent_type={object_type}
+            isLast={isLast}
+            showComma={showComma}
             {...props}
           />
         )
@@ -282,6 +291,8 @@ class RjvObject extends React.PureComponent {
             namespace={namespace.concat(variable.name)}
             type='array'
             parent_type={object_type}
+            isLast={isLast}
+            showComma={showComma}
             {...props}
           />
         )
@@ -294,6 +305,8 @@ class RjvObject extends React.PureComponent {
             singleIndent={SINGLE_INDENT}
             namespace={namespace}
             type={this.props.type}
+            isLast={isLast}
+            showComma={showComma}
             {...props}
           />
         )

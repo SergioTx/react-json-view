@@ -128,4 +128,48 @@ describe('<Index />', function () {
     )
     expect(wrapper.find('.object-size')).to.have.length(1)
   })
+
+  it('should show commas when showComma is true', function () {
+    const wrapper = render(
+      <Index
+        src={{
+          first: 'first property',
+          second: 'second property',
+          third: 'third property'
+        }}
+        showComma
+      />
+    )
+    // Check that commas are present in the rendered output
+    expect(wrapper.text()).to.include(',')
+  })
+
+  it('should not show commas when showComma is false', function () {
+    const wrapper = render(
+      <Index
+        src={{
+          first: 'first property',
+          second: 'second property',
+          third: 'third property'
+        }}
+        showComma={false}
+      />
+    )
+    // Check that commas are not present in the rendered output
+    expect(wrapper.text()).to.not.include(',')
+  })
+
+  it('should default to showing commas when showComma is not specified', function () {
+    const wrapper = render(
+      <Index
+        src={{
+          first: 'first property',
+          second: 'second property',
+          third: 'third property'
+        }}
+      />
+    )
+    // Check that commas are present by default
+    expect(wrapper.text()).to.include(',')
+  })
 })

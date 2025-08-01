@@ -373,4 +373,97 @@ describe('<JsonObject />', function () {
     )
     expect(wrapper.text()).to.equal('"":{"d":"d""b":"b""a":"a""c":"c"}')
   })
+
+  it('Object should show comma when showComma is true and not last element', function () {
+    let src = {
+      prop1: 1,
+      prop2: 2
+    }
+
+    const wrapper = shallow(
+      <JsonObject
+        src={src}
+        theme='rjv-default'
+        namespace={['root']}
+        rjvId={rjvId}
+        showComma
+        isLast={false}
+        collapsed={false}
+        indentWidth={1}
+        depth={1}
+        type='object'
+      />
+    )
+    expect(wrapper.find('span').someWhere(node => node.text() === ',')).to.be.true
+  })
+
+  it('Object should not show comma when showComma is false', function () {
+    let src = {
+      prop1: 1,
+      prop2: 2
+    }
+
+    const wrapper = shallow(
+      <JsonObject
+        src={src}
+        theme='rjv-default'
+        namespace={['root']}
+        rjvId={rjvId}
+        showComma={false}
+        isLast={false}
+        collapsed={false}
+        indentWidth={1}
+        depth={1}
+        type='object'
+      />
+    )
+    expect(wrapper.find('span').someWhere(node => node.text() === ',')).to.be.false
+  })
+
+  it('Object should not show comma when isLast is true', function () {
+    let src = {
+      prop1: 1,
+      prop2: 2
+    }
+
+    const wrapper = shallow(
+      <JsonObject
+        src={src}
+        theme='rjv-default'
+        namespace={['root']}
+        rjvId={rjvId}
+        showComma
+        isLast
+        collapsed={false}
+        indentWidth={1}
+        depth={1}
+        type='object'
+      />
+    )
+    expect(wrapper.find('span').someWhere(node => node.text() === ',')).to.be.false
+  })
+
+  it('Object should not show comma when jsvRoot is true', function () {
+    let src = {
+      prop1: 1,
+      prop2: 2
+    }
+
+    const wrapper = shallow(
+      <JsonObject
+        src={src}
+        theme='rjv-default'
+        namespace={['root']}
+        rjvId={rjvId}
+        showComma
+        isLast={false}
+        jsvRoot
+        collapsed={false}
+        indentWidth={1}
+        depth={1}
+        type='object'
+      />
+    )
+    expect(wrapper.find('span').someWhere(node => node.text() === ',')).to.be.false
+  })
 })
