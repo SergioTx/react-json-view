@@ -64,6 +64,53 @@ ReactDom.render(
         return false
       }}
       defaultValue=''
+      showComma={true}
+    />
+
+    <br />
+
+    {/* Same example without commas for comparison */}
+    <JsonViewer
+      bigNumber={BigNumber}
+      sortKeys
+      style={{ padding: '30px', backgroundColor: 'white' }}
+      src={getExampleJson1()}
+      quotesOnKeys={false}
+      collapseStringsAfterLength={12}
+      onEdit={e => {
+        console.log('edit callback', e)
+        if (e.new_value == 'error') {
+          return false
+        }
+      }}
+      onDelete={e => {
+        console.log('delete callback', e)
+      }}
+      onAdd={e => {
+        console.log('add callback', e)
+        if (e.new_value == 'error') {
+          return false
+        }
+      }}
+      onSelect={e => {
+        console.log('select callback', e)
+        console.log(e.namespace)
+      }}
+      displayObjectSize={true}
+      name={'dev-server (no commas)'}
+      enableClipboard={copy => {
+        console.log('you copied to clipboard!', copy)
+      }}
+      shouldCollapse={({ src, namespace, type }) => {
+        if (type === 'array' && src.indexOf('test') > -1) {
+          return true
+        } else if (namespace.indexOf('moment') > -1) {
+          return true
+        }
+        return false
+      }}
+      defaultValue=''
+      showComma={false}
     />
 
     <br />
@@ -98,6 +145,7 @@ ReactDom.render(
         src.constructor.name === 'Moment'
       }
       selectOnFocus
+      showComma={true}
     />
 
     <br />

@@ -39,7 +39,8 @@ npm install @microlink/react-json-view --save
 ```js
 import ReactJsonView from '@microlink/react-json-view'
 
-<ReactJsonView src={{
+<ReactJsonView
+  src={{
   string: 'this is a test string',
   integer: 42,
   array: [1, 2, 3, 'test', NaN],
@@ -53,7 +54,9 @@ import ReactJsonView from '@microlink/react-json-view'
   string_number: '1234',
   date: new Date(),
   bigNumber: new BigNumber('0.0060254656709730629123')
-}} />
+  }}
+  showComma
+/>
 ```
 
 ### API
@@ -84,6 +87,7 @@ import ReactJsonView from '@microlink/react-json-view'
 | `displayArrayKey`            | `boolean`                                        | `true`                   | When set to `true`, the index of the elements prefix values.                                                                                                                                                                                                              |
 | `escapeStrings`              | `boolean`                                        | `true`                   | When set to `true`, strings sequences such as \n, \t, \r, \f will be escaped.                                                                                                                                                                                                          |
 | `bigNumber`                  | `Class`                                          | `null`                   | A custom class for handling large numbers. The class should have a constructor that accepts a numeric string/value and a `name` property for display purposes. You can use existing libraries like `bignumber.js`, `decimal.js`, `big.js`, or provide your own implementation.                                                                                                               |
+| `showComma`                  | `boolean`                                        | `true`                   | When set to `true`, commas are displayed between object properties and array elements for better readability. Interactive tools (clipboard, edit, delete icons) appear after the comma when hovering over JSON elements.                                                                                                                              |
 
 #### Callbacks
 

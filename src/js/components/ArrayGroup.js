@@ -109,6 +109,8 @@ export default class extends React.PureComponent {
                     type='array'
                     parent_type='array_group'
                     theme={theme}
+                    showComma={this.props.showComma}
+                    isLast={i === groups - 1}
                     {...rest}
                   />
                   )

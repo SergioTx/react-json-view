@@ -60,7 +60,8 @@ class ReactJsonView extends React.PureComponent {
     displayArrayKey: true,
     selectOnFocus: false,
     keyModifier: e => e.metaKey || e.ctrlKey,
-    bigNumber: null
+    bigNumber: null,
+    showComma: true
   }
 
   // will trigger whenever setState() is called, or parent passes in new props.

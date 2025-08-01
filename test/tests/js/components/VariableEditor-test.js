@@ -372,4 +372,86 @@ describe('<VariableEditor />', function () {
       '\\\n\t\r\f\\n'
     )
   })
+
+  it('VariableEditor should show comma when showComma is true and not last element', function () {
+    const wrapper = shallow(
+      <VariableEditor
+        src={{ test: true }}
+        theme='rjv-default'
+        onEdit={edit => { }}
+        rjvId={rjvId}
+        showComma
+        isLast={false}
+        variable={{
+          name: 'test',
+          value: 5,
+          type: 'int'
+        }}
+      />
+    )
+    expect(wrapper.find('span').someWhere(node => node.text() === ',')).to.be.true
+  })
+
+  it('VariableEditor should not show comma when showComma is false', function () {
+    const wrapper = shallow(
+      <VariableEditor
+        src={{ test: true }}
+        theme='rjv-default'
+        onEdit={edit => { }}
+        rjvId={rjvId}
+        showComma={false}
+        isLast={false}
+        variable={{
+          name: 'test',
+          value: 5,
+          type: 'int'
+        }}
+      />
+    )
+    expect(wrapper.find('span').someWhere(node => node.text() === ',')).to.be.false
+  })
+
+  it('VariableEditor should not show comma when isLast is true', function () {
+    const wrapper = shallow(
+      <VariableEditor
+        src={{ test: true }}
+        theme='rjv-default'
+        onEdit={edit => { }}
+        rjvId={rjvId}
+        showComma
+        isLast
+        variable={{
+          name: 'test',
+          value: 5,
+          type: 'int'
+        }}
+      />
+    )
+    expect(wrapper.find('span').someWhere(node => node.text() === ',')).to.be.false
+  })
+
+  it('VariableEditor should render comma before tools when showComma is true', function () {
+    const wrapper = shallow(
+      <VariableEditor
+        src={{ test: true }}
+        theme='rjv-default'
+        onEdit={edit => { }}
+        rjvId={rjvId}
+        showComma
+        isLast={false}
+        variable={{
+          name: 'test',
+          value: 5,
+          type: 'int'
+        }}
+      />
+    )
+    
+    // Check that comma exists
+    expect(wrapper.find('span').someWhere(node => node.text() === ',')).to.be.true
+    
+    // Check that tools (edit icon) exist
+    const editIcon = wrapper.find('.click-to-edit-icon')
+    expect(editIcon).to.have.length(1)
+  })
 })

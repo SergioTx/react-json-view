@@ -57,7 +57,9 @@ class VariableEditor extends React.PureComponent {
       onSelect,
       displayArrayKey,
       quotesOnKeys,
-      keyModifier
+      keyModifier,
+      showComma,
+      isLast
     } = this.props
     const { editMode } = this.state
     return (
@@ -126,6 +128,11 @@ class VariableEditor extends React.PureComponent {
         >
           {this.getValue(variable, editMode)}
         </div>
+        {showComma && !isLast && (
+          <span {...Theme(theme, 'comma')}>
+            ,
+          </span>
+        )}
         {enableClipboard
           ? (
             <CopyToClipboard

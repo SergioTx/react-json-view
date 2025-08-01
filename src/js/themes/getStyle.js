@@ -386,6 +386,13 @@ const getDefaultThemeStyling = theme => {
       color: colors.validationFailure.iconColor,
       fontSize: constants.iconFontSize,
       transform: 'rotate(45deg)'
+    },
+    comma: {
+      display: 'inline-block',
+      color: constants.commaColor,
+      fontSize: constants.commaFontSize,
+      marginRight: constants.commaMarginRight,
+      cursor: 'default'
     }
   }
 }
