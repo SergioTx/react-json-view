@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.27.0](https://github.com/microlinkhq/react-json-view/compare/v1.26.2...v1.27.0) (2025-08-01)
+
+
+### Features
+
+* add custom buttons to rows according to value type ([#4](https://github.com/microlinkhq/react-json-view/issues/4)) ([e8df37a](https://github.com/microlinkhq/react-json-view/commit/e8df37aa76e2eaeb586a63a6b5dd1cc0c05892b4))
+* show comma option ([bdb3907](https://github.com/microlinkhq/react-json-view/commit/bdb39074635ee84cb2b2d18e7e5f746ae9b0883f))
+
+
+### Bug Fixes
+
+* replace class attribute by classname ([e38bab4](https://github.com/microlinkhq/react-json-view/commit/e38bab4f5468bcd77112564ed2a34fb5b6d550a6))
+* **string data type:** use camelcase on inline style ([d578398](https://github.com/microlinkhq/react-json-view/commit/d578398187908db8d553f8e83f8072de04b89916))
+* use className instead of class in React components ([#1](https://github.com/microlinkhq/react-json-view/issues/1)) ([108e1a8](https://github.com/microlinkhq/react-json-view/commit/108e1a8d406c3420ebc938fb1c6258feab5a928d))
+
 ### [1.26.2](https://github.com/microlinkhq/react-json-view/compare/v1.26.1...v1.26.2) (2025-05-16)
 
 ### [1.26.1](https://github.com/microlinkhq/react-json-view/compare/v1.26.0...v1.26.1) (2025-02-15)
