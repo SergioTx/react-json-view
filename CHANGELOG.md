@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.27.1](https://github.com/microlinkhq/react-json-view/compare/v1.27.0...v1.27.1) (2026-01-11)
+
+
+### Bug Fixes
+
+* Fix toggleCollapsed handling sparse arrays ([656e2d0](https://github.com/microlinkhq/react-json-view/commit/656e2d0dda5c77cd89b3b86c8487b0fb1000d7d5))
+
 ## [1.27.0](https://github.com/microlinkhq/react-json-view/compare/v1.26.2...v1.27.0) (2025-08-01)
 
 
