@@ -20,9 +20,11 @@ export default class extends React.PureComponent {
   }
 
   toggleCollapsed = i => {
+    const { expanded } = this.state
     const newExpanded = []
-    for (const j in this.state.expanded) {
-      newExpanded.push(this.state.expanded[j])
+    const maxLength = Math.max(expanded.length || 0, i + 1)
+    for (let j = 0; j < maxLength; j++) {
+      newExpanded[j] = expanded[j] === true
     }
     newExpanded[i] = !newExpanded[i]
     this.setState({
