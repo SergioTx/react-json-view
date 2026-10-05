@@ -1,4 +1,5 @@
 import type { CSSProperties, HTMLAttributes, ReactElement } from 'react';
+
 import type { ReactJsonViewProps, ThemeKeys, ThemeObject } from '../../index';
 export type Theme = ThemeKeys | ThemeObject | 'none' | false;
 export type NodeName = string | number | false | null | ReactElement;

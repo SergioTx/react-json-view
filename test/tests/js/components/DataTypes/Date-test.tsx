@@ -1,6 +1,7 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import React from 'react';
+
 import JsonDate from './../../../../../src/js/components/DataTypes/Date';
 describe('<JsonDate />', function () {
   const rjvId = 1;

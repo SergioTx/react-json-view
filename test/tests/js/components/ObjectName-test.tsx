@@ -1,7 +1,8 @@
-import { required } from '../../../testHelpers/requireSources';
-import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import React from 'react';
+
+import { required } from '../../../testHelpers/requireSources';
 import ObjectName from './../../../../src/js/components/ObjectName';
 describe('<ObjectName />', function () {
   it('ObjectName mount', function () {

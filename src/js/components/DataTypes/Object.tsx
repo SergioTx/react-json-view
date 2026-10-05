@@ -1,30 +1,31 @@
-import type { NodeProps } from '../../types';
-import { normalizeNamespace } from '../../types';
-import React from 'react';
-import { toType } from './../../helpers/util';
-import { JsonCircularReference } from './DataTypes';
-import VariableEditor from './../VariableEditor';
-import VariableMeta from './../VariableMeta';
-import ArrayGroup from './../ArrayGroup';
-import ObjectName from './../ObjectName';
-import AttributeStore from './../../stores/ObjectAttributes';
-import { CollapsedIcon, ExpandedIcon } from './../ToggleIcons';
-import Theme from './../../themes/getStyle';
+import React from "react";
+
+import type { NodeProps } from "../../types";
+import { normalizeNamespace } from "../../types";
+import { toType } from "./../../helpers/util";
+import AttributeStore from "./../../stores/ObjectAttributes";
+import Theme from "./../../themes/getStyle";
+import ArrayGroup from "./../ArrayGroup";
+import ObjectName from "./../ObjectName";
+import { CollapsedIcon, ExpandedIcon } from "./../ToggleIcons";
+import VariableEditor from "./../VariableEditor";
+import VariableMeta from "./../VariableMeta";
+import { JsonCircularReference } from "./DataTypes";
 const SINGLE_INDENT = 5;
 function getExpanded(props: NodeProps) {
   const expanded =
     (props.collapsed === false ||
-      (typeof props.collapsed === 'number' &&
+      (typeof props.collapsed === "number" &&
         props.collapsed > (props.depth ?? 0))) &&
     (!props.shouldCollapse ||
       props.shouldCollapse({
         name: props.name,
         src: props.src,
-        type: Array.isArray(props.src) ? 'array' : 'object',
+        type: Array.isArray(props.src) ? "array" : "object",
         namespace: normalizeNamespace(props.namespace),
       }) === false) &&
     Object.keys(props.src).length !== 0;
-  return AttributeStore.get(props.rjvId, props.namespace, 'expanded', expanded);
+  return AttributeStore.get(props.rjvId, props.namespace, "expanded", expanded);
 }
 export default function RjvObject(props: NodeProps): React.JSX.Element {
   const {
@@ -60,12 +61,12 @@ export default function RjvObject(props: NodeProps): React.JSX.Element {
     });
   }
   const { expanded } = state;
-  const objectType: 'array' | 'object' = type === 'array' ? 'array' : 'object';
+  const objectType: "array" | "object" = type === "array" ? "array" : "object";
   const size = Object.keys(src).length;
   const ancestors = [...(props.listOfAncestors || []), src];
   function toggleCollapsed() {
     const nextExpanded = !expanded;
-    AttributeStore.set(props.rjvId, namespace, 'expanded', nextExpanded);
+    AttributeStore.set(props.rjvId, namespace, "expanded", nextExpanded);
     setState({
       expanded: nextExpanded,
       prevProps: props,
@@ -73,12 +74,14 @@ export default function RjvObject(props: NodeProps): React.JSX.Element {
   }
   function renderContents() {
     let keys = Object.keys(src);
-    if (props.sortKeys && objectType !== 'array') keys = keys.sort();
+    if (props.sortKeys && objectType !== "array") {
+      keys = keys.sort();
+    }
     return keys.map((key, index) => {
       const value: unknown = Reflect.get(src, key);
       const valueType = toType(value);
       const variableName =
-        parentType === 'array_group' && props.index_offset
+        parentType === "array_group" && props.index_offset
           ? parseInt(key, 10) + props.index_offset
           : key;
       const childProps = {
@@ -92,7 +95,9 @@ export default function RjvObject(props: NodeProps): React.JSX.Element {
         parent_type: objectType,
         isLast: index === keys.length - 1,
       };
-      if (valueType === 'window') return null;
+      if (valueType === "window") {
+        return null;
+      }
       if (ancestors.some((ancestor) => ancestor === value)) {
         return (
           <JsonCircularReference
@@ -103,9 +108,9 @@ export default function RjvObject(props: NodeProps): React.JSX.Element {
         );
       }
       if (
-        typeof value === 'object' &&
+        typeof value === "object" &&
         value !== null &&
-        (valueType === 'object' || valueType === 'array')
+        (valueType === "object" || valueType === "array")
       ) {
         const ObjectComponent =
           Array.isArray(value) &&
@@ -118,14 +123,14 @@ export default function RjvObject(props: NodeProps): React.JSX.Element {
             key={variableName}
             {...childProps}
             src={value}
-            type={Array.isArray(value) ? 'array' : 'object'}
+            type={Array.isArray(value) ? "array" : "object"}
             listOfAncestors={ancestors}
           />
         );
       }
       return (
         <VariableEditor
-          key={variableName + '_' + namespace}
+          key={variableName + "_" + namespace}
           {...childProps}
           variable={{
             name: variableName,
@@ -140,11 +145,11 @@ export default function RjvObject(props: NodeProps): React.JSX.Element {
     });
   }
   const styles: React.CSSProperties = {};
-  if (!jsvRoot && parentType !== 'array_group') {
+  if (!jsvRoot && parentType !== "array_group") {
     styles.paddingLeft = (props.indentWidth ?? 4) * SINGLE_INDENT;
-  } else if (parentType === 'array_group') {
+  } else if (parentType === "array_group") {
     styles.borderLeft = 0;
-    styles.display = 'inline';
+    styles.display = "inline";
   }
   const IconComponent = expanded ? ExpandedIcon : CollapsedIcon;
   return (
@@ -152,60 +157,81 @@ export default function RjvObject(props: NodeProps): React.JSX.Element {
       className="object-key-val"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      {...Theme(theme, jsvRoot ? 'jsv-root' : 'objectKeyVal', styles)}
+      {...Theme(theme, jsvRoot ? "jsv-root" : "objectKeyVal", styles)}
     >
-      {parentType === 'array_group' ? (
+      {parentType === "array_group" ? (
         <span>
-          <span {...Theme(theme, 'brace')}>
-            {objectType === 'array' ? '[' : '{'}
+          <span {...Theme(theme, "brace")}>
+            {objectType === "array" ? "[" : "{"}
           </span>
         </span>
       ) : (
         <span>
-          <span onClick={toggleCollapsed} {...Theme(theme, 'brace-row')}>
-            <div className="icon-container" {...Theme(theme, 'icon-container')}>
+          <button
+            type="button"
+            onClick={toggleCollapsed}
+            {...Theme(theme, "brace-row")}
+            style={{
+              border: 0,
+              padding: 0,
+              background: "none",
+              color: "inherit",
+              ...Theme(theme, "brace-row").style,
+            }}
+          >
+            <span
+              className="icon-container"
+              {...Theme(theme, "icon-container")}
+            >
               <IconComponent
                 {...{
                   theme,
                   iconStyle,
                 }}
               />
-            </div>
-            <ObjectName {...props} />
-            <span {...Theme(theme, 'brace')}>
-              {objectType === 'array' ? '[' : '{'}
             </span>
-          </span>
+            <ObjectName {...props} />
+            <span {...Theme(theme, "brace")}>
+              {objectType === "array" ? "[" : "{"}
+            </span>
+          </button>
         </span>
       )}
       {expanded ? (
         <div className="pushed-content object-container">
-          <div className="object-content" {...Theme(theme, 'pushed-content')}>
+          <div className="object-content" {...Theme(theme, "pushed-content")}>
             {renderContents()}
           </div>
         </div>
       ) : (
         size !== 0 && (
-          <div
-            {...Theme(theme, 'ellipsis')}
+          <button
+            type="button"
+            {...Theme(theme, "ellipsis")}
             className="node-ellipsis"
             onClick={toggleCollapsed}
+            style={{
+              border: 0,
+              padding: 0,
+              background: "none",
+              ...Theme(theme, "ellipsis").style,
+            }}
           >
             ...
-          </div>
+          </button>
         )
       )}
       <span className="brace-row">
         <span
           style={{
-            ...Theme(theme, 'brace').style,
-            paddingLeft: expanded ? '3px' : '0px',
+            ...Theme(theme, "brace").style,
+            paddingLeft: expanded ? "3px" : "0px",
           }}
         >
-          {objectType === 'array' ? ']' : '}'}
+          {objectType === "array" ? "]" : "}"}
         </span>
       </span>
-      {!isLast && !jsvRoot && <span {...Theme(theme, 'comma')}>,</span>}
+      {!isLast && !jsvRoot && <span {...Theme(theme, "comma")}>,</span>}
       <VariableMeta rowHovered={hovered} size={size} {...props} />
     </div>
   );

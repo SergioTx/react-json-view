@@ -35,6 +35,6 @@ npm run typecheck
 npm run lint
 ```
 
-Both commands enforce the no-`any` policy, including inferred `any` values and unsafe calls or member access. Use `unknown` and runtime narrowing for inspected JSON values. The policy gate uses the pinned TypeScript 7 native API because the current TypeScript ESLint parser does not support TypeScript 7.
+`npm run lint` runs Oxlint and the strict TypeScript/no-`any` checks. The checks reject inferred `any` values and unsafe calls or member access. Use `unknown` and runtime narrowing for inspected JSON values.
 
 `npm run build` bundles the library with Vite and generates declaration files. Only ESM is published; React remains external. Babel, webpack, and CommonJS output are not used. Add external `@types` packages when a dependency does not bundle its own declarations.

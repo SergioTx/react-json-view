@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+
 import ObjectAttributes from './../../../../src/js/stores/ObjectAttributes';
 describe('ObjectAttributes', function () {
   it('set a value in empty store', function () {

@@ -1,6 +1,7 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import React from 'react';
+
 import JsonUndefined from './../../../../../src/js/components/DataTypes/Undefined';
 describe('<JsonUndefined />', function () {
   const rjvId = 1;

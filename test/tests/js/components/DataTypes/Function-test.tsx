@@ -1,7 +1,8 @@
-import { required } from '../../../../testHelpers/requireSources';
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
+import React from 'react';
+
+import { required } from '../../../../testHelpers/requireSources';
 import JsonFunction from './../../../../../src/js/components/DataTypes/Function';
 import AttributeStore from './../../../../../src/js/stores/ObjectAttributes';
 describe('<JsonFunction />', function () {

@@ -1,8 +1,10 @@
 import React from 'react';
-import ReactSelect from 'react-select';
 import type { StylesConfig } from 'react-select';
+import ReactSelect from 'react-select';
+
 import type { ReactJsonViewProps, ThemeKeys } from '../../../../index';
 import ReactJson from './../../../../src/js/index';
+
 import './../../style/rjv-demo.css';
 
 type DemoOptions = Required<
@@ -136,7 +138,9 @@ export default function Demo() {
 
   React.useEffect(() => {
     const candidate = viewerRef.current?.querySelector('.react-json-view');
-    if (!candidate) return;
+    if (!candidate) {
+      return;
+    }
     const viewer: Element = candidate;
     function updateStyles() {
       const getStyle = (element: Element, property: string): string =>
@@ -238,7 +242,9 @@ export default function Demo() {
                     options={choices}
                     styles={selectStyles}
                     onChange={(choice) => {
-                      if (!choice) return;
+                      if (!choice) {
+                        return;
+                      }
                       setOptions((previous) => ({
                         ...previous,
                         [field]: choice.value,

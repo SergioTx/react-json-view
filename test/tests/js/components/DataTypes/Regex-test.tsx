@@ -1,6 +1,7 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import React from 'react';
+
 import JsonRegex from './../../../../../src/js/components/DataTypes/Function';
 describe('<JsonRegex />', function () {
   const rjvId = 1;

@@ -1,5 +1,6 @@
-import type { IconProps } from '../types';
 import React from 'react';
+
+import type { IconProps } from '../types';
 const DEFAULT_COLOR = '#000000';
 export function CircleMinus(props: IconProps) {
   const { style, ...rest } = props;

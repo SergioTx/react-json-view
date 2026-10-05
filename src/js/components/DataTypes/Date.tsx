@@ -1,12 +1,14 @@
-import type { ValueProps } from '../../types';
 import React from 'react';
-import DataTypeLabel from './DataTypeLabel';
 
+import type { ValueProps } from '../../types';
 // theme
 import Theme from './../../themes/getStyle';
+import DataTypeLabel from './DataTypeLabel';
 export default function Date(props: ValueProps) {
   const value = props.value;
-  if (!(value instanceof globalThis.Date)) return null;
+  if (!(value instanceof globalThis.Date)) {
+    return null;
+  }
   const typeName = 'date';
   const displayOptions: Intl.DateTimeFormatOptions = {
     weekday: 'short',

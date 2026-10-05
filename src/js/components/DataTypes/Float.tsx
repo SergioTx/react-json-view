@@ -1,9 +1,9 @@
-import type { ValueProps } from '../../types';
 import React from 'react';
-import DataTypeLabel from './DataTypeLabel';
 
+import type { ValueProps } from '../../types';
 // theme
 import Theme from './../../themes/getStyle';
+import DataTypeLabel from './DataTypeLabel';
 export default function Float(props: ValueProps) {
   const typeName = 'float';
   return (

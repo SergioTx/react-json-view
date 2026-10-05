@@ -1,7 +1,9 @@
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig(({ mode }) => {
-  if (mode === 'demo') return { base: './', cacheDir: '.vite' };
+  if (mode === 'demo') {
+    return { base: './', cacheDir: '.vite' };
+  }
   return {
     build: {
       lib: { entry: 'src/main.ts', formats: ['es'], fileName: 'main' },

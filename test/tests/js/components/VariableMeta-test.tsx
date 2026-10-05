@@ -1,7 +1,8 @@
-import { required } from '../../../testHelpers/requireSources';
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
+import React from 'react';
+
+import { required } from '../../../testHelpers/requireSources';
 import VariableMeta from './../../../../src/js/components/VariableMeta';
 describe('<VariableMeta />', function () {
   const rjvId = 1;

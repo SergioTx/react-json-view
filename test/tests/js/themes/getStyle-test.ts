@@ -1,5 +1,6 @@
-import { required } from '../../../testHelpers/requireSources';
 import { expect } from 'chai';
+
+import { required } from '../../../testHelpers/requireSources';
 import getStyle from './../../../../src/js/themes/getStyle';
 describe('getStyle', function () {
   it('test that style is returned', function () {

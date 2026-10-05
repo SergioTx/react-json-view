@@ -1,14 +1,15 @@
-import { rjvDefault, rjvGrey } from './base16/rjv-themes';
-import constants from './styleConstants';
-import { createStyling } from 'react-base16-styling';
+import type { CSSProperties } from "react";
 import type {
   Base16Theme,
   StylingConfig,
   StylingFunction,
   Theme as LibraryTheme,
-} from 'react-base16-styling';
-import type { CSSProperties } from 'react';
-import type { Theme, StyleProps } from '../types';
+} from "react-base16-styling";
+import { createStyling } from "react-base16-styling";
+
+import type { StyleProps, Theme } from "../types";
+import { rjvDefault, rjvGrey } from "./base16/rjv-themes";
+import constants from "./styleConstants";
 const colorMap = (theme: Base16Theme) => ({
   backgroundColor: theme.base00,
   ellipsisColor: theme.base09,
@@ -38,40 +39,40 @@ const colorMap = (theme: Base16Theme) => ({
 const getDefaultThemeStyling = (theme: Base16Theme): StylingConfig => {
   const colors = colorMap(theme);
   return {
-    'app-container': {
+    "app-container": {
       fontFamily: constants.globalFontFamily,
       cursor: constants.globalCursor,
       backgroundColor: colors.backgroundColor,
-      position: 'relative',
+      position: "relative",
     },
     ellipsis: {
-      display: 'inline-block',
+      display: "inline-block",
       color: colors.ellipsisColor,
       fontSize: constants.ellipsisFontSize,
       lineHeight: constants.ellipsisLineHeight,
       cursor: constants.ellipsisCursor,
     },
-    'brace-row': {
-      display: 'inline-block',
-      cursor: 'pointer',
+    "brace-row": {
+      display: "inline-block",
+      cursor: "pointer",
     },
     brace: {
-      display: 'inline-block',
+      display: "inline-block",
       cursor: constants.braceCursor,
       fontWeight: constants.braceFontWeight,
       color: colors.braceColor,
     },
-    'expanded-icon': {
+    "expanded-icon": {
       color: colors.expandedIcon,
     },
-    'collapsed-icon': {
+    "collapsed-icon": {
       color: colors.collapsedIcon,
     },
     colon: {
-      display: 'inline-block',
+      display: "inline-block",
       margin: constants.keyMargin,
       color: colors.keyColor,
-      verticalAlign: 'top',
+      verticalAlign: "top",
     },
     objectKeyVal: (component, ...[args]) => {
       const variableStyle = (args ?? {}) as CSSProperties;
@@ -80,87 +81,87 @@ const getDefaultThemeStyling = (theme: Base16Theme): StylingConfig => {
           paddingTop: constants.keyValPaddingTop,
           paddingRight: constants.keyValPaddingRight,
           paddingBottom: constants.keyValPaddingBottom,
-          borderLeft: constants.keyValBorderLeft + ' ' + colors.objectBorder,
+          borderLeft: constants.keyValBorderLeft + " " + colors.objectBorder,
           ...variableStyle,
         },
       };
     },
-    'pushed-content': {
+    "pushed-content": {
       marginLeft: constants.pushedContentMarginLeft,
     },
     variableValue: (component, ...[args]) => {
       const variableStyle = (args ?? {}) as CSSProperties;
       return {
         style: {
-          display: 'inline-block',
+          display: "inline-block",
           paddingRight: constants.variableValuePaddingRight,
-          position: 'relative',
+          position: "relative",
           ...variableStyle,
         },
       };
     },
-    'object-name': {
-      display: 'inline-block',
+    "object-name": {
+      display: "inline-block",
       color: colors.keyColor,
       letterSpacing: constants.keyLetterSpacing,
       fontStyle: constants.keyFontStyle,
       verticalAlign: constants.keyVerticalAlign,
       opacity: constants.keyOpacity,
     },
-    'array-key': {
-      display: 'inline-block',
+    "array-key": {
+      display: "inline-block",
       color: colors.arrayKeyColor,
       letterSpacing: constants.keyLetterSpacing,
       fontStyle: constants.keyFontStyle,
       verticalAlign: constants.keyVerticalAlign,
       opacity: constants.keyOpacity,
     },
-    'object-size': {
+    "object-size": {
       color: colors.objectSize,
       borderRadius: constants.objectSizeBorderRadius,
       fontStyle: constants.objectSizeFontStyle,
       margin: constants.objectSizeMargin,
-      cursor: 'default',
+      cursor: "default",
     },
-    'data-type-label': {
+    "data-type-label": {
       fontSize: constants.dataTypeFontSize,
       marginRight: constants.dataTypeMarginRight,
       opacity: constants.datatypeOpacity,
     },
     boolean: {
-      display: 'inline-block',
+      display: "inline-block",
       color: colors.dataTypes.boolean,
     },
     date: {
-      display: 'inline-block',
+      display: "inline-block",
       color: colors.dataTypes.date,
     },
-    'date-value': {
+    "date-value": {
       marginLeft: constants.dateValueMarginLeft,
     },
     float: {
-      display: 'inline-block',
+      display: "inline-block",
       color: colors.dataTypes.float,
     },
     function: {
-      display: 'inline-block',
+      display: "inline-block",
       color: colors.dataTypes.function,
-      cursor: 'pointer',
-      whiteSpace: 'pre-line',
+      cursor: "pointer",
+      whiteSpace: "pre-line",
     },
-    'function-value': {
-      fontStyle: 'italic',
+    "function-value": {
+      fontStyle: "italic",
     },
     integer: {
-      display: 'inline-block',
+      display: "inline-block",
       color: colors.dataTypes.integer,
     },
     string: {
-      display: 'inline-block',
+      display: "inline-block",
       color: colors.dataTypes.string,
     },
     nan: {
-      display: 'inline-block',
+      display: "inline-block",
       color: colors.dataTypes.nan,
       fontSize: constants.nanFontSize,
       fontWeight: constants.nanFontWeight,
@@ -169,7 +170,7 @@ const getDefaultThemeStyling = (theme: Base16Theme): StylingConfig => {
       borderRadius: constants.nanBorderRadius,
     },
     null: {
-      display: 'inline-block',
+      display: "inline-block",
       color: colors.dataTypes.null,
       fontSize: constants.nullFontSize,
       fontWeight: constants.nullFontWeight,
@@ -178,7 +179,7 @@ const getDefaultThemeStyling = (theme: Base16Theme): StylingConfig => {
       borderRadius: constants.nullBorderRadius,
     },
     undefined: {
-      display: 'inline-block',
+      display: "inline-block",
       color: colors.dataTypes.undefined,
       fontSize: constants.undefinedFontSize,
       padding: constants.undefinedPadding,
@@ -186,7 +187,7 @@ const getDefaultThemeStyling = (theme: Base16Theme): StylingConfig => {
       backgroundColor: colors.dataTypes.background,
     },
     circularReference: {
-      display: 'inline-block',
+      display: "inline-block",
       color: colors.dataTypes.null,
       fontSize: constants.nullFontSize,
       fontWeight: constants.nullFontWeight,
@@ -195,66 +196,66 @@ const getDefaultThemeStyling = (theme: Base16Theme): StylingConfig => {
       borderRadius: constants.nullBorderRadius,
     },
     regexp: {
-      display: 'inline-block',
+      display: "inline-block",
       color: colors.dataTypes.regexp,
     },
-    'copy-to-clipboard': {
+    "copy-to-clipboard": {
       cursor: constants.clipboardCursor,
     },
-    'copy-icon': {
+    "copy-icon": {
       color: colors.copyToClipboard,
       fontSize: constants.iconFontSize,
       marginRight: constants.iconMarginRight,
-      verticalAlign: 'top',
+      verticalAlign: "top",
     },
-    'copy-icon-copied': {
+    "copy-icon-copied": {
       color: colors.copyToClipboardCheck,
       marginLeft: constants.clipboardCheckMarginLeft,
     },
-    'array-group-meta-data': {
-      display: 'inline-block',
+    "array-group-meta-data": {
+      display: "inline-block",
       padding: constants.arrayGroupMetaPadding,
     },
-    'object-meta-data': {
-      display: 'inline-block',
+    "object-meta-data": {
+      display: "inline-block",
       padding: constants.metaDataPadding,
     },
-    'icon-container': {
-      display: 'inline-block',
+    "icon-container": {
+      display: "inline-block",
       width: constants.iconContainerWidth,
     },
     tooltip: {
       padding: constants.tooltipPadding,
     },
-    'function-ellipsis': {
-      display: 'inline-block',
+    "function-ellipsis": {
+      display: "inline-block",
       color: colors.ellipsisColor,
       fontSize: constants.ellipsisFontSize,
       lineHeight: constants.ellipsisLineHeight,
       cursor: constants.ellipsisCursor,
     },
     comma: {
-      display: 'inline-block',
+      display: "inline-block",
       color: constants.commaColor,
       fontSize: constants.commaFontSize,
       marginRight: constants.commaMarginRight,
-      cursor: 'default',
+      cursor: "default",
     },
   };
 };
 const getStyle = (theme: Theme | undefined): StylingFunction => {
   let rjvTheme = rjvDefault;
-  if (theme === false || theme === 'none') {
+  if (theme === false || theme === "none") {
     rjvTheme = rjvGrey;
   }
   const selected: LibraryTheme =
-    typeof theme === 'object'
+    typeof theme === "object"
       ? {
           ...theme,
-          scheme: 'custom',
-          author: 'custom',
+          scheme: "custom",
+          author: "custom",
         }
-      : typeof theme === 'string'
+      : typeof theme === "string"
         ? theme
         : rjvTheme;
   return createStyling(
@@ -262,16 +263,17 @@ const getStyle = (theme: Theme | undefined): StylingFunction => {
     {
       defaultBase16: rjvTheme,
     },
-    selected
+    selected,
   );
 };
 export default function style(
   theme: Theme | undefined,
   component: string,
-  args?: CSSProperties
+  args?: CSSProperties,
 ): StyleProps {
   if (!theme) {
-    console.error('theme has not been set');
+    // oxlint-disable-next-line eslint/no-console -- Report missing theme configuration.
+    console.error("theme has not been set");
   }
   return getStyle(theme)(component, args);
 }

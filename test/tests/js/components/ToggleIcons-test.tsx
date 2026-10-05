@@ -1,19 +1,20 @@
-import { required } from '../../../testHelpers/requireSources';
-import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import React from 'react';
+
+import { required } from '../../../testHelpers/requireSources';
 import {
-  ExpandedIcon,
-  CollapsedIcon,
-} from './../../../../src/js/components/ToggleIcons';
-import {
+  ArrowDown,
+  ArrowRight,
   CircleMinus,
   CirclePlus,
   SquareMinus,
   SquarePlus,
-  ArrowRight,
-  ArrowDown,
 } from './../../../../src/js/components/icons';
+import {
+  CollapsedIcon,
+  ExpandedIcon,
+} from './../../../../src/js/components/ToggleIcons';
 describe('<ToggleIcons />', function () {
   it('ExpandedIcon mount', function () {
     const wrapper = render(<ExpandedIcon theme="rjv-default" />);

@@ -21,8 +21,9 @@ function get(
   defaultValue?: unknown
 ): unknown {
   const value = objects.get(rjvId)?.get(pathKey(name))?.get(key);
-  if (typeof defaultValue === 'boolean')
+  if (typeof defaultValue === 'boolean') {
     return typeof value === 'boolean' ? value : defaultValue;
+  }
   return value === undefined ? defaultValue : value;
 }
 export default {

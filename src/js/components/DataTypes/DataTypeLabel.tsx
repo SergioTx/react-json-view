@@ -1,6 +1,6 @@
-import type { LabelProps } from '../../types';
 import React from 'react';
 
+import type { LabelProps } from '../../types';
 // theme
 import Theme from './../../themes/getStyle';
 export default function DataTypeLabel(props: LabelProps) {

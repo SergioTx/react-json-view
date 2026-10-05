@@ -1,14 +1,15 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import React from 'react';
+
 import {
+  ArrowDown,
+  ArrowRight,
   CircleMinus,
   CirclePlus,
   Clippy,
-  SquarePlus,
   SquareMinus,
-  ArrowDown,
-  ArrowRight,
+  SquarePlus,
 } from './../../../../src/js/components/icons';
 describe('svg icons', function () {
   it('<CircleMinus /> sanity check', function () {

@@ -1,8 +1,9 @@
+import { fireEvent, render } from '@testing-library/react';
+import { expect } from 'chai';
+import React from 'react';
+
 import { ValueProps } from '../../../../../src/js/types';
 import { required } from '../../../../testHelpers/requireSources';
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import { expect } from 'chai';
 import JsonString from './../../../../../src/js/components/DataTypes/String';
 describe('<JsonString />', function () {
   it('string component should have a data type label', function () {

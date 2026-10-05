@@ -1,6 +1,7 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import React from 'react';
+
 import DataTypeLabel from './../../../../../src/js/components/DataTypes/DataTypeLabel';
 describe('<DataTypeLabel />', function () {
   const rjvId = 1;

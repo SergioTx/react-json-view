@@ -1,8 +1,9 @@
 import { expect } from 'chai';
+
 import {
-  toType,
-  isTheme,
   escapeString,
+  isTheme,
+  toType,
 } from './../../../../src/js/helpers/util';
 describe('toType', function () {
   it('toType object', function () {

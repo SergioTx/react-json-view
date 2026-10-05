@@ -1,6 +1,7 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import React from 'react';
+
 import JsonNan from './../../../../../src/js/components/DataTypes/Nan';
 describe('<JsonNan />', function () {
   const rjvId = 1;

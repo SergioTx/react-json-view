@@ -1,6 +1,7 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import React from 'react';
+
 import JsonInteger from './../../../../../src/js/components/DataTypes/Integer';
 describe('<JsonInteger />', function () {
   const rjvId = 1;

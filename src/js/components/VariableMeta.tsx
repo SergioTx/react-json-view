@@ -1,7 +1,8 @@
-import type { MetadataProps } from '../types';
-import React from 'react';
-import CopyToClipboard from './CopyToClipboard';
-import Theme from './../themes/getStyle';
+import React from "react";
+
+import type { MetadataProps } from "../types";
+import Theme from "./../themes/getStyle";
+import CopyToClipboard from "./CopyToClipboard";
 export default function VariableMeta({
   size,
   theme,
@@ -12,14 +13,10 @@ export default function VariableMeta({
   rowHovered,
 }: MetadataProps) {
   return (
-    <div
-      {...Theme(theme, 'object-meta-data')}
-      className="object-meta-data"
-      onClick={(event) => event.stopPropagation()}
-    >
+    <div {...Theme(theme, "object-meta-data")} className="object-meta-data">
       {displayObjectSize && (
-        <span className="object-size" {...Theme(theme, 'object-size')}>
-          {size} item{size === 1 ? '' : 's'}
+        <span className="object-size" {...Theme(theme, "object-size")}>
+          {size} item{size === 1 ? "" : "s"}
         </span>
       )}
       {enableClipboard && (

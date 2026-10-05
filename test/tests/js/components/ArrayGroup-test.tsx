@@ -1,10 +1,11 @@
-import { required } from '../../../testHelpers/requireSources';
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
+import React from 'react';
+
+import { required } from '../../../testHelpers/requireSources';
 import ArrayGroup from './../../../../src/js/components/ArrayGroup';
 describe('<ArrayGroup />', function () {
-  const largeArray = new Array<unknown>(15).fill('test');
+  const largeArray = Array.from({ length: 15 }).fill('test');
   it('ArrayGroup mount', function () {
     const wrapper = render(
       <ArrayGroup
@@ -87,7 +88,7 @@ describe('<ArrayGroup />', function () {
     ).to.equal(5);
   });
   it('ArrayGroup paginates groups accurately', function () {
-    const testArray = new Array<unknown>(17).fill('test');
+    const testArray = Array.from({ length: 17 }).fill('test');
     const wrapper = render(
       <ArrayGroup
         groupArraysAfterLength={5}
@@ -150,7 +151,7 @@ describe('<ArrayGroup />', function () {
       },
     ];
     cases.forEach(({ length, expected }) => {
-      const src = new Array<unknown>(length).fill('test');
+      const src = Array.from({ length }).fill('test');
       const wrapper = render(
         <ArrayGroup
           groupArraysAfterLength={groupSize}

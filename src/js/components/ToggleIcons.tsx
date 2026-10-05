@@ -1,13 +1,14 @@
-import type { DisplayProps } from '../types';
 import React from 'react';
+
+import type { DisplayProps } from '../types';
 import Theme from './../themes/getStyle';
 import {
+  ArrowDown,
+  ArrowRight,
   CircleMinus,
   CirclePlus,
   SquareMinus,
   SquarePlus,
-  ArrowRight,
-  ArrowDown,
 } from './icons';
 export function ExpandedIcon(props: DisplayProps) {
   const { theme, iconStyle } = props;
