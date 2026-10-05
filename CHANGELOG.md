@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.1 (2026-10-05)
+
+### Fixed
+
+- Update CI and release commands to use `main` as the default branch.
+
 ## 1.0.0 (2026-10-05)
 
 ### Breaking Changes
