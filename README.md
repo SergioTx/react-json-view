@@ -1,6 +1,5 @@
-<h1 align="center">
-  react-json-view
-</h1>
+# react-json-view
+
 
 **react-json-view** (rjv) is a React component for displaying JavaScript **arrays** and **JSON objects**.
 
@@ -8,7 +7,7 @@ Fork from [https://github.com/uiwjs/react-json-view](https://github.com/uiwjs/re
 
 This fork aims to keep the viewer lightweight and reduce dependencies by removing editing, selection, and validation properties (`onEdit`, `onAdd`, `onDelete`, `onSelect`, `validationMessage`, `defaultValue`, `selectOnFocus`, and `keyModifier`), custom `bigNumber` support, and the configurable `showComma` property. Commas are always shown.
 
-### Highlights
+## Highlights
 
 - Object, array, string and function values can be collapsed and expanded.
 - Object and array nodes display length.
@@ -17,7 +16,7 @@ This fork aims to keep the viewer lightweight and reduce dependencies by removin
 - Arrays can be subgrouped after a specified length.
 - Base-16 Theme Support.
 
-### Installation
+## Installation
 
 Requires React 19 or newer.
 
@@ -27,7 +26,7 @@ This package is ESM-only. Development requires Node.js 22.12 or newer.
 npm install @sergiotx/react-json-view --save
 ```
 
-### Usage
+## Usage
 
 ```js
 import ReactJsonView from '@sergiotx/react-json-view';
@@ -50,7 +49,7 @@ import ReactJsonView from '@sergiotx/react-json-view';
 />;
 ```
 
-### API
+## API
 
 | Name                         | Type                      | Default         | Description                                                                                                                                                                                                   |
 | :--------------------------- | :------------------------ | :-------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -71,11 +70,11 @@ import ReactJsonView from '@sergiotx/react-json-view';
 | `quotesOnKeys`               | `boolean`                 | `true`          | Set to `false` to remove quotes from keys (e.g., `"name":` vs. `name:`).                                                                                                                                      |
 | `displayArrayKey`            | `boolean`                 | `true`          | When set to `true`, the index of the elements prefix values.                                                                                                                                                  |
 | `escapeStrings`              | `boolean`                 | `true`          | When set to `true`, strings sequences such as \n, \t, \r, \f will be escaped.                                                                                                                                 |
-| `timestampFields` | `string` or `string[]` | `'timestamp'` | Field names whose numeric values should be parsed as Unix timestamps and show a date tooltip. Matching is by field name at any nesting depth. |
+| `timestampFields`            | `string` or `string[]`    | `'timestamp'`   | Field names whose numeric values should be parsed as Unix timestamps and show a date tooltip. Matching is by field name at any nesting depth.                                                                 |
 
-### Theming
+## Theming
 
-#### Builtin theme
+### Builtin theme
 
 You can specify a `theme` name or object when you instantiate your rjv component.
 
@@ -122,7 +121,7 @@ The following themes are builtin with the library:
 - `'tube'`
 - `'twilight'`
 
-#### Custom theme
+### Custom theme
 
 **rjv** supports any base-16 theme. You can supply your own base-16 theme object.
 
