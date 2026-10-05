@@ -1,8 +1,14 @@
+## 1.2.0 (2026-10-05)
+
+### Added
+
+- Add the `timestampFields` prop to configure timestamp fields with a string or array. It defaults to `timestamp`.
+
 ## 1.1.3 (2026-10-05)
 
 ### Bug Fixes
 
-* limit timestamp tooltip to timestamp field ([15ac93f](https://github.com/sergiotx/react-json-view/commit/15ac93f913966206dbb11ef61b2ed72980273dc8))
+- limit timestamp tooltip to timestamp field ([15ac93f](https://github.com/sergiotx/react-json-view/commit/15ac93f913966206dbb11ef61b2ed72980273dc8))
 
 ## 1.1.2 (2026-10-05)
 

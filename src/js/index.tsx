@@ -23,6 +23,7 @@ const defaultProps: Required<ReactJsonViewProps> = {
   iconStyle: 'triangle',
   style: {},
   displayArrayKey: true,
+  timestampFields: 'timestamp',
 };
 export default function ReactJsonView(
   inputProps: ReactJsonViewProps

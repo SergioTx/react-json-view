@@ -107,6 +107,42 @@ describe('<VariableEditor />', function () {
     expect(regularNumberValue.style.cursor).to.equal('default');
     regularNumber.unmount();
   });
+  it('accepts a custom timestamp field name', function () {
+    const wrapper = render(
+      getVariable({
+        timestampFields: 'created_at',
+        variable: {
+          name: 'created_at',
+          value: 1_700_000_000_000,
+          type: 'float',
+        },
+      })
+    );
+    const value = required(
+      wrapper.container.querySelectorAll<HTMLElement>('.variable-value')[0]
+    );
+    expect(value.getAttribute('title')).to.equal('2023-11-14T22:13:20.000Z');
+    expect(value.style.cursor).to.equal('help');
+    wrapper.unmount();
+  });
+  it('accepts multiple timestamp field names', function () {
+    const wrapper = render(
+      getVariable({
+        timestampFields: ['created_at', 'updated_at'],
+        variable: {
+          name: 'updated_at',
+          value: 1_700_000_000_000,
+          type: 'float',
+        },
+      })
+    );
+    const value = required(
+      wrapper.container.querySelectorAll<HTMLElement>('.variable-value')[0]
+    );
+    expect(value.getAttribute('title')).to.equal('2023-11-14T22:13:20.000Z');
+    expect(value.style.cursor).to.equal('help');
+    wrapper.unmount();
+  });
   it('shows a comma between values but not after the last value', function () {
     const _element = getVariable({
       isLast: false,

@@ -35,12 +35,19 @@ export default function VariableEditor(props: VariableProps) {
     displayArrayKey,
     quotesOnKeys,
     isLast,
+    timestampFields = 'timestamp',
   } = props;
   const namespace = normalizeNamespace(namespaceProp);
   const [hovered, setHovered] = React.useState(false);
   const ValueComponent = valueComponents[variable.type];
-  const timestampTitle =
-    variable.name === 'timestamp' ? formatTimestamp(variable.value) : undefined;
+  const isTimestampField =
+    typeof variable.name === 'string' &&
+    (typeof timestampFields === 'string'
+      ? variable.name === timestampFields
+      : timestampFields.includes(variable.name));
+  const timestampTitle = isTimestampField
+    ? formatTimestamp(variable.value)
+    : undefined;
   let value = '';
   if (!ValueComponent) {
     try {

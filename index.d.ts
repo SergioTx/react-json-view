@@ -113,6 +113,13 @@ export interface ReactJsonViewProps {
    * Default: true
    */
   escapeStrings?: boolean;
+  /**
+   * Field names whose numeric values should be interpreted as Unix timestamps.
+   * Matching field names are recognized at any nesting depth.
+   *
+   * Default: "timestamp"
+   */
+  timestampFields?: string | string[];
 }
 
 export interface OnCopyProps {
