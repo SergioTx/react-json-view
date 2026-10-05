@@ -23,8 +23,6 @@ jobs:
           node-version: lts/*
       - name: Setup PNPM
         uses: pnpm/action-setup@v6
-        with:
-          version: latest
       - name: Install
         run: pnpm install --dangerously-allow-all-builds
       - name: Test
