@@ -22,6 +22,10 @@ Please add tests for your code before posting a pull request.
 
 Vitest runs the tests with jsdom and React Testing Library. Use `npm run test` for tests and V8 coverage, `npm run test:unit` for tests without coverage, or `npm run test:watch` for watch mode. Coverage includes `coverage/lcov.info` for CI.
 
+## Formatting
+
+The project uses oxfmt. Run `npm run format` to format maintained files or `npm run format:check` to check them without modifying files. The pre-commit hook formats staged code files with oxfmt. Generated builds, coverage, and dependency caches are excluded.
+
 ## Type Checking
 
 Source, demos, and tests use TypeScript 7 with strict checking, unchecked-index checking, and exact optional properties. Maintained JavaScript entry points and build configuration are also checked. Dependency declarations are checked rather than skipped.

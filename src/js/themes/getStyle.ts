@@ -255,8 +255,8 @@ const getStyle = (theme: Theme | undefined): StylingFunction => {
           author: "custom",
         }
       : typeof theme === "string"
-      ? theme
-      : rjvTheme;
+        ? theme
+        : rjvTheme;
   return createStyling(
     getDefaultThemeStyling,
     {

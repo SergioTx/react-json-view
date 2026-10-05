@@ -19,11 +19,11 @@ export default function JsonViewer(props: NodeProps) {
       typeof component === "function"
         ? component.name
         : typeof component === "object" &&
-          component !== null &&
-          "displayName" in component &&
-          typeof component.displayName === "string"
-        ? component.displayName
-        : "Anonymous";
+            component !== null &&
+            "displayName" in component &&
+            typeof component.displayName === "string"
+          ? component.displayName
+          : "Anonymous";
     namespace = [componentName];
   }
   if (

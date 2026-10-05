@@ -74,5 +74,5 @@ export type StyleProps = {
   style?: CSSProperties | undefined;
 };
 export function normalizeNamespace(namespace: CacheNamespace): Namespace {
-  return typeof namespace === "string" ? [namespace] : namespace ?? [];
+  return typeof namespace === "string" ? [namespace] : (namespace ?? []);
 }

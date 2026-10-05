@@ -1,4 +1,3 @@
-
 <h1 align="center">
   <a href="https://react-json-view.microlink.io/">
   <img src="https://raw.githubusercontent.com/microlinkhq/react-json-view/master/docs/assets/rjv-icon-alt.png" alt="react-json-view" width="200"></a>
@@ -17,12 +16,12 @@
 
 ### Highlights
 
-* Object, array, string and function values can be collapsed and expanded.
-* Object and array nodes display length.
-* Object and array nodes support a "Copy to Clipboard" feature.
-* String values can be truncated after a specified length.
-* Arrays can be subgrouped after a specified length.
-* Base-16 Theme Support.
+- Object, array, string and function values can be collapsed and expanded.
+- Object and array nodes display length.
+- Object and array nodes support a "Copy to Clipboard" feature.
+- String values can be truncated after a specified length.
+- Arrays can be subgrouped after a specified length.
+- Base-16 Theme Support.
 
 ### Installation
 
@@ -37,47 +36,47 @@ npm install @microlink/react-json-view --save
 ### Usage
 
 ```js
-import ReactJsonView from '@microlink/react-json-view'
+import ReactJsonView from "@microlink/react-json-view";
 
 <ReactJsonView
   src={{
-  string: 'this is a test string',
-  integer: 42,
-  array: [1, 2, 3, 'test', NaN],
-  float: 3.14159,
-  undefined: undefined,
-  object: {
-    'first-child': true,
-    'second-child': false,
-    'last-child': null
+    string: "this is a test string",
+    integer: 42,
+    array: [1, 2, 3, "test", NaN],
+    float: 3.14159,
+    undefined: undefined,
+    object: {
+      "first-child": true,
+      "second-child": false,
+      "last-child": null,
     },
-  string_number: '1234',
-  date: new Date()
+    string_number: "1234",
+    date: new Date(),
   }}
-/>
+/>;
 ```
 
 ### API
 
-| Name                         | Type                                             | Default                  | Description                                                                                                                                                                                                                                                               |
-|:-----------------------------|:-------------------------------------------------|:-------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `src`                        | `JSON Object`                                    | None                     | This property contains your input JSON.                                                                                                                                                                                                                                   |
-| `name`                       | `string` or `JSX.Element`                        | `false`                  | "root" - Contains the name of your root node. Use `null` or `false` for no name.                                                                                                                                                                                          |
-| `theme`                      | `string`                                         | `'rjv-default'`          | RJV supports base-16 themes. Check out the list of supported themes [in the demo](https://react-json-view.microlink.io/). A custom "rjv-default" theme applies by default.                                                                                                |
-| `style`                      | `object`                                         | `{}`                     | Style attributes for react-json-view container. Explicit style attributes will override attributes provided by a theme.                                                                                                                                                   |
-| `iconStyle`                  | `string`                                         | `'circle'`               | Style of expand/collapse icons. Accepted values are "circle", "triangle" or "square".                                                                                                                                                                                     |
-| `indentWidth`                | `integer`                                        | 4                        | Set the indent-width for nested objects.                                                                                                                                                                                                                                  |
-| `collapsed`                  | `boolean` or `integer`                           | `false`                  | When set to `true`, all nodes will be collapsed by default. Use an integer value to collapse at a particular depth.                                                                                                                                                       |
-| `collapseStringsAfterLength` | `integer`                                        | `false`                  | When an integer value is assigned, strings will be cut off at that length. Collapsed strings are followed by an ellipsis. String content can be expanded and collapsed by clicking on the string value.                                                                   |
-| `shouldCollapse`             | `(field)=>{}`                                    | `false`                  | Callback function to provide control over what objects and arrays should be collapsed by default. An object is passed to the callback containing `name`, `src`, `type` ("array" or "object") and `namespace`.                                                             |
-| `groupArraysAfterLength`     | `integer`                                        | 100                      | When an integer value is assigned, arrays will be displayed in groups by count of the value. Groups are displayed with bracket notation and can be expanded and collapsed by clicking on the brackets.                                                                    |
-| `enableClipboard`            | `boolean` or `(copy)=>{}`                        | `true`                   | When prop is not `false`, the user can copy objects and arrays to clipboard by clicking on the clipboard icon. Copy callbacks are supported.                                                                                                                              |
-| `displayObjectSize`          | `boolean`                                        | `true`                   | When set to `true`, objects and arrays are labeled with size.                                                                                                                                                                                                             |
-| `displayDataTypes`           | `boolean`                                        | `true`                   | When set to `true`, data type labels prefix values.                                                                                                                                                                                                                       |
-| `sortKeys`                   | `boolean`                                        | `false`                  | Set to `true` to sort object keys.                                                                                                                                                                                                                                        |
-| `quotesOnKeys`               | `boolean`                                        | `true`                   | Set to `false` to remove quotes from keys (e.g., `"name":` vs. `name:`).                                                                                                                                                                                                  |
-| `displayArrayKey`            | `boolean`                                        | `true`                   | When set to `true`, the index of the elements prefix values.                                                                                                                                                                                                              |
-| `escapeStrings`              | `boolean`                                        | `true`                   | When set to `true`, strings sequences such as \n, \t, \r, \f will be escaped.                                                                                                                                                                                                          |
+| Name                         | Type                      | Default         | Description                                                                                                                                                                                                   |
+| :--------------------------- | :------------------------ | :-------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `src`                        | `JSON Object`             | None            | This property contains your input JSON.                                                                                                                                                                       |
+| `name`                       | `string` or `JSX.Element` | `false`         | "root" - Contains the name of your root node. Use `null` or `false` for no name.                                                                                                                              |
+| `theme`                      | `string`                  | `'rjv-default'` | RJV supports base-16 themes. Check out the list of supported themes [in the demo](https://react-json-view.microlink.io/). A custom "rjv-default" theme applies by default.                                    |
+| `style`                      | `object`                  | `{}`            | Style attributes for react-json-view container. Explicit style attributes will override attributes provided by a theme.                                                                                       |
+| `iconStyle`                  | `string`                  | `'circle'`      | Style of expand/collapse icons. Accepted values are "circle", "triangle" or "square".                                                                                                                         |
+| `indentWidth`                | `integer`                 | 4               | Set the indent-width for nested objects.                                                                                                                                                                      |
+| `collapsed`                  | `boolean` or `integer`    | `false`         | When set to `true`, all nodes will be collapsed by default. Use an integer value to collapse at a particular depth.                                                                                           |
+| `collapseStringsAfterLength` | `integer`                 | `false`         | When an integer value is assigned, strings will be cut off at that length. Collapsed strings are followed by an ellipsis. String content can be expanded and collapsed by clicking on the string value.       |
+| `shouldCollapse`             | `(field)=>{}`             | `false`         | Callback function to provide control over what objects and arrays should be collapsed by default. An object is passed to the callback containing `name`, `src`, `type` ("array" or "object") and `namespace`. |
+| `groupArraysAfterLength`     | `integer`                 | 100             | When an integer value is assigned, arrays will be displayed in groups by count of the value. Groups are displayed with bracket notation and can be expanded and collapsed by clicking on the brackets.        |
+| `enableClipboard`            | `boolean` or `(copy)=>{}` | `true`          | When prop is not `false`, the user can copy objects and arrays to clipboard by clicking on the clipboard icon. Copy callbacks are supported.                                                                  |
+| `displayObjectSize`          | `boolean`                 | `true`          | When set to `true`, objects and arrays are labeled with size.                                                                                                                                                 |
+| `displayDataTypes`           | `boolean`                 | `true`          | When set to `true`, data type labels prefix values.                                                                                                                                                           |
+| `sortKeys`                   | `boolean`                 | `false`         | Set to `true` to sort object keys.                                                                                                                                                                            |
+| `quotesOnKeys`               | `boolean`                 | `true`          | Set to `false` to remove quotes from keys (e.g., `"name":` vs. `name:`).                                                                                                                                      |
+| `displayArrayKey`            | `boolean`                 | `true`          | When set to `true`, the index of the elements prefix values.                                                                                                                                                  |
+| `escapeStrings`              | `boolean`                 | `true`          | When set to `true`, strings sequences such as \n, \t, \r, \f will be escaped.                                                                                                                                 |
 
 ### Theming
 

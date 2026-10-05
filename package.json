@@ -1,20 +1,24 @@
 {
   "name": "@microlink/react-json-view",
-  "description": "Interactive React component for inspecting JSON objects and arrays with expand/collapse.",
-  "homepage": "https://github.com/microlinkhq/react-json-view",
   "version": "1.31.38",
-  "types": "index.d.ts",
-  "type": "module",
-  "main": "dist/main.js",
-  "exports": {
-    ".": {
-      "types": "./index.d.ts",
-      "import": "./dist/main.js",
-      "default": "./dist/main.js"
-    },
-    "./package.json": "./package.json"
+  "description": "Interactive React component for inspecting JSON objects and arrays with expand/collapse.",
+  "keywords": [
+    "component",
+    "debug",
+    "devtools",
+    "display",
+    "inspector",
+    "interactive",
+    "json",
+    "react",
+    "tree",
+    "viewer"
+  ],
+  "homepage": "https://github.com/microlinkhq/react-json-view",
+  "bugs": {
+    "url": "https://github.com/microlinkhq/react-json-view/issues"
   },
-  "module": "dist/main.js",
+  "license": "MIT",
   "author": {
     "name": "Mac Gainor"
   },
@@ -264,63 +268,25 @@
     "type": "git",
     "url": "git+https://github.com/microlinkhq/react-json-view.git"
   },
-  "bugs": {
-    "url": "https://github.com/microlinkhq/react-json-view/issues"
-  },
-  "keywords": [
-    "component",
-    "debug",
-    "devtools",
-    "display",
-    "inspector",
-    "interactive",
-    "json",
-    "react",
-    "tree",
-    "viewer"
-  ],
-  "dependencies": {
-    "react-base16-styling": "~0.10.0"
-  },
-  "devDependencies": {
-    "@commitlint/cli": "latest",
-    "@commitlint/config-conventional": "latest",
-    "@testing-library/react": "^16.3.0",
-    "@types/chai": "^5.2.0",
-    "@types/jsdom": "^30.0.0",
-    "@types/node": "^24.0.0",
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
-    "@types/sinon": "^21.0.0",
-    "chai": "~6.2.2",
-    "ci-publish": "latest",
-    "conventional-changelog": "latest",
-    "finepack": "latest",
-    "git-authors-cli": "latest",
-    "github-generate-release": "latest",
-    "jsdom": "~30.1.0",
-    "moment": "~2.31.0",
-    "nano-staged": "latest",
-    "prettier": "~2.8.8",
-    "react": "~19.2.0",
-    "react-dom": "~19.2.0",
-    "react-select": "~5.10.2",
-    "simple-git-hooks": "latest",
-    "sinon": "~22.1.0",
-    "standard-version": "latest",
-    "typescript": "7.0.2",
-    "vite": "~8.3.2",
-    "vitest": "5.0.3",
-    "@vitest/coverage-v8": "5.0.3"
-  },
-  "engines": {
-    "node": "^22.12.0 || ^24.0.0 || >=26.0.0"
-  },
   "files": [
     "dist",
     "index.d.ts"
   ],
+  "type": "module",
+  "main": "dist/main.js",
+  "module": "dist/main.js",
+  "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./dist/main.js",
+      "default": "./dist/main.js"
+    },
+    "./package.json": "./package.json"
+  },
   "scripts": {
+    "format": "oxfmt --write .",
+    "format:check": "oxfmt --check .",
     "typecheck": "tsc --noEmit && node scripts/check-types.mjs",
     "pretypecheck": "npm run build:types",
     "build:types": "tsc -p tsconfig.build.json",
@@ -342,7 +308,57 @@
     "test:unit": "vitest run",
     "test:watch": "vitest"
   },
-  "license": "MIT",
+  "dependencies": {
+    "react-base16-styling": "~0.10.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "latest",
+    "@commitlint/config-conventional": "latest",
+    "@testing-library/react": "^16.3.0",
+    "@types/chai": "^5.2.0",
+    "@types/jsdom": "^30.0.0",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@types/sinon": "^21.0.0",
+    "@vitest/coverage-v8": "5.0.3",
+    "chai": "~6.2.2",
+    "ci-publish": "latest",
+    "conventional-changelog": "latest",
+    "finepack": "latest",
+    "git-authors-cli": "latest",
+    "github-generate-release": "latest",
+    "jsdom": "~30.1.0",
+    "moment": "~2.31.0",
+    "nano-staged": "latest",
+    "oxfmt": "~0.71.0",
+    "react": "~19.2.0",
+    "react-dom": "~19.2.0",
+    "react-select": "~5.10.2",
+    "simple-git-hooks": "latest",
+    "sinon": "~22.1.0",
+    "standard-version": "latest",
+    "typescript": "7.0.2",
+    "vite": "~8.3.2",
+    "vitest": "5.0.3"
+  },
+  "peerDependencies": {
+    "react": ">= 19",
+    "react-dom": ">= 19"
+  },
+  "simple-git-hooks": {
+    "commit-msg": "npx commitlint --edit",
+    "pre-commit": "npx nano-staged"
+  },
+  "nano-staged": {
+    "*.{js,ts,tsx,mjs,cjs}": [
+      "oxfmt --write"
+    ],
+    "package.json": [
+      "finepack",
+      "oxfmt --write"
+    ]
+  },
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
@@ -353,20 +369,7 @@
       ]
     }
   },
-  "nano-staged": {
-    "*.{js,ts,tsx,mjs,cjs}": [
-      "prettier --write"
-    ],
-    "package.json": [
-      "finepack"
-    ]
-  },
-  "peerDependencies": {
-    "react": ">= 19",
-    "react-dom": ">= 19"
-  },
-  "simple-git-hooks": {
-    "commit-msg": "npx commitlint --edit",
-    "pre-commit": "npx nano-staged"
+  "engines": {
+    "node": "^22.12.0 || ^24.0.0 || >=26.0.0"
   }
 }

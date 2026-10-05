@@ -34,7 +34,7 @@ export default function CopyToClipboard({
     const text =
       typeof value === "string"
         ? value
-        : JSON.stringify(value, null, "  ") ?? "undefined";
+        : (JSON.stringify(value, null, "  ") ?? "undefined");
     if (navigator.clipboard) {
       navigator.clipboard
         .writeText(text)
