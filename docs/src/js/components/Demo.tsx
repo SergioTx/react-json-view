@@ -156,16 +156,16 @@ export default function Demo() {
         bgColor: background,
         borderColor: getStyle(
           viewer.querySelector(".variable-row") || viewer,
-          "border-left-color"
+          "border-left-color",
         ),
       };
       setSiteTheme((previous) =>
         previous &&
         (["color", "bgColor", "borderColor"] as const).every(
-          (key) => previous[key] === nextTheme[key]
+          (key) => previous[key] === nextTheme[key],
         )
           ? previous
-          : nextTheme
+          : nextTheme,
       );
     }
     updateStyles();
@@ -232,7 +232,7 @@ export default function Demo() {
                     name={field}
                     value={
                       choices.find(
-                        (choice) => choice.value === options[field]
+                        (choice) => choice.value === options[field],
                       ) ?? null
                     }
                     options={choices}

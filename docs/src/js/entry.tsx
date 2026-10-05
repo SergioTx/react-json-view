@@ -10,5 +10,5 @@ if (!app) throw new Error("Documentation root container is missing");
 createRoot(app).render(
   <div className="app-entry">
     <Index />
-  </div>
+  </div>,
 );
