@@ -9,23 +9,17 @@ export default function getObjectName (props) {
     theme,
     jsvRoot,
     name,
-    displayArrayKey,
-    onKeyClick
+    displayArrayKey
   } = props
 
   const displayName = props.name ? props.name : ''
-  const clickHandler = typeof onKeyClick === 'function' ? onKeyClick : null
 
   if (jsvRoot && (name === false || name === null)) {
     return <span />
   } else if (parentType === 'array') {
     return displayArrayKey
       ? (
-        <span
-          {...Theme(theme, 'array-key')}
-          key={namespace}
-          onClick={clickHandler}
-        >
+        <span {...Theme(theme, 'array-key')} key={namespace}>
           <span className='array-key'>{displayName}</span>
           <span {...Theme(theme, 'colon')}>:</span>
         </span>
@@ -35,11 +29,7 @@ export default function getObjectName (props) {
         )
   } else {
     return (
-      <span
-        {...Theme(theme, 'object-name')}
-        key={namespace}
-        onClick={clickHandler}
-      >
+      <span {...Theme(theme, 'object-name')} key={namespace}>
         <span className='object-key'>
           {quotesOnKeys && <span style={{ verticalAlign: 'top' }}>"</span>}
           <span>{displayName}</span>

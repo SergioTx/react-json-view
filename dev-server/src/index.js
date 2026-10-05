@@ -9,53 +9,21 @@ import Moment from 'moment'
 //import the react-json-view component (installed with npm)
 import JsonViewer from './../../src/js/index'
 
-// custom big number class, You can use existing libraries like `bignumber.js`, `decimal.js`, `big.js` etc.
-class BigNumber {
-  name = 'customName'
-  constructor(value) {
-    this.value = value
-  }
-  toString() {
-    return this.value.toString()
-  }
-}
-
-var circularReferenceObject = getExampleJson5();
+var circularReferenceObject = getExampleJson5()
 
 //render 2 different examples of the react-json-view component
 ReactDom.render(
   <div>
-
     {/* just pass in your JSON to the src attribute */}
     <JsonViewer
-      bigNumber={BigNumber}
       sortKeys
       style={{ padding: '30px', backgroundColor: 'white' }}
       src={getExampleJson1()}
       quotesOnKeys={false}
       collapseStringsAfterLength={12}
-      onEdit={e => {
-        console.log('edit callback', e)
-        if (e.new_value == 'error') {
-          return false
-        }
-      }}
-      onDelete={e => {
-        console.log('delete callback', e)
-      }}
-      onAdd={e => {
-        console.log('add callback', e)
-        if (e.new_value == 'error') {
-          return false
-        }
-      }}
-      onSelect={e => {
-        console.log('select callback', e)
-        console.log(e.namespace)
-      }}
       displayObjectSize={true}
       name={'dev-server'}
-      enableClipboard={copy => {
+      enableClipboard={(copy) => {
         console.log('you copied to clipboard!', copy)
       }}
       shouldCollapse={({ src, namespace, type }) => {
@@ -66,89 +34,24 @@ ReactDom.render(
         }
         return false
       }}
-      defaultValue=''
-      showComma={true}
     />
 
     <br />
-
-    {/* Same example without commas for comparison */}
-    <JsonViewer
-      bigNumber={BigNumber}
-      sortKeys
-      style={{ padding: '30px', backgroundColor: 'white' }}
-      src={getExampleJson1()}
-      quotesOnKeys={false}
-      collapseStringsAfterLength={12}
-      onEdit={e => {
-        console.log('edit callback', e)
-        if (e.new_value == 'error') {
-          return false
-        }
-      }}
-      onDelete={e => {
-        console.log('delete callback', e)
-      }}
-      onAdd={e => {
-        console.log('add callback', e)
-        if (e.new_value == 'error') {
-          return false
-        }
-      }}
-      onSelect={e => {
-        console.log('select callback', e)
-        console.log(e.namespace)
-      }}
-      displayObjectSize={true}
-      name={'dev-server (no commas)'}
-      enableClipboard={copy => {
-        console.log('you copied to clipboard!', copy)
-      }}
-      shouldCollapse={({ src, namespace, type }) => {
-        if (type === 'array' && src.indexOf('test') > -1) {
-          return true
-        } else if (namespace.indexOf('moment') > -1) {
-          return true
-        }
-        return false
-      }}
-      defaultValue=''
-      showComma={false}
-    />
 
     <br />
 
     {/* use a base16 theme */}
     <JsonViewer
       src={getExampleJson1()}
-      bigNumber={BigNumber}
-      theme='railscasts'
-      validationMessage="You're doing something wrong."
+      theme="railscasts"
       collapseStringsAfterLength={15}
-      onEdit={e => {
-        console.log(e)
-        if (e.new_value === 'error') {
-          return false
-        }
-      }}
-      onDelete={e => {
-        console.log(e)
-      }}
-      onAdd={e => {
-        console.log(e)
-        if (e.new_value === 'error') {
-          return false
-        }
-      }}
       name={false}
-      iconStyle='triangle'
+      iconStyle="triangle"
       shouldCollapse={({ src, type }) =>
         type === 'object' &&
         src.constructor &&
         src.constructor.name === 'Moment'
       }
-      selectOnFocus
-      showComma={true}
     />
 
     <br />
@@ -189,13 +92,7 @@ ReactDom.render(
     <br />
 
     {/*demo array support*/}
-    <JsonViewer
-      src={getExampleArray()}
-      theme='solarized'
-      onEdit={edit => {
-        console.log(edit)
-      }}
-    />
+    <JsonViewer src={getExampleArray()} theme="solarized" />
 
     <br />
 
@@ -203,7 +100,6 @@ ReactDom.render(
     <JsonViewer
       enableClipboard={false}
       src={getExampleJson1()}
-      bigNumber={BigNumber}
       shouldCollapse={({ src, namespace, type }) =>
         namespace.indexOf('moment') > -1
       }
@@ -223,14 +119,14 @@ ReactDom.render(
         base0C: 'rgba(70, 70, 230, 1)',
         base0D: 'rgba(70, 70, 230, 1)',
         base0E: 'rgba(70, 70, 230, 1)',
-        base0F: 'rgba(70, 70, 230, 1)'
+        base0F: 'rgba(70, 70, 230, 1)',
       }}
     />
 
     <JsonViewer
-      theme='hopscotch'
+      theme="hopscotch"
       collapsed={false}
-      name='large_array'
+      name="large_array"
       groupArraysAfterLength={50}
       src={getExampleJson4()}
     />
@@ -248,8 +144,8 @@ ReactDom.render(
 
     {/* String with special escape sequences */}
     <JsonViewer
-      theme='monokai'
-      name='String with special escape sequences'
+      theme="monokai"
+      name="String with special escape sequences"
       src={getExampleWithStringEscapeSequences()}
     />
 
@@ -257,34 +153,14 @@ ReactDom.render(
 
     {/* Circular reference example */}
     <JsonViewer
-      bigNumber={BigNumber}
       sortKeys
       style={{ padding: '30px', backgroundColor: 'white' }}
       src={circularReferenceObject}
       quotesOnKeys={false}
       collapseStringsAfterLength={12}
-      onEdit={e => {
-        console.log('edit callback', e)
-        if (e.new_value == 'error') {
-          return false
-        }
-      }}
-      onDelete={e => {
-        console.log('delete callback', e)
-      }}
-      onAdd={e => {
-        console.log('add callback', e)
-        if (e.new_value == 'error') {
-          return false
-        }
-      }}
-      onSelect={e => {
-        console.log('select callback', e)
-        console.log(e.namespace)
-      }}
       displayObjectSize={true}
       name={'circular-reference-example'}
-      enableClipboard={copy => {
+      enableClipboard={(copy) => {
         console.log('you copied to clipboard!', copy)
       }}
       shouldCollapse={({ src, namespace, type }) => {
@@ -295,12 +171,14 @@ ReactDom.render(
         }
         return false
       }}
-      defaultValue=''
-      showComma={true}
     />
-    <button onClick={() => {
-      circularReferenceObject.window = window;
-    }}>Test Circular Reference</button>
+    <button
+      onClick={() => {
+        circularReferenceObject.window = window
+      }}
+    >
+      Test Circular Reference
+    </button>
 
     <br />
   </div>,
@@ -312,7 +190,7 @@ ReactDom.render(
 /*-------------------------------------------------------------------------*/
 
 //just a function to get an example JSON object
-function getExampleJson1 () {
+function getExampleJson1() {
   return {
     string: 'this is a test string',
     integer: 42,
@@ -325,62 +203,61 @@ function getExampleJson1 () {
       sibling1: true,
       sibling2: false,
       sibling3: null,
-      isString: value => {
+      isString: (value) => {
         if (typeof value === 'string') {
           return 'string'
         } else {
           return 'other'
         }
-      }
+      },
     },
     string_number: '1234',
     date: new Date(),
     moment: Moment(),
     regexp: /[0-9]/gi,
-    bigNumber: new BigNumber('0.0060254656709730629123')
   }
 }
 
 //and another a function to get an example JSON object
-function getExampleJson2 () {
+function getExampleJson2() {
   return {
     normalized: {
       '1-grams': {
         body: 1,
-        testing: 1
+        testing: 1,
       },
       '2-grams': {
-        'testing body': 1
+        'testing body': 1,
       },
-      '3-grams': {}
+      '3-grams': {},
     },
     noun_phrases: {
-      body: 1
+      body: 1,
     },
     lemmatized: {
       '1-grams': {
         test: 1,
-        body: 1
+        body: 1,
       },
       '2-grams': {
-        'test body': 1
+        'test body': 1,
       },
-      '3-grams': {}
+      '3-grams': {},
     },
     dependency: {
       '1-grams': {
         testingVERBROOTtestingVERB: 1,
-        bodyNOUNdobjtestingVERB: 1
+        bodyNOUNdobjtestingVERB: 1,
       },
       '2-grams': {
-        'testingVERBROOTtestingVERB bodyNOUNdobjtestingVERB': 1
+        'testingVERBROOTtestingVERB bodyNOUNdobjtestingVERB': 1,
       },
-      '3-grams': {}
-    }
+      '3-grams': {},
+    },
   }
 }
 
-function getExampleJson3 () {
+function getExampleJson3() {
   return {
     example_information:
       'this example has the collapsed prop set to true and the indentWidth prop is set to 8',
@@ -390,13 +267,13 @@ function getExampleJson3 () {
       'try collapsing and expanding the root node',
       'i will still be expanded',
       {
-        leaf_node: true
-      }
-    ]
+        leaf_node: true,
+      },
+    ],
   }
 }
 
-function getExampleJson4 () {
+function getExampleJson4() {
   const large_array = new Array(225).fill('this is a large array full of items')
 
   large_array.push(getExampleArray())
@@ -407,7 +284,7 @@ function getExampleJson4 () {
 }
 
 //just a function to get an example JSON object
-function getExampleJson5 () {
+function getExampleJson5() {
   let circularReferenceObject = {
     string: 'this is a test string',
     integer: 42,
@@ -420,27 +297,27 @@ function getExampleJson5 () {
       sibling1: true,
       sibling2: false,
       sibling3: null,
-      isString: value => {
+      isString: (value) => {
         if (typeof value === 'string') {
           return 'string'
         } else {
           return 'other'
         }
-      }
+      },
     },
     string_number: '1234',
     date: new Date(),
     moment: Moment(),
     regexp: /[0-9]/gi,
-    bigNumber: new BigNumber('0.0060254656709730629123')
   }
-  circularReferenceObject.self = circularReferenceObject;
-  circularReferenceObject.parent.nested_circular_reference = circularReferenceObject;
-  circularReferenceObject.parent.self = circularReferenceObject.parent;
-  return circularReferenceObject;
+  circularReferenceObject.self = circularReferenceObject
+  circularReferenceObject.parent.nested_circular_reference =
+    circularReferenceObject
+  circularReferenceObject.parent.self = circularReferenceObject.parent
+  return circularReferenceObject
 }
 
-function getExampleArray () {
+function getExampleArray() {
   return [
     'you can also display arrays!',
     new Date(),
@@ -448,11 +325,11 @@ function getExampleArray () {
     2,
     3,
     {
-      pretty_cool: true
-    }
+      pretty_cool: true,
+    },
   ]
 }
 
-function getExampleWithStringEscapeSequences () {
+function getExampleWithStringEscapeSequences() {
   return { '\\\n\t\r\f\\n': '\\\n\t\r\f\\n' }
 }

@@ -1,659 +1,220 @@
 import React from 'react'
 import ReactSelect from 'react-select'
 import ReactJson from './../../../../src/js/index'
-
-import Code from './../helpers/Code'
 import './../../style/scss/rjv-demo.scss'
 
-// index entrypoint component
-class Demo extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.state = {
-      ...Demo.defaultProps,
-      src: this.getExampleJson()
-    }
-  }
+const themeNames = [
+  'apathy',
+  'apathy:inverted',
+  'ashes',
+  'bespin',
+  'brewer',
+  'bright:inverted',
+  'bright',
+  'chalk',
+  'codeschool',
+  'colors',
+  'eighties',
+  'embers',
+  'flat',
+  'google',
+  'grayscale',
+  'grayscale:inverted',
+  'greenscreen',
+  'harmonic',
+  'hopscotch',
+  'isotope',
+  'marrakesh',
+  'mocha',
+  'monokai',
+  'ocean',
+  'paraiso',
+  'pop',
+  'railscasts',
+  'rjv-default',
+  'shapeshifter',
+  'shapeshifter:inverted',
+  'solarized',
+  'summerfruit',
+  'summerfruit:inverted',
+  'threezerotwofour',
+  'tomorrow',
+  'tube',
+  'twilight'
+]
 
-  static defaultProps = {
+const settings = [
+  { field: 'theme', label: 'Theme:', values: themeNames },
+  {
+    field: 'iconStyle',
+    label: 'Icon Style:',
+    values: ['circle', 'square', 'triangle']
+  },
+  {
+    field: 'enableClipboard',
+    label: 'Enable Clipboard:',
+    values: [true, false]
+  },
+  {
+    field: 'displayDataTypes',
+    label: 'Display Data Types:',
+    values: [true, false]
+  },
+  {
+    field: 'displayObjectSize',
+    label: 'Display Object Size:',
+    values: [true, false]
+  },
+  {
+    field: 'indentWidth',
+    label: 'Indent Width:',
+    values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  },
+  { field: 'collapsed', label: 'Collapsed:', values: [true, false, 1, 2] },
+  {
+    field: 'collapseStringsAfterLength',
+    label: 'Collapse Strings After Length:',
+    values: [false, 5, 10, 15, 20]
+  }
+]
+
+function getExampleJson () {
+  return {
+    string: 'this is a test string',
+    integer: 42,
+    array: [1, 2, 3, 'test', NaN],
+    float: 3.14159,
+    undefined,
+    object: { 'first-child': true, 'second-child': false, 'last-child': null },
+    string_number: '1234',
+    date: new Date()
+  }
+}
+
+export default function Demo () {
+  const [src] = React.useState(getExampleJson)
+  const [options, setOptions] = React.useState({
     theme: 'rjv-default',
-    src: null,
     collapsed: false,
-    collapseStringsAfter: 15,
-    onAdd: true,
-    onEdit: true,
-    onDelete: true,
-    onSelect: true,
+    collapseStringsAfterLength: 15,
     displayObjectSize: true,
     enableClipboard: true,
     indentWidth: 4,
     displayDataTypes: true,
     iconStyle: 'triangle'
-  }
+  })
+  const [siteTheme, setSiteTheme] = React.useState(null)
+  const viewerRef = React.useRef(null)
 
-  // componentDidMount () {
-  //   const themes = [
-  //     'apathy',
-  //     'apathy:inverted',
-  //     'ashes',
-  //     'bespin',
-  //     'brewer',
-  //     'bright:inverted',
-  //     'bright',
-  //     'chalk',
-  //     'codeschool',
-  //     'colors',
-  //     'eighties',
-  //     'embers',
-  //     'flat',
-  //     'google',
-  //     'grayscale',
-  //     'grayscale:inverted',
-  //     'greenscreen',
-  //     'harmonic',
-  //     'hopscotch',
-  //     'isotope',
-  //     'marrakesh',
-  //     'mocha',
-  //     'monokai',
-  //     'ocean',
-  //     'paraiso',
-  //     'pop',
-  //     'railscasts',
-  //     'rjv-default',
-  //     'shapeshifter',
-  //     'shapeshifter:inverted',
-  //     'solarized',
-  //     'summerfruit',
-  //     'summerfruit:inverted',
-  //     'threezerotwofour',
-  //     'tomorrow',
-  //     'tube',
-  //     'twilight'
-  //   ]
-  //   let currentIndex = 0
-  //   this.themeInterval = setInterval(() => {
-  //     if (currentIndex < themes.length) {
-  //       this.setState({ theme: themes[currentIndex] })
-  //       currentIndex++
-  //     } else {
-  //       clearInterval(this.themeInterval)
-  //     }
-  //   }, 1000)
-  // }
-
-  // componentWillUnmount () {
-  //   clearInterval(this.themeInterval)
-  // }
-
-  componentDidMount () {
-    this.updateStyles()
-    this.observer = new window.MutationObserver(this.updateStyles)
-    this.observer.observe(document.querySelector('.react-json-view'), {
+  React.useEffect(() => {
+    const viewer = viewerRef.current.querySelector('.react-json-view')
+    function updateStyles () {
+      const getStyle = (element, property) =>
+        window.getComputedStyle(element).getPropertyValue(property)
+      let current = viewer
+      let background = 'rgb(255, 255, 255)'
+      while (current) {
+        const color = getStyle(current, 'background-color')
+        if (color && color !== 'transparent' && color !== 'rgba(0, 0, 0, 0)') {
+          background = color
+          break
+        }
+        current = current.parentElement
+      }
+      const nextTheme = {
+        color: getStyle(viewer.querySelector('.object-key') || viewer, 'color'),
+        bgColor: background,
+        borderColor: getStyle(
+          viewer.querySelector('.variable-row') || viewer,
+          'border-left-color'
+        )
+      }
+      setSiteTheme((previous) =>
+        previous &&
+        Object.keys(nextTheme).every((key) => previous[key] === nextTheme[key])
+          ? previous
+          : nextTheme
+      )
+    }
+    updateStyles()
+    const observer = new window.MutationObserver(updateStyles)
+    observer.observe(viewer, {
       attributes: true,
       childList: true,
       subtree: true
     })
-  }
+    return () => observer.disconnect()
+  }, [])
 
-  componentWillUnmount () {
-    if (this.observer) {
-      this.observer.disconnect()
-    }
-  }
-
-  updateStyles = () => {
-    const $ = document.querySelector.bind(document)
-    const getStyle = (el, prop) =>
-      window.getComputedStyle(el).getPropertyValue(prop)
-
-    const isTransparent = color =>
-      !color || color === 'transparent' || color === 'rgba(0, 0, 0, 0)'
-
-    const resolveBackground = el => {
-      let current = el
-      while (current) {
-        const bg = getStyle(current, 'background-color')
-        if (!isTransparent(bg)) return bg
-        current = current.parentElement
+  const selectStyles = siteTheme
+    ? {
+        control: (base) => ({
+          ...base,
+          backgroundColor: siteTheme.bgColor,
+          borderColor: siteTheme.borderColor,
+          color: siteTheme.color
+        }),
+        singleValue: (base) => ({ ...base, color: siteTheme.color }),
+        option: (base, { isFocused }) => ({
+          ...base,
+          backgroundColor: siteTheme.bgColor,
+          color: siteTheme.color,
+          opacity: isFocused ? 0.8 : 1
+        }),
+        menu: (base) => ({ ...base, backgroundColor: siteTheme.bgColor }),
+        input: (base) => ({ ...base, color: siteTheme.color }),
+        indicatorSeparator: (base) => ({
+          ...base,
+          backgroundColor: siteTheme.borderColor
+        }),
+        dropdownIndicator: (base) => ({ ...base, color: siteTheme.color })
       }
-      return 'rgb(255, 255, 255)'
-    }
+    : {}
 
-    const siteTheme = {
-      color: getStyle($('.object-key'), 'color'),
-      bgColor: resolveBackground($('.react-json-view')),
-      borderColor: getStyle($('.variable-row'), 'border-left-color')
-    }
-
-    this.setState({ siteTheme })
-  }
-
-  render () {
-    const {
-      src,
-      collapseStringsAfter,
-      onAdd,
-      onEdit,
-      onDelete,
-      onSelect,
-      displayObjectSize,
-      enableClipboard,
-      theme,
-      iconStyle,
-      collapsed,
-      indentWidth,
-      displayDataTypes
-    } = this.state
-
-    const style = {
-      padding: '10px',
-      borderRadius: '3px',
-      margin: '10px 0px'
-    }
-
-    return (
-      <>
-        {this.state.siteTheme && (
-          <style>
-            {`
-          body {
-            color: ${this.state.siteTheme.color};
-            background-color: ${this.state.siteTheme.bgColor};
-          }
-
-          .react-json-view {
-            border: 1px solid ${this.state.siteTheme.borderColor};
-          }
-        `}
-          </style>
-        )}
-        <div className='rjv-demo'>
-          <div className='rjv-header'>
-            <div className='header-1'>@microlink/react-json-view</div>
-          </div>
-          <ReactJson
-            name={false}
-            collapsed={collapsed}
-            style={style}
-            theme={theme}
-            src={src}
-            collapseStringsAfterLength={collapseStringsAfter}
-            onEdit={
-              onEdit
-                ? e => {
-                  console.log(e)
-                  this.setState({ src: e.updated_src })
-                }
-                : false
-            }
-            onDelete={
-              onDelete
-                ? e => {
-                  console.log(e)
-                  this.setState({ src: e.updated_src })
-                }
-                : false
-            }
-            onAdd={
-              onAdd
-                ? e => {
-                  console.log(e)
-                  this.setState({ src: e.updated_src })
-                }
-                : false
-            }
-            onSelect={
-              onSelect
-                ? e => {
-                  console.log(e)
-                }
-                : false
-            }
-            displayObjectSize={displayObjectSize}
-            enableClipboard={enableClipboard}
-            indentWidth={indentWidth}
-            displayDataTypes={displayDataTypes}
-            iconStyle={iconStyle}
-          />
-
-          <div className='rjv-settings'>
-            <div className='rjv-input'>
-              <div className='rjv-label'>Theme:</div>
-              {this.getThemeInput(theme)}
-            </div>
-            <div className='rjv-input'>
-              <div className='rjv-label'>Icon Style:</div>
-              {this.getIconStyleInput(iconStyle)}
-            </div>
-            <div className='rjv-input'>
-              <div className='rjv-label'>Enable Edit:</div>
-              {this.getEditInput(onEdit)}
-            </div>
-            <div className='rjv-input'>
-              <div className='rjv-label'>Enable Add:</div>
-              {this.getAddInput(onAdd)}
-            </div>
-            <div className='rjv-input'>
-              <div className='rjv-label'>Enable Delete:</div>
-              {this.getDeleteInput(onDelete)}
-            </div>
-            <div className='rjv-input'>
-              <div className='rjv-label'>Enable Clipboard:</div>
-              {this.getEnableClipboardInput(enableClipboard)}
-            </div>
-          </div>
-
-          <div className='rjv-settings'>
-            <div className='rjv-input'>
-              <div className='rjv-label'>Display Data Types:</div>
-              {this.getDataTypesInput(displayDataTypes)}
-            </div>
-            <div className='rjv-input'>
-              <div className='rjv-label'>Display Object Size:</div>
-              {this.getObjectSizeInput(displayObjectSize)}
-            </div>
-            <div className='rjv-input'>
-              <div className='rjv-label'>Enable Select:</div>
-              {this.getSelectInput(onSelect)}
-            </div>
-            <div className='rjv-input'>
-              <div className='rjv-label'>Indent Width:</div>
-              {this.getIndentWidthInput(indentWidth)}
-            </div>
-            <div className='rjv-input'>
-              <div className='rjv-label'>Collapsed:</div>
-              {this.getCollapsedInput(collapsed)}
-            </div>
-            <div className='rjv-input'>
-              <div className='rjv-label'>Collapse Strings After Length:</div>
-              {this.getCollapsedStringsInput(collapseStringsAfter)}
-            </div>
-          </div>
-
-          {this.getNotes(onEdit, onAdd)}
+  return (
+    <>
+      {siteTheme && (
+        <style>{`body { color: ${siteTheme.color}; background-color: ${siteTheme.bgColor}; } .react-json-view { border: 1px solid ${siteTheme.borderColor}; }`}</style>
+      )}
+      <div className='rjv-demo' ref={viewerRef}>
+        <div className='rjv-header'>
+          <div className='header-1'>@microlink/react-json-view</div>
         </div>
-      </>
-    )
-  }
-
-  getNotes = (onEditEnabled, onAddEnabled) => {
-    const notes = []
-    if (onEditEnabled) {
-      notes.push(
-        <span>
-          To edit a value, try <Code>ctrl/cmd + click</Code> enter edit mode
-        </span>
-      )
-      notes.push(
-        <span>
-          When editing a value, try <Code>ctrl/cmd + Enter</Code> to submit
-          changes
-        </span>
-      )
-      notes.push(
-        <span>
-          When editing a value, try <Code>Escape</Code> key to cancel
-        </span>
-      )
-    }
-    if (onAddEnabled) {
-      notes.push(
-        <span>
-          When adding a new key, try <Code>Enter</Code> to submit
-        </span>
-      )
-      notes.push(
-        <span>
-          When adding a new key, try <Code>Escape</Code> to cancel
-        </span>
-      )
-    }
-
-    if (notes.length === 0) {
-      return null
-    }
-
-    return (
-      <div style={{ marginTop: '20px', fontStyle: 'italic' }}>
-        Keyboard Shortcuts
-        <ul>
-          {notes.map((note, index) => {
-            return <li key={index}>{note}</li>
-          })}
-        </ul>
+        <ReactJson
+          name={false}
+          style={{ padding: '10px', borderRadius: '3px', margin: '10px 0px' }}
+          src={src}
+          {...options}
+        />
+        {[settings.slice(0, 3), settings.slice(3)].map((group, index) => (
+          <div className='rjv-settings' key={index}>
+            {group.map(({ field, label, values }) => {
+              const choices = values.map((value) => ({
+                value,
+                label: String(value)
+              }))
+              return (
+                <div className='rjv-input' key={field}>
+                  <div className='rjv-label'>{label}</div>
+                  <ReactSelect
+                    name={field}
+                    value={choices.find(
+                      (choice) => choice.value === options[field]
+                    )}
+                    options={choices}
+                    styles={selectStyles}
+                    onChange={(choice) =>
+                      setOptions((previous) => ({
+                        ...previous,
+                        [field]: choice.value
+                      }))}
+                  />
+                </div>
+              )
+            })}
+          </div>
+        ))}
       </div>
-    )
-  }
-
-  getIconStyleInput = iconStyle => {
-    const options = [
-      { value: 'circle', label: 'circle' },
-      { value: 'square', label: 'square' },
-      { value: 'triangle', label: 'triangle' }
-    ]
-    return (
-      <ReactSelect
-        name='icon-style'
-        value={options.find(opt => opt.value === iconStyle)}
-        options={options}
-        styles={this.getSelectStyles()}
-        onChange={val => {
-          this.set('iconStyle', val)
-        }}
-      />
-    )
-  }
-
-  getEditInput = onEdit => {
-    const options = [
-      { value: true, label: 'true' },
-      { value: false, label: 'false' }
-    ]
-    return (
-      <ReactSelect
-        name='enable-edit'
-        value={options.find(opt => opt.value === onEdit)}
-        options={options}
-        styles={this.getSelectStyles()}
-        onChange={val => {
-          this.set('onEdit', val)
-        }}
-      />
-    )
-  }
-
-  getAddInput = onAdd => {
-    const options = [
-      { value: true, label: 'true' },
-      { value: false, label: 'false' }
-    ]
-    return (
-      <ReactSelect
-        name='enable-add'
-        value={options.find(opt => opt.value === onAdd)}
-        options={options}
-        styles={this.getSelectStyles()}
-        onChange={val => {
-          this.set('onAdd', val)
-        }}
-      />
-    )
-  }
-
-  getDeleteInput = onDelete => {
-    const options = [
-      { value: true, label: 'true' },
-      { value: false, label: 'false' }
-    ]
-    return (
-      <ReactSelect
-        name='enable-delete'
-        value={options.find(opt => opt.value === onDelete)}
-        options={options}
-        styles={this.getSelectStyles()}
-        onChange={val => {
-          this.set('onDelete', val)
-        }}
-      />
-    )
-  }
-
-  getSelectInput = onSelect => {
-    const options = [
-      { value: true, label: 'true' },
-      { value: false, label: 'false' }
-    ]
-    return (
-      <ReactSelect
-        name='enable-select'
-        value={options.find(opt => opt.value === onSelect)}
-        options={options}
-        styles={this.getSelectStyles()}
-        onChange={val => {
-          this.set('onSelect', val)
-        }}
-      />
-    )
-  }
-
-  getEnableClipboardInput = enableClipboard => {
-    const options = [
-      { value: true, label: 'true' },
-      { value: false, label: 'false' }
-    ]
-    return (
-      <ReactSelect
-        name='enable-clipboard'
-        value={options.find(opt => opt.value === enableClipboard)}
-        options={options}
-        styles={this.getSelectStyles()}
-        onChange={val => {
-          this.set('enableClipboard', val)
-        }}
-      />
-    )
-  }
-
-  getObjectSizeInput = displayObjectSize => {
-    const options = [
-      { value: true, label: 'true' },
-      { value: false, label: 'false' }
-    ]
-    return (
-      <ReactSelect
-        name='display-object-size'
-        value={options.find(opt => opt.value === displayObjectSize)}
-        options={options}
-        styles={this.getSelectStyles()}
-        onChange={val => {
-          this.set('displayObjectSize', val)
-        }}
-      />
-    )
-  }
-
-  getDataTypesInput = displayDataTypes => {
-    const options = [
-      { value: true, label: 'true' },
-      { value: false, label: 'false' }
-    ]
-    return (
-      <ReactSelect
-        name='display-data-types'
-        value={options.find(opt => opt.value === displayDataTypes)}
-        options={options}
-        styles={this.getSelectStyles()}
-        onChange={val => {
-          this.set('displayDataTypes', val)
-        }}
-      />
-    )
-  }
-
-  getCollapsedStringsInput = collapseStringsAfter => {
-    const options = [
-      { value: false, label: 'false' },
-      { value: 5, label: 5 },
-      { value: 10, label: 10 },
-      { value: 15, label: 15 },
-      { value: 20, label: 20 }
-    ]
-    return (
-      <ReactSelect
-        name='collapse-strings'
-        value={options.find(opt => opt.value === collapseStringsAfter)}
-        options={options}
-        styles={this.getSelectStyles()}
-        onChange={val => {
-          this.set('collapseStringsAfter', val)
-        }}
-      />
-    )
-  }
-
-  getCollapsedInput = collapsed => {
-    const options = [
-      { value: true, label: 'true' },
-      { value: false, label: 'false' },
-      { value: 1, label: 1 },
-      { value: 2, label: 2 }
-    ]
-    return (
-      <ReactSelect
-        name='collapsed'
-        value={options.find(opt => opt.value === collapsed)}
-        options={options}
-        styles={this.getSelectStyles()}
-        onChange={val => {
-          this.set('collapsed', val)
-        }}
-      />
-    )
-  }
-
-  getIndentWidthInput = indentWidth => {
-    const options = [
-      { value: 0, label: 0 },
-      { value: 1, label: 1 },
-      { value: 2, label: 2 },
-      { value: 3, label: 3 },
-      { value: 4, label: 4 },
-      { value: 5, label: 5 },
-      { value: 6, label: 6 },
-      { value: 7, label: 7 },
-      { value: 8, label: 8 },
-      { value: 9, label: 9 },
-      { value: 10, label: 10 }
-    ]
-    return (
-      <ReactSelect
-        name='indent-width'
-        value={options.find(opt => opt.value === indentWidth)}
-        options={options}
-        styles={this.getSelectStyles()}
-        onChange={val => {
-          this.set('indentWidth', val)
-        }}
-      />
-    )
-  }
-
-  getThemeInput = theme => {
-    const options = [
-      { value: 'apathy', label: 'apathy' },
-      { value: 'apathy:inverted', label: 'apathy:inverted' },
-      { value: 'ashes', label: 'ashes' },
-      { value: 'bespin', label: 'bespin' },
-      { value: 'brewer', label: 'brewer' },
-      { value: 'bright:inverted', label: 'bright:inverted' },
-      { value: 'bright', label: 'bright' },
-      { value: 'chalk', label: 'chalk' },
-      { value: 'codeschool', label: 'codeschool' },
-      { value: 'colors', label: 'colors' },
-      { value: 'eighties', label: 'eighties' },
-      { value: 'embers', label: 'embers' },
-      { value: 'flat', label: 'flat' },
-      { value: 'google', label: 'google' },
-      { value: 'grayscale', label: 'grayscale' },
-      { value: 'grayscale:inverted', label: 'grayscale:inverted' },
-      { value: 'greenscreen', label: 'greenscreen' },
-      { value: 'harmonic', label: 'harmonic' },
-      { value: 'hopscotch', label: 'hopscotch' },
-      { value: 'isotope', label: 'isotope' },
-      { value: 'marrakesh', label: 'marrakesh' },
-      { value: 'mocha', label: 'mocha' },
-      { value: 'monokai', label: 'monokai' },
-      { value: 'ocean', label: 'ocean' },
-      { value: 'paraiso', label: 'paraiso' },
-      { value: 'pop', label: 'pop' },
-      { value: 'railscasts', label: 'railscasts' },
-      { value: 'rjv-default', label: 'rjv-default' },
-      { value: 'shapeshifter', label: 'shapeshifter' },
-      { value: 'shapeshifter:inverted', label: 'shapeshifter:inverted' },
-      { value: 'solarized', label: 'solarized' },
-      { value: 'summerfruit', label: 'summerfruit' },
-      { value: 'summerfruit:inverted', label: 'summerfruit:inverted' },
-      { value: 'threezerotwofour', label: 'threezerotwofour' },
-      { value: 'tomorrow', label: 'tomorrow' },
-      { value: 'tube', label: 'tube' },
-      { value: 'twilight', label: 'twilight' }
-    ]
-    return (
-      <ReactSelect
-        name='theme-select'
-        value={options.find(opt => opt.value === theme)}
-        options={options}
-        styles={this.getSelectStyles()}
-        onChange={val => {
-          this.set('theme', val)
-        }}
-      />
-    )
-  }
-
-  getSelectStyles = () => {
-    const { siteTheme } = this.state
-    if (!siteTheme) return {}
-    return {
-      control: base => ({
-        ...base,
-        backgroundColor: siteTheme.bgColor,
-        borderColor: siteTheme.borderColor,
-        color: siteTheme.color
-      }),
-      singleValue: base => ({
-        ...base,
-        color: siteTheme.color
-      }),
-      option: (base, { isFocused }) => ({
-        ...base,
-        backgroundColor: siteTheme.bgColor,
-        color: siteTheme.color,
-        opacity: isFocused ? 0.8 : 1
-      }),
-      menu: base => ({
-        ...base,
-        backgroundColor: siteTheme.bgColor
-      }),
-      input: base => ({
-        ...base,
-        color: siteTheme.color
-      }),
-      indicatorSeparator: base => ({
-        ...base,
-        backgroundColor: siteTheme.borderColor
-      }),
-      dropdownIndicator: base => ({
-        ...base,
-        color: siteTheme.color
-      })
-    }
-  }
-
-  set = (field, value) => {
-    const state = {}
-    state[field] = value.value
-    this.setState(state)
-  }
-
-  // just a function to get an example JSON object
-  getExampleJson = () => {
-    return {
-      string: 'this is a test string',
-      integer: 42,
-      array: [1, 2, 3, 'test', NaN],
-      float: 3.14159,
-      undefined,
-      object: {
-        'first-child': true,
-        'second-child': false,
-        'last-child': null
-      },
-      string_number: '1234',
-      date: new Date()
-    }
-  }
+    </>
+  )
 }
-
-export default Demo

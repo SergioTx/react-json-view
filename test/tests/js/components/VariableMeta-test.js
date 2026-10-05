@@ -14,8 +14,6 @@ describe('<VariableMeta />', function () {
         size={1}
         theme='rjv-default'
         enableClipboard={false}
-        onAdd={false}
-        onDelete={false}
         rjvId={rjvId}
       />
     )
@@ -29,8 +27,6 @@ describe('<VariableMeta />', function () {
         size={1}
         theme='rjv-default'
         displayObjectSize
-        onAdd={false}
-        onDelete={false}
         rjvId={rjvId}
       />
     )
@@ -44,8 +40,6 @@ describe('<VariableMeta />', function () {
         size={1}
         theme='rjv-default'
         displayObjectSize={false}
-        onAdd={false}
-        onDelete={false}
         rjvId={rjvId}
       />
     )
@@ -61,23 +55,22 @@ describe('<VariableMeta />', function () {
         size={1}
         theme='rjv-default'
         namespace={['test']}
-        enableClipboard={copy => {
+        enableClipboard={(copy) => {
           expect(copy.src.test).to.equal(inputSrc.test)
           // increment counter to assert that callback was called
           callbackCounter++
         }}
-        onAdd={false}
-        onDelete={false}
         rjvId={rjvId}
       />
     )
     expect(wrapper.find('.copy-to-clipboard-container')).to.have.length(1)
     expect(wrapper.find('.copy-icon')).to.have.length(2)
 
-    document.execCommand = mock => {}
+    document.execCommand = (mock) => {}
     wrapper.find('.copy-icon').first().simulate('click')
     // verify that callback was called
     expect(callbackCounter).to.equal(1)
+    wrapper.unmount()
   })
 
   it('VariableMeta clipboard click without copy callback', function () {
@@ -87,12 +80,11 @@ describe('<VariableMeta />', function () {
         size={1}
         theme='rjv-default'
         enableClipboard
-        onAdd={false}
-        onDelete={false}
         rjvId={rjvId}
       />
     )
     expect(wrapper.find('.copy-to-clipboard-container')).to.have.length(1)
     expect(wrapper.find('.copy-icon')).to.have.length(2)
+    wrapper.unmount()
   })
 })

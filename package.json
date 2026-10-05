@@ -280,9 +280,7 @@
     "viewer"
   ],
   "dependencies": {
-    "react-base16-styling": "~0.10.0",
-    "react-lifecycles-compat": "~3.0.4",
-    "react-textarea-autosize": "~8.5.9"
+    "react-base16-styling": "~0.10.0"
   },
   "devDependencies": {
     "@babel/core": "~8.0.5",
@@ -386,8 +384,8 @@
     ]
   },
   "peerDependencies": {
-    "react": ">= 15",
-    "react-dom": ">= 15"
+    "react": ">= 16.8",
+    "react-dom": ">= 16.8"
   },
   "simple-git-hooks": {
     "commit-msg": "npx commitlint --edit",

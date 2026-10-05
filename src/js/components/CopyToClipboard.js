@@ -1,137 +1,70 @@
 import React from 'react'
-
 import { toType } from './../helpers/util'
-
-// clipboard icon
 import { Clippy } from './icons'
-
-// theme
 import Theme from './../themes/getStyle'
 
-export default class extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.state = {
-      copied: false
-    }
-  }
-
-  copiedTimer = null
-
-  componentWillUnmount () {
-    if (this.copiedTimer) {
-      clearTimeout(this.copiedTimer)
-      this.copiedTimer = null
-    }
-  }
-
-  copyToClipboardFallback = textToCopy => {
-    const textArea = document.createElement('textarea')
-    textArea.value = textToCopy
-    document.body.appendChild(textArea)
-    textArea.select()
+function copyToClipboardFallback (text) {
+  const textArea = document.createElement('textarea')
+  textArea.value = text
+  document.body.appendChild(textArea)
+  textArea.select()
+  try {
     document.execCommand('copy')
+  } finally {
     document.body.removeChild(textArea)
   }
+}
 
-  handleCopy = () => {
-    const { clickCallback, src, namespace } = this.props
+export default function CopyToClipboard ({
+  clickCallback,
+  src,
+  namespace,
+  theme,
+  rowHovered
+}) {
+  const [copied, setCopied] = React.useState(false)
+  const copiedTimer = React.useRef(null)
+  React.useEffect(() => () => clearTimeout(copiedTimer.current), [])
 
-    const textToCopy = this.clipboardText(src)
-
+  function handleCopy () {
+    const type = toType(src)
+    const value =
+      type === 'function' || type === 'regexp' ? src.toString() : src
+    const text =
+      typeof value === 'string' ? value : JSON.stringify(value, null, '  ')
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(textToCopy).catch(() => {
-        // Fallback for non-secure contexts (i.e. http)
-        this.copyToClipboardFallback(textToCopy)
-      })
+      navigator.clipboard
+        .writeText(text)
+        .catch(() => copyToClipboardFallback(text))
     } else {
-      // Fallback for old browsers and test environments
-      this.copyToClipboardFallback(textToCopy)
+      copyToClipboardFallback(text)
     }
-
-    this.copiedTimer = setTimeout(() => {
-      this.setState({
-        copied: false
-      })
-    }, 5500)
-
-    this.setState({ copied: true }, () => {
-      if (typeof clickCallback !== 'function') {
-        return
-      }
-
-      clickCallback({
-        src,
-        namespace,
-        name: namespace[namespace.length - 1]
-      })
-    })
-  }
-
-  getClippyIcon = () => {
-    const { theme } = this.props
-
-    if (this.state.copied) {
-      return (
-        <span>
-          <Clippy className='copy-icon' {...Theme(theme, 'copy-icon')} />
-          <span {...Theme(theme, 'copy-icon-copied')}>✔</span>
-        </span>
-      )
-    }
-
-    return <Clippy className='copy-icon' {...Theme(theme, 'copy-icon')} />
-  }
-
-  clipboardValue = value => {
-    const type = toType(value)
-    switch (type) {
-      case 'function':
-      case 'regexp':
-        return value.toString()
-      default:
-        return value
+    clearTimeout(copiedTimer.current)
+    copiedTimer.current = setTimeout(() => setCopied(false), 5500)
+    setCopied(true)
+    if (typeof clickCallback === 'function') {
+      clickCallback({ src, namespace, name: namespace[namespace.length - 1] })
     }
   }
 
-  clipboardText = value => {
-    const clipboardValue = this.clipboardValue(value)
-
-    if (typeof clipboardValue === 'string') {
-      return clipboardValue
-    }
-
-    return JSON.stringify(clipboardValue, null, '  ')
-  }
-
-  render () {
-    const { theme, hidden, rowHovered } = this.props
-    const style = Theme(theme, 'copy-to-clipboard').style
-    let display = 'inline'
-
-    if (hidden) {
-      display = 'none'
-    }
-
-    return (
+  return (
+    <span
+      className='copy-to-clipboard-container'
+      title='Copy to clipboard'
+      style={{
+        verticalAlign: 'top',
+        display: rowHovered ? 'inline-block' : 'none'
+      }}
+    >
       <span
-        className='copy-to-clipboard-container'
-        title='Copy to clipboard'
-        style={{
-          verticalAlign: 'top',
-          display: rowHovered ? 'inline-block' : 'none'
-        }}
+        style={Theme(theme, 'copy-to-clipboard').style}
+        onClick={handleCopy}
       >
-        <span
-          style={{
-            ...style,
-            display
-          }}
-          onClick={this.handleCopy}
-        >
-          {this.getClippyIcon()}
-        </span>
+        <Clippy className='copy-icon' {...Theme(theme, 'copy-icon')} />
+        {copied && (
+          <span {...Theme(theme, 'copy-icon-copied')}>{'\u2714'}</span>
+        )}
       </span>
-    )
-  }
+    </span>
+  )
 }

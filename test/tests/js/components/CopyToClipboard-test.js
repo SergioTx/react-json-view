@@ -1,5 +1,5 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import { mount } from 'enzyme'
 import { expect } from 'chai'
 
 import CopyToClipboard from './../../../../src/js/components/CopyToClipboard'
@@ -9,19 +9,14 @@ function copyToClipboard (src) {
   const { clipboard } = global.navigator
 
   global.navigator.clipboard = {
-    writeText: textToCopy => {
+    writeText: (textToCopy) => {
       copied.push(textToCopy)
       return Promise.resolve()
     }
   }
 
-  const wrapper = shallow(
-    <CopyToClipboard
-      src={src}
-      namespace={['root']}
-      theme='rjv-default'
-      hidden={false}
-    />
+  const wrapper = mount(
+    <CopyToClipboard src={src} namespace={['root']} theme='rjv-default' />
   )
 
   try {
@@ -36,28 +31,27 @@ function copyToClipboard (src) {
 
 describe('<CopyToClipboard />', function () {
   it('CopyToClipboard clipboard should exist', function () {
-    const wrapper = shallow(
-      <CopyToClipboard
-        src={{ test: true }}
-        theme='rjv-default'
-        clickCallback
-        hidden={false}
-      />
+    const wrapper = mount(
+      <CopyToClipboard src={{ test: true }} theme='rjv-default' clickCallback />
     )
     expect(wrapper.find('.copy-to-clipboard-container')).to.have.length(1)
+    wrapper.unmount()
   })
 
   it('CopyToClipboard clipboard should be hidden', function () {
-    const wrapper = shallow(
+    const wrapper = mount(
       <CopyToClipboard
         src={{ test: true }}
         theme='rjv-default'
         clickCallback
-        hidden
+        rowHovered={false}
       />
     )
-    // not sure how to test css attribute
     expect(wrapper.find('.copy-to-clipboard-container')).to.have.length(1)
+    expect(
+      wrapper.find('.copy-to-clipboard-container').prop('style').display
+    ).to.equal('none')
+    wrapper.unmount()
   })
 
   it('CopyToClipboard copies a string without quotes', function () {

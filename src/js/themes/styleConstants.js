@@ -69,29 +69,11 @@ export default {
 
   tooltipPadding: '4px',
 
-  editInputMinWidth: '130px',
-  editInputBorderRadius: '2px',
-  editInputPadding: '5px',
-  editInputMarginRight: '4px',
-  editInputFontFamily: 'monospace',
-
-  iconCursor: 'pointer',
   iconFontSize: '15px',
-  iconPaddingRight: '1px',
 
   dateValueMarginLeft: '2px',
 
   iconMarginRight: '3px',
-
-  detectedRowPaddingTop: '3px',
-
-  addKeyCoverBackground: 'rgba(255, 255, 255, 0.3)',
-  addKeyCoverPosition: 'absolute',
-  addKeyCoverPositionPx: '0px',
-  addKeyModalWidth: '200px',
-  addKeyModalMargin: 'auto',
-  addKeyModalPadding: '10px',
-  addKeyModalRadius: '3px',
 
   commaColor: '#666',
   commaFontSize: '12px',

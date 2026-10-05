@@ -40,7 +40,7 @@ describe('<ArrayGroup />', function () {
 
     wrapper.find('.array-group-brace').first().simulate('click')
 
-    expect(wrapper.state().expanded[0]).to.equal(true)
+    expect(wrapper.find(JsonObject)).to.have.length(1)
 
     wrapper
       .find('.array-group')
@@ -48,7 +48,7 @@ describe('<ArrayGroup />', function () {
       .find('.icon-container')
       .simulate('click')
 
-    expect(wrapper.state().expanded[0]).to.equal(false)
+    expect(wrapper.find(JsonObject)).to.have.length(0)
   })
 
   it('ArrayGroup displays arrays on expansion', function () {
@@ -64,7 +64,7 @@ describe('<ArrayGroup />', function () {
       />
     )
 
-    wrapper.setState({ expanded: { 0: true } })
+    wrapper.find('.array-group-brace').first().simulate('click')
 
     expect(wrapper.find(JsonObject).length).to.equal(1)
 
@@ -88,7 +88,7 @@ describe('<ArrayGroup />', function () {
 
     expect(wrapper.find('.array-group').length).to.equal(4)
 
-    wrapper.setState({ expanded: { 3: true } })
+    wrapper.find('.array-group-brace').last().simulate('click')
 
     expect(
       wrapper.find('.array-group').last().find(JsonString).length
@@ -109,34 +109,6 @@ describe('<ArrayGroup />', function () {
     )
 
     expect(wrapper.find('.array-group').length).to.equal(3)
-  })
-
-  it('ArrayGroup should call onSelect when clicking object key', function () {
-    const src = new Array(6).fill('test')
-    let selected = null
-    const wrapper = mount(
-      <ArrayGroup
-        groupArraysAfterLength={5}
-        namespace={['root', 'items']}
-        name='items'
-        src={src}
-        theme='rjv-default'
-        jsvRoot={false}
-        indentWidth={4}
-        onSelect={data => {
-          selected = data
-        }}
-      />
-    )
-
-    wrapper.find('.object-key').first().simulate('click')
-
-    expect(selected).to.deep.equal({
-      name: 'items',
-      value: src,
-      type: 'array',
-      namespace: []
-    })
   })
 
   it('ArrayGroup shows object-size ranges for collapsed groups', function () {
@@ -165,11 +137,7 @@ describe('<ArrayGroup />', function () {
       expect(labels).to.have.length(expected.length)
 
       expected.forEach((range, i) => {
-        const actual = labels
-          .eq(i)
-          .text()
-          .replace(/\s+/g, ' ')
-          .trim()
+        const actual = labels.eq(i).text().replace(/\s+/g, ' ').trim()
 
         expect(actual).to.equal(range)
       })

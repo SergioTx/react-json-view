@@ -4,16 +4,13 @@ import DataTypeLabel from './DataTypeLabel'
 // theme
 import Theme from './../../themes/getStyle'
 
-export default class extends React.PureComponent {
-  render () {
-    const typeName = 'bool'
-    const { props } = this
+export default function Boolean (props) {
+  const typeName = 'bool'
 
-    return (
-      <div {...Theme(props.theme, 'boolean')}>
-        <DataTypeLabel typeName={typeName} {...props} />
-        {props.value ? 'true' : 'false'}
-      </div>
-    )
-  }
+  return (
+    <div {...Theme(props.theme, 'boolean')}>
+      <DataTypeLabel typeName={typeName} {...props} />
+      {props.value ? 'true' : 'false'}
+    </div>
+  )
 }

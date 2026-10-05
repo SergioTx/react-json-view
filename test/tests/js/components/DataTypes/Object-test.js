@@ -1,5 +1,5 @@
 import React from 'react'
-import { shallow, render, mount } from 'enzyme'
+import { shallow, render } from 'enzyme'
 import { expect } from 'chai'
 
 import JsonObject from './../../../../../src/js/components/DataTypes/Object'
@@ -215,7 +215,7 @@ describe('<JsonObject />', function () {
         collapsed={false}
       />
     )
-    expect(wrapper.state('expanded')).to.equal(true)
+    expect(wrapper.find('.pushed-content')).to.have.length(1)
   })
 
   it('empty object should not be expanded', function () {
@@ -230,7 +230,7 @@ describe('<JsonObject />', function () {
         collapsed={false}
       />
     )
-    expect(wrapper.state('expanded')).to.equal(false)
+    expect(wrapper.find('.pushed-content')).to.have.length(0)
   })
 
   it('non-empty array should be expanded', function () {
@@ -245,66 +245,7 @@ describe('<JsonObject />', function () {
         collapsed={false}
       />
     )
-    expect(wrapper.state('expanded')).to.equal(true)
-  })
-
-  it('Object should call onSelect when clicking key for object values', function () {
-    const src = {}
-    let selected = null
-
-    const wrapper = mount(
-      <JsonObject
-        src={src}
-        theme='rjv-default'
-        namespace={['root', 'settings']}
-        name='settings'
-        rjvId={rjvId}
-        collapsed={false}
-        indentWidth={1}
-        onSelect={data => {
-          selected = data
-        }}
-      />
-    )
-
-    wrapper.find('.object-key').first().simulate('click')
-
-    expect(selected).to.deep.equal({
-      name: 'settings',
-      value: src,
-      type: 'object',
-      namespace: []
-    })
-  })
-
-  it('Object should call onSelect when clicking key for array values', function () {
-    const src = []
-    let selected = null
-
-    const wrapper = mount(
-      <JsonObject
-        src={src}
-        theme='rjv-default'
-        namespace={['root', 'items']}
-        name='items'
-        type='array'
-        rjvId={rjvId}
-        collapsed={false}
-        indentWidth={1}
-        onSelect={data => {
-          selected = data
-        }}
-      />
-    )
-
-    wrapper.find('.object-key').first().simulate('click')
-
-    expect(selected).to.deep.equal({
-      name: 'items',
-      value: src,
-      type: 'array',
-      namespace: []
-    })
+    expect(wrapper.find('.pushed-content')).to.have.length(1)
   })
 
   it('empty array should not be expanded', function () {
@@ -319,7 +260,7 @@ describe('<JsonObject />', function () {
         indentWidth={1}
       />
     )
-    expect(wrapper.state('expanded')).to.equal(false)
+    expect(wrapper.find('.pushed-content')).to.have.length(0)
   })
 
   it('non-empty array should have ellipsis', function () {
@@ -369,7 +310,7 @@ describe('<JsonObject />', function () {
       />
     )
 
-    expect(wrapper.state('expanded')).to.equal(false)
+    expect(wrapper.find('.pushed-content')).to.have.length(0)
   })
 
   it('should expand based on shouldCollapse logic', function () {
@@ -386,7 +327,7 @@ describe('<JsonObject />', function () {
       />
     )
 
-    expect(wrapper.state('expanded')).to.equal(true)
+    expect(wrapper.find('.pushed-content')).to.have.length(1)
   })
   it('sort object keys', () => {
     const src = {
@@ -408,7 +349,7 @@ describe('<JsonObject />', function () {
         indentWidth={1}
       />
     )
-    expect(wrapper.text()).to.equal('"":{"a":"a""b":"b""c":"c""d":"d"}')
+    expect(wrapper.text()).to.equal('"":{"a":"a","b":"b","c":"c","d":"d"},')
   })
 
   it('do not sort object keys', () => {
@@ -430,10 +371,10 @@ describe('<JsonObject />', function () {
         indentWidth={1}
       />
     )
-    expect(wrapper.text()).to.equal('"":{"d":"d""b":"b""a":"a""c":"c"}')
+    expect(wrapper.text()).to.equal('"":{"d":"d","b":"b","a":"a","c":"c"},')
   })
 
-  it('Object should show comma when showComma is true and not last element', function () {
+  it('Object should show comma between elements and not last element', function () {
     const src = {
       prop1: 1,
       prop2: 2
@@ -445,7 +386,6 @@ describe('<JsonObject />', function () {
         theme='rjv-default'
         namespace={['root']}
         rjvId={rjvId}
-        showComma
         isLast={false}
         collapsed={false}
         indentWidth={1}
@@ -454,33 +394,8 @@ describe('<JsonObject />', function () {
       />
     )
     expect(
-      wrapper.find('span').someWhere(node => node.text() === ',')
+      wrapper.children('span').someWhere((node) => node.text() === ',')
     ).to.equal(true)
-  })
-
-  it('Object should not show comma when showComma is false', function () {
-    const src = {
-      prop1: 1,
-      prop2: 2
-    }
-
-    const wrapper = shallow(
-      <JsonObject
-        src={src}
-        theme='rjv-default'
-        namespace={['root']}
-        rjvId={rjvId}
-        showComma={false}
-        isLast={false}
-        collapsed={false}
-        indentWidth={1}
-        depth={1}
-        type='object'
-      />
-    )
-    expect(
-      wrapper.find('span').someWhere(node => node.text() === ',')
-    ).to.equal(false)
   })
 
   it('Object should not show comma when isLast is true', function () {
@@ -495,7 +410,6 @@ describe('<JsonObject />', function () {
         theme='rjv-default'
         namespace={['root']}
         rjvId={rjvId}
-        showComma
         isLast
         collapsed={false}
         indentWidth={1}
@@ -504,7 +418,7 @@ describe('<JsonObject />', function () {
       />
     )
     expect(
-      wrapper.find('span').someWhere(node => node.text() === ',')
+      wrapper.children('span').someWhere((node) => node.text() === ',')
     ).to.equal(false)
   })
 
@@ -520,7 +434,6 @@ describe('<JsonObject />', function () {
         theme='rjv-default'
         namespace={['root']}
         rjvId={rjvId}
-        showComma
         isLast={false}
         jsvRoot
         collapsed={false}
@@ -530,7 +443,7 @@ describe('<JsonObject />', function () {
       />
     )
     expect(
-      wrapper.find('span').someWhere(node => node.text() === ',')
+      wrapper.children('span').someWhere((node) => node.text() === ',')
     ).to.equal(false)
   })
 
@@ -539,15 +452,14 @@ describe('<JsonObject />', function () {
       prop1: 1,
       prop2: 2
     }
-    src.self = src;
+    src.self = src
 
-    const wrapper = shallow(
+    const wrapper = render(
       <JsonObject
         src={src}
         theme='rjv-default'
         namespace={['root']}
         rjvId={rjvId}
-        showComma
         isLast={false}
         jsvRoot
         collapsed={false}
@@ -556,9 +468,6 @@ describe('<JsonObject />', function () {
         type='object'
       />
     )
-    //Not a very good test.  We should be checking that the name of the corresponding property is correct as well, 
-    //but this is better than nothing for now.
-    var circularReferenceComponent = wrapper.find('span').someWhere(node => node.text() === '[CIRCULAR REFERENCE]');
-    expect(circularReferenceComponent).to.not.be.undefined;
+    expect(wrapper.text()).to.include('[CIRCULAR REFERENCE]')
   })
 })

@@ -7,61 +7,24 @@ import Theme from './../../themes/getStyle'
 // attribute store for storing collapsed state
 import AttributeStore from './../../stores/ObjectAttributes'
 
-export default class extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.state = {
-      collapsed: AttributeStore.get(
-        props.rjvId,
-        props.namespace,
-        'collapsed',
-        true
-      )
-    }
+export default function JsonFunction (props) {
+  const [collapsed, setCollapsed] = React.useState(() =>
+    AttributeStore.get(props.rjvId, props.namespace, 'collapsed', true)
+  )
+
+  const handleToggleCollapsed = () => {
+    const nextCollapsed = !collapsed
+    AttributeStore.set(props.rjvId, props.namespace, 'collapsed', nextCollapsed)
+    setCollapsed(nextCollapsed)
   }
 
-  handleToggleCollapsed = () => {
-    this.setState(
-      {
-        collapsed: !this.state.collapsed
-      },
-      () => {
-        // will be called after setState takes effect.
-        AttributeStore.set(
-          this.props.rjvId,
-          this.props.namespace,
-          'collapsed',
-          this.state.collapsed
-        )
-      }
-    )
-  }
+  const typeName = 'function'
 
-  render () {
-    const typeName = 'function'
-    const { props } = this
-    const { collapsed } = this.state
-
-    return (
-      <div {...Theme(props.theme, 'function')}>
-        <DataTypeLabel typeName={typeName} {...props} />
-        <span
-          {...Theme(props.theme, 'function-value')}
-          className='rjv-function-container'
-          onClick={this.handleToggleCollapsed}
-        >
-          {this.getFunctionDisplay(collapsed)}
-        </span>
-      </div>
-    )
-  }
-
-  getFunctionDisplay = collapsed => {
-    const { props } = this
+  const getFunctionDisplay = () => {
     if (collapsed) {
       return (
         <span>
-          {this.props.value
+          {props.value
             .toString()
             .slice(9, -1)
             .replace(/\{[\s\S]+/, '')}
@@ -73,7 +36,20 @@ export default class extends React.PureComponent {
         </span>
       )
     } else {
-      return this.props.value.toString().slice(9, -1)
+      return props.value.toString().slice(9, -1)
     }
   }
+
+  return (
+    <div {...Theme(props.theme, 'function')}>
+      <DataTypeLabel typeName={typeName} {...props} />
+      <span
+        {...Theme(props.theme, 'function-value')}
+        className='rjv-function-container'
+        onClick={handleToggleCollapsed}
+      >
+        {getFunctionDisplay()}
+      </span>
+    </div>
+  )
 }

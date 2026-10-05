@@ -99,78 +99,20 @@ export interface ReactJsonViewProps {
    * Default: true
    */
   quotesOnKeys?: boolean
-  /**
-   * When a callback function is passed in, edit functionality is enabled.
-   * The callback is invoked before edits are completed. Returning false
-   * from onEdit will prevent the change from being made. see: onEdit docs.
-   *
-   * Default: false
-   */
-  onEdit?: ((edit: InteractionProps) => false | any) | false
-  /**
-   * When a callback function is passed in, add functionality is enabled.
-   * The callback is invoked before additions are completed.
-   * Returning false from onAdd will prevent the change from being made. see: onAdd docs
-   *
-   * Default: false
-   */
-  onAdd?: ((add: InteractionProps) => false | any) | false
-  /**
-   * When a callback function is passed in, delete functionality is enabled.
-   * The callback is invoked before deletions are completed.
-   * Returning false from onDelete will prevent the change from being made. see: onDelete docs
-   *
-   * Default: false
-   */
-  onDelete?: ((del: InteractionProps) => false | any) | false
-  /**
-   * When a function is passed in, clicking a value or a key triggers the onSelect method to be called.
-   *
-   * Default: false
-   */
-  onSelect?: ((select: OnSelectProps) => void) | false
-  /**
-   * Custom message for validation failures to onEdit, onAdd, or onDelete callbacks.
-   *
-   * Default: "Validation Error"
-   */
-  validationMessage?: string
+
   /**
    * Set to true to sort object keys.
    *
    * Default: false
    */
   sortKeys?: boolean
-  /**
-   * Set to a value to be used as defaultValue when adding new key to json
-   *
-   * Default: null
-   */
-  defaultValue?: TypeDefaultValue | TypeDefaultValue[] | null
-  /**
-   * Whether to select the textarea contents on edit
-   *
-   * Default: false
-   */
-  selectOnFocus?: boolean
-  /**
-   * The key modifier to be combined with a click on JSON values to edit them
-   *
-   * Default: (e) => e.metaKey || e.ctrlKey
-   */
-  keyModifier?: (event: Event, type: 'edit' | 'submit') => boolean
+
   /**
    * Set to true to escape strings sequences such as \n, \t, \r, \f
    *
    * Default: true
    */
   escapeStrings?: boolean
-  /**
-   * Whether to show commas between object properties and array elements
-   *
-   * Default: true
-   */
-  showComma?: boolean
 }
 
 export interface OnCopyProps {
@@ -206,55 +148,6 @@ export interface CollapsedFieldProps {
    */
   namespace: Array<string | null>
 }
-
-export interface InteractionProps {
-  /**
-   * The updated subtree of the JSON tree.
-   */
-  updated_src: object
-  /**
-   * The existing subtree of the JSON tree.
-   */
-  existing_src: object
-  /**
-   * The key of the entry that is interacted with.
-   */
-  name: string | null
-  /**
-   * List of keys.
-   */
-  namespace: Array<string | null>
-  /**
-   * The original value of the entry that is interacted with.
-   */
-  existing_value: object | string | number | boolean | null
-  /**
-   * The updated value of the entry that is interacted with.
-   */
-  new_value?: object | string | number | boolean | null
-}
-
-export interface OnSelectProps {
-  /**
-   * The name of the currently selected entry.
-   */
-  name: string | null
-  /**
-   * The value of the currently selected entry.
-   */
-  value: object | string | number | boolean | null
-  /**
-   * The type of the value. For "number" type, it will be replaced with the more
-   * accurate types: "float", "integer", or "nan".
-   */
-  type: string
-  /**
-   * List of keys representing the scopes above the selected entry.
-   */
-  namespace: Array<string | null>
-}
-
-export type TypeDefaultValue = string | number | boolean | object
 
 export interface ThemeObject {
   base00: string

@@ -1,381 +1,197 @@
 import React from 'react'
-import { polyfill } from 'react-lifecycles-compat'
 import { toType } from './../../helpers/util'
-
-// data type components
-import { JsonCircularReference, JsonObject } from './DataTypes'
-
+import { JsonCircularReference } from './DataTypes'
 import VariableEditor from './../VariableEditor'
 import VariableMeta from './../VariableMeta'
 import ArrayGroup from './../ArrayGroup'
 import ObjectName from './../ObjectName'
-
-// attribute store
 import AttributeStore from './../../stores/ObjectAttributes'
-
-// icons
 import { CollapsedIcon, ExpandedIcon } from './../ToggleIcons'
-
-// theme
 import Theme from './../../themes/getStyle'
 
-// increment 1 with each nested object & array
-const DEPTH_INCREMENT = 1
-// single indent is 5px
 const SINGLE_INDENT = 5
 
-class RjvObject extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    const state = RjvObject.getState(props)
-    this.state = {
-      ...state,
-      prevProps: {}
-    }
-    this.listOfAncestors = Array.from(this.props.listOfAncestors || []);
-    this.listOfAncestors.push(props.src);
+function getExpanded (props) {
+  const expanded =
+    (props.collapsed === false ||
+      (props.collapsed !== true && props.collapsed > props.depth)) &&
+    (!props.shouldCollapse ||
+      props.shouldCollapse({
+        name: props.name,
+        src: props.src,
+        type: toType(props.src),
+        namespace: props.namespace
+      }) === false) &&
+    Object.keys(props.src).length !== 0
+  return AttributeStore.get(props.rjvId, props.namespace, 'expanded', expanded)
+}
+
+export default function RjvObject (props) {
+  const {
+    depth,
+    src,
+    namespace,
+    name,
+    type,
+    parent_type: parentType,
+    theme,
+    jsvRoot,
+    iconStyle,
+    isLast,
+    ...rest
+  } = props
+  const [state, setState] = React.useState(() => ({
+    expanded: getExpanded(props),
+    prevProps: props
+  }))
+  const [hovered, setHovered] = React.useState(false)
+  const previous = state.prevProps
+  if (
+    src !== previous.src ||
+    props.collapsed !== previous.collapsed ||
+    name !== previous.name ||
+    namespace !== previous.namespace ||
+    props.rjvId !== previous.rjvId
+  ) {
+    setState({ expanded: getExpanded(props), prevProps: props })
+  }
+  const { expanded } = state
+  const objectType = type === 'array' ? 'array' : 'object'
+  const size = Object.keys(src).length
+  const ancestors = [...(props.listOfAncestors || []), src]
+
+  function toggleCollapsed () {
+    const nextExpanded = !expanded
+    AttributeStore.set(props.rjvId, namespace, 'expanded', nextExpanded)
+    setState({ expanded: nextExpanded, prevProps: props })
   }
 
-  static getState = props => {
-    const size = Object.keys(props.src).length
-    const expanded =
-      (props.collapsed === false ||
-        (props.collapsed !== true && props.collapsed > props.depth)) &&
-      (!props.shouldCollapse ||
-        props.shouldCollapse({
-          name: props.name,
-          src: props.src,
-          type: toType(props.src),
-          namespace: props.namespace
-        }) === false) &&
-      // initialize closed if object has no items
-      size !== 0
-    const state = {
-      expanded: AttributeStore.get(
-        props.rjvId,
-        props.namespace,
-        'expanded',
-        expanded
-      ),
-      object_type: props.type === 'array' ? 'array' : 'object',
-      parent_type: props.type === 'array' ? 'array' : 'object',
-      size,
-      hovered: false
-    }
-    return state
-  }
-
-  static getDerivedStateFromProps (nextProps, prevState) {
-    const { prevProps } = prevState
-    if (
-      nextProps.src !== prevProps.src ||
-      nextProps.collapsed !== prevProps.collapsed ||
-      nextProps.name !== prevProps.name ||
-      nextProps.namespace !== prevProps.namespace ||
-      nextProps.rjvId !== prevProps.rjvId
-    ) {
-      const newState = RjvObject.getState(nextProps)
-      return {
-        ...newState,
-        prevProps: nextProps
+  function renderContents () {
+    let keys = Object.keys(src)
+    if (props.sortKeys && objectType !== 'array') keys = keys.sort()
+    return keys.map((key, index) => {
+      const value = src[key]
+      const valueType = toType(value)
+      const variableName =
+        parentType === 'array_group' && props.index_offset
+          ? parseInt(key, 10) + props.index_offset
+          : key
+      const childProps = {
+        theme,
+        iconStyle,
+        ...rest,
+        depth: depth + 1,
+        name: variableName,
+        src: value,
+        namespace: namespace.concat(variableName),
+        parent_type: objectType,
+        isLast: index === keys.length - 1
       }
-    }
-    return null
-  }
-
-  handleToggleCollapsed = () => {
-    this.setState(
-      {
-        expanded: !this.state.expanded
-      },
-      () => {
-        AttributeStore.set(
-          this.props.rjvId,
-          this.props.namespace,
-          'expanded',
-          this.state.expanded
+      if (valueType === 'window') return null
+      if (ancestors.includes(value)) {
+        return (
+          <JsonCircularReference
+            key={variableName}
+            {...childProps}
+            singleIndent={SINGLE_INDENT}
+          />
         )
       }
-    )
-  }
-
-  handleKeySelect = () => {
-    const { name, namespace, onSelect, src } = this.props
-    const { object_type: objectType } = this.state
-
-    if (typeof onSelect !== 'function') {
-      return
-    }
-
-    const location = [...namespace]
-    location.shift()
-    if (location.length > 0) {
-      location.pop()
-    }
-
-    onSelect({
-      name,
-      value: src,
-      type: objectType,
-      namespace: location
+      if (valueType === 'object' || valueType === 'array') {
+        const ObjectComponent =
+          valueType === 'array' &&
+          props.groupArraysAfterLength &&
+          value.length > props.groupArraysAfterLength
+            ? ArrayGroup
+            : RjvObject
+        return (
+          <ObjectComponent
+            key={variableName}
+            {...childProps}
+            type={valueType}
+            listOfAncestors={ancestors}
+          />
+        )
+      }
+      return (
+        <VariableEditor
+          key={variableName + '_' + namespace}
+          {...childProps}
+          variable={{ name: variableName, value, type: valueType }}
+          singleIndent={SINGLE_INDENT}
+          namespace={namespace}
+          type={type}
+        />
+      )
     })
   }
 
-  getObjectContent = (depth, src, props) => {
-    return (
-      <div className='pushed-content object-container'>
-        <div
-          className='object-content'
-          {...Theme(this.props.theme, 'pushed-content')}
-        >
-          {this.renderObjectContents(src, props)}
-        </div>
-      </div>
-    )
+  const styles = {}
+  if (!jsvRoot && parentType !== 'array_group') { styles.paddingLeft = props.indentWidth * SINGLE_INDENT } else if (parentType === 'array_group') {
+    styles.borderLeft = 0
+    styles.display = 'inline'
   }
+  const IconComponent = expanded ? ExpandedIcon : CollapsedIcon
 
-  getEllipsis = () => {
-    const { size } = this.state
-
-    if (size === 0) {
-      // don't render an ellipsis when an object has no items
-      return null
-    } else {
-      return (
-        <div
-          {...Theme(this.props.theme, 'ellipsis')}
-          className='node-ellipsis'
-          onClick={this.handleToggleCollapsed}
-        >
-          ...
-        </div>
-      )
-    }
-  }
-
-  getObjectMetaData = src => {
-    const { size, hovered } = this.state
-    return <VariableMeta rowHovered={hovered} size={size} {...this.props} />
-  }
-
-  getBraceStart (objectType, expanded) {
-    const { theme, iconStyle, parent_type: parentType } = this.props
-
-    if (parentType === 'array_group') {
-      return (
-        <span>
-          <span {...Theme(theme, 'brace')}>
-            {objectType === 'array' ? '[' : '{'}
+  return (
+    <div
+      className='object-key-val'
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      {...Theme(theme, jsvRoot ? 'jsv-root' : 'objectKeyVal', styles)}
+    >
+      {parentType === 'array_group'
+        ? (
+          <span>
+            <span {...Theme(theme, 'brace')}>
+              {objectType === 'array' ? '[' : '{'}
+            </span>
           </span>
-        </span>
-      )
-    }
-
-    const IconComponent = expanded ? ExpandedIcon : CollapsedIcon
-
-    return (
-      <span>
-        <span
-          onClick={this.handleToggleCollapsed}
-          {...Theme(theme, 'brace-row')}
-        >
-          <div className='icon-container' {...Theme(theme, 'icon-container')}>
-            <IconComponent {...{ theme, iconStyle }} />
+          )
+        : (
+          <span>
+            <span onClick={toggleCollapsed} {...Theme(theme, 'brace-row')}>
+              <div className='icon-container' {...Theme(theme, 'icon-container')}>
+                <IconComponent {...{ theme, iconStyle }} />
+              </div>
+              <ObjectName {...props} />
+              <span {...Theme(theme, 'brace')}>
+                {objectType === 'array' ? '[' : '{'}
+              </span>
+            </span>
+          </span>
+          )}
+      {expanded
+        ? (
+          <div className='pushed-content object-container'>
+            <div className='object-content' {...Theme(theme, 'pushed-content')}>
+              {renderContents()}
+            </div>
           </div>
-          <ObjectName {...this.props} onKeyClick={this.handleKeySelect} />
-          <span {...Theme(theme, 'brace')}>
-            {objectType === 'array' ? '[' : '{'}
-          </span>
+          )
+        : (
+            size !== 0 && (
+              <div
+                {...Theme(theme, 'ellipsis')}
+                className='node-ellipsis'
+                onClick={toggleCollapsed}
+              >
+                ...
+              </div>
+            )
+          )}
+      <span className='brace-row'>
+        <span
+          style={{
+            ...Theme(theme, 'brace').style,
+            paddingLeft: expanded ? '3px' : '0px'
+          }}
+        >
+          {objectType === 'array' ? ']' : '}'}
         </span>
       </span>
-    )
-  }
-
-  isCircularReference(variable) {
-    let found = this.listOfAncestors.indexOf(variable.value) > -1 || variable.value === this.props.src;
-    return found;
-  }
-
-  render () {
-    // `indentWidth` and `collapsed` props will
-    // perpetuate to children via `...rest`
-    const {
-      depth,
-      src,
-      namespace,
-      name,
-      type,
-      parent_type: parentType,
-      theme,
-      jsvRoot,
-      iconStyle,
-      showComma,
-      isLast,
-      ...rest
-    } = this.props
-
-    const { object_type: objectType, expanded } = this.state
-
-    const styles = {}
-    if (!jsvRoot && parentType !== 'array_group') {
-      styles.paddingLeft = this.props.indentWidth * SINGLE_INDENT
-    } else if (parentType === 'array_group') {
-      styles.borderLeft = 0
-      styles.display = 'inline'
-    }
-
-    return (
-      <div
-        className='object-key-val'
-        onMouseEnter={() => this.setState({ ...this.state, hovered: true })}
-        onMouseLeave={() => this.setState({ ...this.state, hovered: false })}
-        {...Theme(theme, jsvRoot ? 'jsv-root' : 'objectKeyVal', styles)}
-      >
-        {this.getBraceStart(objectType, expanded)}
-        {expanded
-          ? this.getObjectContent(depth, src, {
-            theme,
-            iconStyle,
-            ...rest
-          })
-          : this.getEllipsis()}
-        <span className='brace-row'>
-          <span
-            style={{
-              ...Theme(theme, 'brace').style,
-              paddingLeft: expanded ? '3px' : '0px'
-            }}
-          >
-            {objectType === 'array' ? ']' : '}'}
-          </span>
-        </span>
-        {showComma && !isLast && !jsvRoot && (
-          <span {...Theme(theme, 'comma')}>,</span>
-        )}
-        {this.getObjectMetaData(src)}
-      </div>
-    )
-  }
-
-  renderObjectContents = (variables, props) => {
-    const {
-      depth,
-      parent_type: parentType,
-      index_offset: indexOffset,
-      groupArraysAfterLength,
-      namespace,
-      showComma
-    } = this.props
-    const { object_type: objectType } = this.state
-    const elements = []
-    let variable
-    let keys = Object.keys(variables || {})
-    if (this.props.sortKeys && objectType !== 'array') {
-      keys = keys.sort()
-    }
-
-    keys.forEach((name, index) => {
-      variable = new JsonVariable(name, variables[name], props.bigNumber)
-      const isLast = index === keys.length - 1
-
-      if (parentType === 'array_group' && indexOffset) {
-        variable.name = parseInt(variable.name, 10) + indexOffset
-      }
-      if (!Object.prototype.hasOwnProperty.call(variables, name)) {
-        return
-      }
-      if(variable.type.toLowerCase() === 'window'){
-        return;// don't render native objects like `window` since they can be very large and cause performance issues
-      }
-      else if(this.isCircularReference(variable)) {
-        elements.push(
-          <JsonCircularReference 
-            key={variable.name}
-            depth={depth + DEPTH_INCREMENT}
-            name={variable.name}
-            src={variable.value}
-            namespace={namespace.concat(variable.name)}
-            type='array'
-            parent_type={objectType}
-            isLast={isLast}
-            showComma={showComma}
-            singleIndent={SINGLE_INDENT}
-            indentWidth={this.props.indentWidth}
-            {...props}
-          />
-        );
-      }
-      else if (variable.type === 'object') {
-        elements.push(
-          <JsonObject
-            key={variable.name}
-            depth={depth + DEPTH_INCREMENT}
-            name={variable.name}
-            src={variable.value}
-            namespace={namespace.concat(variable.name)}
-            parent_type={objectType}
-            isLast={isLast}
-            showComma={showComma}
-            listOfAncestors={this.listOfAncestors.concat([this.props.src])}
-            {...props}
-          />
-        );
-      } else if (variable.type === 'array') {
-        let ObjectComponent = JsonObject
-
-        if (
-          groupArraysAfterLength &&
-          variable.value.length > groupArraysAfterLength
-        ) {
-          ObjectComponent = ArrayGroup
-        }
-
-        elements.push(
-          <ObjectComponent
-            key={variable.name}
-            depth={depth + DEPTH_INCREMENT}
-            name={variable.name}
-            src={variable.value}
-            namespace={namespace.concat(variable.name)}
-            type='array'
-            parent_type={objectType}
-            isLast={isLast}
-            showComma={showComma}
-            listOfAncestors={this.listOfAncestors.concat([this.props.src])}
-            {...props}
-          />
-        )
-      } else {
-        // include bigNumber
-        elements.push(
-          <VariableEditor
-            key={variable.name + '_' + namespace}
-            variable={variable}
-            singleIndent={SINGLE_INDENT}
-            namespace={namespace}
-            type={this.props.type}
-            isLast={isLast}
-            showComma={showComma}
-            {...props}
-          />
-        )
-      }
-    })
-
-    return elements
-  }
+      {!isLast && !jsvRoot && <span {...Theme(theme, 'comma')}>,</span>}
+      <VariableMeta rowHovered={hovered} size={size} {...props} />
+    </div>
+  )
 }
-
-// just store name, value and type with a variable
-class JsonVariable {
-  constructor (name, value, bigNumber) {
-    this.name = name
-    this.value = value
-    this.type = toType(value, bigNumber)
-  }
-}
-
-polyfill(RjvObject)
-
-// export component
-export default RjvObject

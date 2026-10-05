@@ -6,11 +6,6 @@ import {
   CircleMinus,
   CirclePlus,
   Clippy,
-  RemoveCircle,
-  AddCircle,
-  Add,
-  Edit,
-  CheckCircle,
   SquarePlus,
   SquareMinus,
   ArrowDown,
@@ -53,33 +48,8 @@ describe('svg icons', function () {
     expect(wrapper.find('svg').length).to.equal(1)
   })
 
-  it('<RemoveCircle /> sanity check', function () {
-    const wrapper = shallow(<RemoveCircle />)
-    expect(wrapper.find('svg').length).to.equal(1)
-  })
-
-  it('<AddCircle /> sanity check', function () {
-    const wrapper = shallow(<AddCircle />)
-    expect(wrapper.find('svg').length).to.equal(1)
-  })
-
-  it('<Add /> sanity check', function () {
-    const wrapper = shallow(<Add />)
-    expect(wrapper.find('svg').length).to.equal(1)
-  })
-
-  it('<Edit /> sanity check', function () {
-    const wrapper = shallow(<Edit />)
-    expect(wrapper.find('svg').length).to.equal(1)
-  })
-
-  it('<CheckCircle /> sanity check', function () {
-    const wrapper = shallow(<CheckCircle />)
-    expect(wrapper.find('svg').length).to.equal(1)
-  })
-
   it('icon with color', function () {
-    const wrapper = shallow(<CheckCircle style={{ color: 'green' }} />)
+    const wrapper = shallow(<Clippy style={{ color: 'green' }} />)
     expect(wrapper.find('svg').length).to.equal(1)
   })
 })

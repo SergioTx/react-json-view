@@ -18,7 +18,6 @@
 
 ### Bug Fixes
 
-* **types:** add missing showComma prop to type definitions ([#197](https://github.com/microlinkhq/react-json-view/issues/197)) ([6fbb7ec](https://github.com/microlinkhq/react-json-view/commit/6fbb7ecace673b4764942435a6b69877f139d049))
 
 ## 1.31.29 (2026-08-19)
 ## 1.31.28 (2026-08-05)
@@ -55,10 +54,8 @@
 
 * add types field to package.json ([2e6320a](https://github.com/microlinkhq/react-json-view/commit/2e6320af1cb709536355218c79357842dd64d900))
 * **dev server:** add example of name as jsx element ([84ada17](https://github.com/microlinkhq/react-json-view/commit/84ada17617ad1df0e748e5cf6383f9cdcefa6e02))
-* Enhance VariableEditor to support BigNumber type handling ([98d2d1e](https://github.com/microlinkhq/react-json-view/commit/98d2d1e508f7121f46c2513435949a69454a75bf))
 * **json viewer:** add handling namespace when is an react object ([e11b60a](https://github.com/microlinkhq/react-json-view/commit/e11b60af87fa1755554cb5c846d1d49ea12d131e))
 * show comma option ([bdb3907](https://github.com/microlinkhq/react-json-view/commit/bdb39074635ee84cb2b2d18e7e5f746ae9b0883f))
-* trigger onSelect when clicking keys ([6db9f85](https://github.com/microlinkhq/react-json-view/commit/6db9f85e3dc4a7d2ad6a04414f498d49201de284))
 * **types:** add JSX.Element as name prop type ([ebd8aed](https://github.com/microlinkhq/react-json-view/commit/ebd8aed8246742ebc41776a8a0bb489b8e711138))
 * 优化 rjvId 生成方式，添加随机字符串增加唯一性 ([6d85757](https://github.com/microlinkhq/react-json-view/commit/6d85757b6e51ddb9c7cbf4f99c9688cf965bd90f))
 
@@ -96,10 +93,8 @@
 
 * add types field to package.json ([2e6320a](https://github.com/microlinkhq/react-json-view/commit/2e6320af1cb709536355218c79357842dd64d900))
 * **dev server:** add example of name as jsx element ([84ada17](https://github.com/microlinkhq/react-json-view/commit/84ada17617ad1df0e748e5cf6383f9cdcefa6e02))
-* Enhance VariableEditor to support BigNumber type handling ([98d2d1e](https://github.com/microlinkhq/react-json-view/commit/98d2d1e508f7121f46c2513435949a69454a75bf))
 * **json viewer:** add handling namespace when is an react object ([e11b60a](https://github.com/microlinkhq/react-json-view/commit/e11b60af87fa1755554cb5c846d1d49ea12d131e))
 * show comma option ([bdb3907](https://github.com/microlinkhq/react-json-view/commit/bdb39074635ee84cb2b2d18e7e5f746ae9b0883f))
-* trigger onSelect when clicking keys ([6db9f85](https://github.com/microlinkhq/react-json-view/commit/6db9f85e3dc4a7d2ad6a04414f498d49201de284))
 * **types:** add JSX.Element as name prop type ([ebd8aed](https://github.com/microlinkhq/react-json-view/commit/ebd8aed8246742ebc41776a8a0bb489b8e711138))
 * 优化 rjvId 生成方式，添加随机字符串增加唯一性 ([6d85757](https://github.com/microlinkhq/react-json-view/commit/6d85757b6e51ddb9c7cbf4f99c9688cf965bd90f))
 
@@ -135,10 +130,8 @@
 
 * add types field to package.json ([2e6320a](https://github.com/microlinkhq/react-json-view/commit/2e6320af1cb709536355218c79357842dd64d900))
 * **dev server:** add example of name as jsx element ([84ada17](https://github.com/microlinkhq/react-json-view/commit/84ada17617ad1df0e748e5cf6383f9cdcefa6e02))
-* Enhance VariableEditor to support BigNumber type handling ([98d2d1e](https://github.com/microlinkhq/react-json-view/commit/98d2d1e508f7121f46c2513435949a69454a75bf))
 * **json viewer:** add handling namespace when is an react object ([e11b60a](https://github.com/microlinkhq/react-json-view/commit/e11b60af87fa1755554cb5c846d1d49ea12d131e))
 * show comma option ([bdb3907](https://github.com/microlinkhq/react-json-view/commit/bdb39074635ee84cb2b2d18e7e5f746ae9b0883f))
-* trigger onSelect when clicking keys ([6db9f85](https://github.com/microlinkhq/react-json-view/commit/6db9f85e3dc4a7d2ad6a04414f498d49201de284))
 * **types:** add JSX.Element as name prop type ([ebd8aed](https://github.com/microlinkhq/react-json-view/commit/ebd8aed8246742ebc41776a8a0bb489b8e711138))
 * 优化 rjvId 生成方式，添加随机字符串增加唯一性 ([6d85757](https://github.com/microlinkhq/react-json-view/commit/6d85757b6e51ddb9c7cbf4f99c9688cf965bd90f))
 
@@ -175,10 +168,8 @@
 
 * add types field to package.json ([2e6320a](https://github.com/microlinkhq/react-json-view/commit/2e6320af1cb709536355218c79357842dd64d900))
 * **dev server:** add example of name as jsx element ([84ada17](https://github.com/microlinkhq/react-json-view/commit/84ada17617ad1df0e748e5cf6383f9cdcefa6e02))
-* Enhance VariableEditor to support BigNumber type handling ([98d2d1e](https://github.com/microlinkhq/react-json-view/commit/98d2d1e508f7121f46c2513435949a69454a75bf))
 * **json viewer:** add handling namespace when is an react object ([e11b60a](https://github.com/microlinkhq/react-json-view/commit/e11b60af87fa1755554cb5c846d1d49ea12d131e))
 * show comma option ([bdb3907](https://github.com/microlinkhq/react-json-view/commit/bdb39074635ee84cb2b2d18e7e5f746ae9b0883f))
-* trigger onSelect when clicking keys ([6db9f85](https://github.com/microlinkhq/react-json-view/commit/6db9f85e3dc4a7d2ad6a04414f498d49201de284))
 * **types:** add JSX.Element as name prop type ([ebd8aed](https://github.com/microlinkhq/react-json-view/commit/ebd8aed8246742ebc41776a8a0bb489b8e711138))
 * 优化 rjvId 生成方式，添加随机字符串增加唯一性 ([6d85757](https://github.com/microlinkhq/react-json-view/commit/6d85757b6e51ddb9c7cbf4f99c9688cf965bd90f))
 
@@ -257,7 +248,6 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Features
 
-* Enhance VariableEditor to support BigNumber type handling ([98d2d1e](https://github.com/microlinkhq/react-json-view/commit/98d2d1e508f7121f46c2513435949a69454a75bf))
 
 ### [1.24.1](https://github.com/microlinkhq/react-json-view/compare/v1.24.0...v1.24.1) (2025-02-12)
 

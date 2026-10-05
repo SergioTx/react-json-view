@@ -11,24 +11,22 @@
   <br>
 </h1>
 
-**react-json-view** (rjv) is a React component for displaying and editing javascript **arrays** and **JSON objects**.
+**react-json-view** (rjv) is a React component for displaying JavaScript **arrays** and **JSON objects**.
 
 ![](https://raw.githubusercontent.com/microlinkhq/react-json-view/docs/docs/assets/banner.png)
 
 ### Highlights
 
-* `onEdit`, `onAdd` and `onDelete` props allow users to edit the `src` variable.
 * Object, array, string and function values can be collapsed and expanded.
 * Object and array nodes display length.
 * Object and array nodes support a "Copy to Clipboard" feature.
 * String values can be truncated after a specified length.
 * Arrays can be subgrouped after a specified length.
 * Base-16 Theme Support.
-* When `onEdit` is enabled:
-   * `Ctrl/Cmd+Click` Edit Mode
-   * `Ctrl/Cmd+Enter` Submit
 
 ### Installation
+
+Requires React 16.8 or newer.
 
 ```shell
 npm install @microlink/react-json-view --save
@@ -52,10 +50,8 @@ import ReactJsonView from '@microlink/react-json-view'
     'last-child': null
     },
   string_number: '1234',
-  date: new Date(),
-  bigNumber: new BigNumber('0.0060254656709730629123')
+  date: new Date()
   }}
-  showComma
 />
 ```
 
@@ -76,37 +72,10 @@ import ReactJsonView from '@microlink/react-json-view'
 | `enableClipboard`            | `boolean` or `(copy)=>{}`                        | `true`                   | When prop is not `false`, the user can copy objects and arrays to clipboard by clicking on the clipboard icon. Copy callbacks are supported.                                                                                                                              |
 | `displayObjectSize`          | `boolean`                                        | `true`                   | When set to `true`, objects and arrays are labeled with size.                                                                                                                                                                                                             |
 | `displayDataTypes`           | `boolean`                                        | `true`                   | When set to `true`, data type labels prefix values.                                                                                                                                                                                                                       |
-| `onEdit`                     | `(edit)=>{}`                                     | `false`                  | When a callback function is passed in, `edit` functionality is enabled. The callback is invoked before edits are completed. Returning `false` from `onEdit` will prevent the change from being made. [see: onEdit docs](#onedit-onadd-and-ondelete-interaction)           |
-| `onAdd`                      | `(add)=>{}`                                      | `false`                  | When a callback function is passed in, `add` functionality is enabled. The callback is invoked before additions are completed. Returning `false` from `onAdd` will prevent the change from being made. [see: onAdd docs](#onedit-onadd-and-ondelete-interaction)          |
-| `defaultValue`               | `string \| number \| boolean \| array \| object` | `null`                   | Sets the default value to be used when adding an item to JSON.                                                                                                                                                                                                            |
-| `onDelete`                   | `(delete)=>{}`                                   | `false`                  | When a callback function is passed in, `delete` functionality is enabled. The callback is invoked before deletions are completed. Returning `false` from `onDelete` will prevent the change from being made. [see: onDelete docs](#onedit-onadd-and-ondelete-interaction) |
-| `onSelect`                   | `(select)=>{}`                                   | `false`                  | When a function is passed in, clicking a value or a key triggers the `onSelect` method to be called.                                                                                                                                                                      |
 | `sortKeys`                   | `boolean`                                        | `false`                  | Set to `true` to sort object keys.                                                                                                                                                                                                                                        |
 | `quotesOnKeys`               | `boolean`                                        | `true`                   | Set to `false` to remove quotes from keys (e.g., `"name":` vs. `name:`).                                                                                                                                                                                                  |
-| `validationMessage`          | `string`                                         | "Validation Error"       | Custom message for validation failures to `onEdit`, `onAdd`, or `onDelete` callbacks.                                                                                                                                                                                     |
 | `displayArrayKey`            | `boolean`                                        | `true`                   | When set to `true`, the index of the elements prefix values.                                                                                                                                                                                                              |
 | `escapeStrings`              | `boolean`                                        | `true`                   | When set to `true`, strings sequences such as \n, \t, \r, \f will be escaped.                                                                                                                                                                                                          |
-| `bigNumber`                  | `Class`                                          | `null`                   | A custom class for handling large numbers. The class should have a constructor that accepts a numeric string/value and a `name` property for display purposes. You can use existing libraries like `bignumber.js`, `decimal.js`, `big.js`, or provide your own implementation.                                                                                                               |
-| `showComma`                  | `boolean`                                        | `true`                   | When set to `true`, commas are displayed between object properties and array elements for better readability. Interactive tools (clipboard, edit, delete icons) appear after the comma when hovering over JSON elements.                                                                                                                              |
-
-#### Callbacks
-
-You can pass callback methods to `onEdit`, `onAdd` and `onDelete` props.
-
-Your method will be invoked when a user attempts to update your `src` object.
-
-The following object will be passed to your method:
-```js
-{
-    updated_src: src, //new src value
-    name: name, //new var name
-    namespace: namespace, //list, namespace indicating var location
-    new_value: new_value, //new variable value
-    existing_value: existing_value, //existing variable value
-}
-```
-
-Returning `false` from a callback method will prevent the src from being affected.
 
 ### Theming
 
