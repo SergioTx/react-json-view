@@ -1,25 +1,25 @@
-import React from 'react'
-import CopyToClipboard from './CopyToClipboard'
-import Theme from './../themes/getStyle'
+import React from "react";
+import CopyToClipboard from "./CopyToClipboard";
+import Theme from "./../themes/getStyle";
 
-export default function VariableMeta ({
+export default function VariableMeta({
   size,
   theme,
   displayObjectSize,
   enableClipboard,
   src,
   namespace,
-  rowHovered
+  rowHovered,
 }) {
   return (
     <div
-      {...Theme(theme, 'object-meta-data')}
-      className='object-meta-data'
+      {...Theme(theme, "object-meta-data")}
+      className="object-meta-data"
       onClick={(event) => event.stopPropagation()}
     >
       {displayObjectSize && (
-        <span className='object-size' {...Theme(theme, 'object-size')}>
-          {size} item{size === 1 ? '' : 's'}
+        <span className="object-size" {...Theme(theme, "object-size")}>
+          {size} item{size === 1 ? "" : "s"}
         </span>
       )}
       {enableClipboard && (
@@ -30,5 +30,5 @@ export default function VariableMeta ({
         />
       )}
     </div>
-  )
+  );
 }

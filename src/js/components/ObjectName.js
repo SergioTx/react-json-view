@@ -1,7 +1,7 @@
-import React from 'react'
-import Theme from './../themes/getStyle'
+import React from "react";
+import Theme from "./../themes/getStyle";
 
-export default function getObjectName (props) {
+export default function getObjectName(props) {
   const {
     parent_type: parentType,
     namespace,
@@ -9,34 +9,32 @@ export default function getObjectName (props) {
     theme,
     jsvRoot,
     name,
-    displayArrayKey
-  } = props
+    displayArrayKey,
+  } = props;
 
-  const displayName = props.name ? props.name : ''
+  const displayName = props.name ? props.name : "";
 
   if (jsvRoot && (name === false || name === null)) {
-    return <span />
-  } else if (parentType === 'array') {
-    return displayArrayKey
-      ? (
-        <span {...Theme(theme, 'array-key')} key={namespace}>
-          <span className='array-key'>{displayName}</span>
-          <span {...Theme(theme, 'colon')}>:</span>
-        </span>
-        )
-      : (
-        <span />
-        )
+    return <span />;
+  } else if (parentType === "array") {
+    return displayArrayKey ? (
+      <span {...Theme(theme, "array-key")} key={namespace}>
+        <span className="array-key">{displayName}</span>
+        <span {...Theme(theme, "colon")}>:</span>
+      </span>
+    ) : (
+      <span />
+    );
   } else {
     return (
-      <span {...Theme(theme, 'object-name')} key={namespace}>
-        <span className='object-key'>
-          {quotesOnKeys && <span style={{ verticalAlign: 'top' }}>"</span>}
+      <span {...Theme(theme, "object-name")} key={namespace}>
+        <span className="object-key">
+          {quotesOnKeys && <span style={{ verticalAlign: "top" }}>"</span>}
           <span>{displayName}</span>
-          {quotesOnKeys && <span style={{ verticalAlign: 'top' }}>"</span>}
+          {quotesOnKeys && <span style={{ verticalAlign: "top" }}>"</span>}
         </span>
-        <span {...Theme(theme, 'colon')}>:</span>
+        <span {...Theme(theme, "colon")}>:</span>
       </span>
-    )
+    );
   }
 }

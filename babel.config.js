@@ -1,11 +1,11 @@
 module.exports = (api) => {
-  const isTest = api.env('test')
+  const isTest = api.env("test");
 
   return {
     presets: [
-      ['@babel/preset-env', { modules: isTest ? 'commonjs' : false }],
-      ['@babel/preset-react', { runtime: 'automatic' }]
+      ["@babel/preset-env", { modules: isTest ? "commonjs" : false }],
+      ["@babel/preset-react", { runtime: "automatic" }],
     ],
-    plugins: ['react-html-attrs', isTest && 'istanbul'].filter(Boolean)
-  }
-}
+    plugins: ["react-html-attrs", isTest && "istanbul"].filter(Boolean),
+  };
+};

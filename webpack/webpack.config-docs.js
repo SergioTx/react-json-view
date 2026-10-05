@@ -1,25 +1,25 @@
-const path = require('path')
-const TerserPlugin = require('terser-webpack-plugin')
+const path = require("path");
+const TerserPlugin = require("terser-webpack-plugin");
 
 const PATHS = {
-  src: path.join(__dirname, '..', 'src'),
-  js: path.join(__dirname, '..', 'src', 'js'),
-  style: path.join(__dirname, '..', 'src', 'style'),
-  build: path.join(__dirname, '..', 'docs', 'dist'),
-  docs: path.join(__dirname, '..', 'docs')
-}
+  src: path.join(__dirname, "..", "src"),
+  js: path.join(__dirname, "..", "src", "js"),
+  style: path.join(__dirname, "..", "src", "style"),
+  build: path.join(__dirname, "..", "docs", "dist"),
+  docs: path.join(__dirname, "..", "docs"),
+};
 
 const config = {
-  mode: 'production',
-  entry: [PATHS.docs + '/src/js/entry.js'],
+  mode: "production",
+  entry: [PATHS.docs + "/src/js/entry.js"],
   output: {
-    path: PATHS.docs + '/dist',
-    filename: 'main.js',
-    library: 'reactJsonView',
-    libraryTarget: 'umd'
+    path: PATHS.docs + "/dist",
+    filename: "main.js",
+    library: "reactJsonView",
+    libraryTarget: "umd",
   },
   resolve: {
-    extensions: ['.js', '.json', '.css', '.scss']
+    extensions: [".js", ".json", ".css", ".scss"],
   },
   module: {
     rules: [
@@ -27,35 +27,35 @@ const config = {
         test: /\.jsx?$/,
         use: [
           {
-            loader: 'babel-loader'
-          }
+            loader: "babel-loader",
+          },
         ],
-        include: [PATHS.js, PATHS.docs]
+        include: [PATHS.js, PATHS.docs],
       },
       {
         test: /\.s?css$/,
         use: [
           {
-            loader: 'style-loader'
+            loader: "style-loader",
           },
           {
-            loader: 'css-loader'
+            loader: "css-loader",
           },
           {
-            loader: 'sass-loader'
-          }
-        ]
-      }
-    ]
+            loader: "sass-loader",
+          },
+        ],
+      },
+    ],
   },
   optimization: {
     minimize: true,
     minimizer: [
       new TerserPlugin({
-        extractComments: false
-      })
-    ]
-  }
-}
+        extractComments: false,
+      }),
+    ],
+  },
+};
 
-module.exports = config
+module.exports = config;

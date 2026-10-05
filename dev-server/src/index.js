@@ -1,38 +1,38 @@
-'use strict'
+"use strict";
 
 //import react and reactDom for browser rendering
-import React from 'react'
-import { createRoot } from 'react-dom/client'
+import React from "react";
+import { createRoot } from "react-dom/client";
 
-import Moment from 'moment'
+import Moment from "moment";
 
 //import the react-json-view component (installed with npm)
-import JsonViewer from './../../src/js/index'
+import JsonViewer from "./../../src/js/index";
 
-var circularReferenceObject = getExampleJson5()
+var circularReferenceObject = getExampleJson5();
 
 //render 2 different examples of the react-json-view component
-createRoot(document.getElementById('app-container')).render(
+createRoot(document.getElementById("app-container")).render(
   <div>
     {/* just pass in your JSON to the src attribute */}
     <JsonViewer
       sortKeys
-      style={{ padding: '30px', backgroundColor: 'white' }}
+      style={{ padding: "30px", backgroundColor: "white" }}
       src={getExampleJson1()}
       quotesOnKeys={false}
       collapseStringsAfterLength={12}
       displayObjectSize={true}
-      name={'dev-server'}
+      name={"dev-server"}
       enableClipboard={(copy) => {
-        console.log('you copied to clipboard!', copy)
+        console.log("you copied to clipboard!", copy);
       }}
       shouldCollapse={({ src, namespace, type }) => {
-        if (type === 'array' && src.indexOf('test') > -1) {
-          return true
-        } else if (namespace.indexOf('moment') > -1) {
-          return true
+        if (type === "array" && src.indexOf("test") > -1) {
+          return true;
+        } else if (namespace.indexOf("moment") > -1) {
+          return true;
         }
-        return false
+        return false;
       }}
     />
 
@@ -48,9 +48,9 @@ createRoot(document.getElementById('app-container')).render(
       name={false}
       iconStyle="triangle"
       shouldCollapse={({ src, type }) =>
-        type === 'object' &&
+        type === "object" &&
         src.constructor &&
-        src.constructor.name === 'Moment'
+        src.constructor.name === "Moment"
       }
     />
 
@@ -60,7 +60,7 @@ createRoot(document.getElementById('app-container')).render(
     <JsonViewer
       src={getExampleJson2()}
       collapsed={true}
-      name={'feature_set'}
+      name={"feature_set"}
       displayDataTypes={false}
       indentWidth={2}
     />
@@ -71,7 +71,7 @@ createRoot(document.getElementById('app-container')).render(
     <JsonViewer
       src={getExampleJson2()}
       collapsed={1}
-      name={'feature_set'}
+      name={"feature_set"}
       displayDataTypes={false}
       indentWidth={5}
     />
@@ -82,7 +82,7 @@ createRoot(document.getElementById('app-container')).render(
     <JsonViewer
       src={getExampleJson3()}
       collapsed={true}
-      name={'collapsed_by_default_example'}
+      name={"collapsed_by_default_example"}
       indentWidth={8}
       displayObjectSize={false}
       displayDataTypes={false}
@@ -101,25 +101,25 @@ createRoot(document.getElementById('app-container')).render(
       enableClipboard={false}
       src={getExampleJson1()}
       shouldCollapse={({ src, namespace, type }) =>
-        namespace.indexOf('moment') > -1
+        namespace.indexOf("moment") > -1
       }
       theme={{
-        base00: 'white',
-        base01: '#ddd',
-        base02: '#ddd',
-        base03: '#444',
-        base04: 'purple',
-        base05: '#444',
-        base06: '#444',
-        base07: '#444',
-        base08: '#444',
-        base09: 'rgba(70, 70, 230, 1)',
-        base0A: 'rgba(70, 70, 230, 1)',
-        base0B: 'rgba(70, 70, 230, 1)',
-        base0C: 'rgba(70, 70, 230, 1)',
-        base0D: 'rgba(70, 70, 230, 1)',
-        base0E: 'rgba(70, 70, 230, 1)',
-        base0F: 'rgba(70, 70, 230, 1)',
+        base00: "white",
+        base01: "#ddd",
+        base02: "#ddd",
+        base03: "#444",
+        base04: "purple",
+        base05: "#444",
+        base06: "#444",
+        base07: "#444",
+        base08: "#444",
+        base09: "rgba(70, 70, 230, 1)",
+        base0A: "rgba(70, 70, 230, 1)",
+        base0B: "rgba(70, 70, 230, 1)",
+        base0C: "rgba(70, 70, 230, 1)",
+        base0D: "rgba(70, 70, 230, 1)",
+        base0E: "rgba(70, 70, 230, 1)",
+        base0F: "rgba(70, 70, 230, 1)",
       }}
     />
 
@@ -135,7 +135,7 @@ createRoot(document.getElementById('app-container')).render(
     <JsonViewer
       collapsed
       name={
-        <span style={{ color: 'red', fontWeight: 800 }}>
+        <span style={{ color: "red", fontWeight: 800 }}>
           React Element as name
         </span>
       }
@@ -154,27 +154,27 @@ createRoot(document.getElementById('app-container')).render(
     {/* Circular reference example */}
     <JsonViewer
       sortKeys
-      style={{ padding: '30px', backgroundColor: 'white' }}
+      style={{ padding: "30px", backgroundColor: "white" }}
       src={circularReferenceObject}
       quotesOnKeys={false}
       collapseStringsAfterLength={12}
       displayObjectSize={true}
-      name={'circular-reference-example'}
+      name={"circular-reference-example"}
       enableClipboard={(copy) => {
-        console.log('you copied to clipboard!', copy)
+        console.log("you copied to clipboard!", copy);
       }}
       shouldCollapse={({ src, namespace, type }) => {
-        if (type === 'array' && src.indexOf('test') > -1) {
-          return true
-        } else if (namespace.indexOf('moment') > -1) {
-          return true
+        if (type === "array" && src.indexOf("test") > -1) {
+          return true;
+        } else if (namespace.indexOf("moment") > -1) {
+          return true;
         }
-        return false
+        return false;
       }}
     />
     <button
       onClick={() => {
-        circularReferenceObject.window = window
+        circularReferenceObject.window = window;
       }}
     >
       Test Circular Reference
@@ -182,7 +182,7 @@ createRoot(document.getElementById('app-container')).render(
 
     <br />
   </div>
-)
+);
 
 /*-------------------------------------------------------------------------*/
 /*     the following functions just contain test json data for display     */
@@ -191,11 +191,11 @@ createRoot(document.getElementById('app-container')).render(
 //just a function to get an example JSON object
 function getExampleJson1() {
   return {
-    string: 'this is a test string',
+    string: "this is a test string",
     integer: 42,
     empty_array: [],
     empty_object: {},
-    array: [1, 2, 3, 'test'],
+    array: [1, 2, 3, "test"],
     float: -2.757,
     undefined_var: undefined,
     parent: {
@@ -203,93 +203,95 @@ function getExampleJson1() {
       sibling2: false,
       sibling3: null,
       isString: (value) => {
-        if (typeof value === 'string') {
-          return 'string'
+        if (typeof value === "string") {
+          return "string";
         } else {
-          return 'other'
+          return "other";
         }
       },
     },
-    string_number: '1234',
+    string_number: "1234",
     date: new Date(),
     moment: Moment(),
     regexp: /[0-9]/gi,
-  }
+  };
 }
 
 //and another a function to get an example JSON object
 function getExampleJson2() {
   return {
     normalized: {
-      '1-grams': {
+      "1-grams": {
         body: 1,
         testing: 1,
       },
-      '2-grams': {
-        'testing body': 1,
+      "2-grams": {
+        "testing body": 1,
       },
-      '3-grams': {},
+      "3-grams": {},
     },
     noun_phrases: {
       body: 1,
     },
     lemmatized: {
-      '1-grams': {
+      "1-grams": {
         test: 1,
         body: 1,
       },
-      '2-grams': {
-        'test body': 1,
+      "2-grams": {
+        "test body": 1,
       },
-      '3-grams': {},
+      "3-grams": {},
     },
     dependency: {
-      '1-grams': {
+      "1-grams": {
         testingVERBROOTtestingVERB: 1,
         bodyNOUNdobjtestingVERB: 1,
       },
-      '2-grams': {
-        'testingVERBROOTtestingVERB bodyNOUNdobjtestingVERB': 1,
+      "2-grams": {
+        "testingVERBROOTtestingVERB bodyNOUNdobjtestingVERB": 1,
       },
-      '3-grams': {},
+      "3-grams": {},
     },
-  }
+  };
 }
 
 function getExampleJson3() {
   return {
     example_information:
-      'this example has the collapsed prop set to true and the indentWidth prop is set to 8',
+      "this example has the collapsed prop set to true and the indentWidth prop is set to 8",
     default_collapsed: true,
     collapsed_array: [
-      'you expanded me',
-      'try collapsing and expanding the root node',
-      'i will still be expanded',
+      "you expanded me",
+      "try collapsing and expanding the root node",
+      "i will still be expanded",
       {
         leaf_node: true,
       },
     ],
-  }
+  };
 }
 
 function getExampleJson4() {
-  const large_array = new Array(225).fill('this is a large array full of items')
+  const large_array = new Array(225).fill(
+    "this is a large array full of items"
+  );
 
-  large_array.push(getExampleArray())
+  large_array.push(getExampleArray());
 
-  large_array.push(new Array(75).fill(Math.random()))
+  large_array.push(new Array(75).fill(Math.random()));
 
-  return large_array
+  return large_array;
 }
 
 //just a function to get an example JSON object
 function getExampleJson5() {
   let circularReferenceObject = {
-    string: 'this is a test string',
+    string: "this is a test string",
     integer: 42,
     empty_array: [],
     empty_object: {},
-    array: [1, 2, 3, 'test'],
+    array: [1, 2, 3, "test"],
     float: -2.757,
     undefined_var: undefined,
     parent: {
@@ -297,28 +299,28 @@ function getExampleJson5() {
       sibling2: false,
       sibling3: null,
       isString: (value) => {
-        if (typeof value === 'string') {
-          return 'string'
+        if (typeof value === "string") {
+          return "string";
         } else {
-          return 'other'
+          return "other";
         }
       },
     },
-    string_number: '1234',
+    string_number: "1234",
     date: new Date(),
     moment: Moment(),
     regexp: /[0-9]/gi,
-  }
-  circularReferenceObject.self = circularReferenceObject
+  };
+  circularReferenceObject.self = circularReferenceObject;
   circularReferenceObject.parent.nested_circular_reference =
-    circularReferenceObject
-  circularReferenceObject.parent.self = circularReferenceObject.parent
-  return circularReferenceObject
+    circularReferenceObject;
+  circularReferenceObject.parent.self = circularReferenceObject.parent;
+  return circularReferenceObject;
 }
 
 function getExampleArray() {
   return [
-    'you can also display arrays!',
+    "you can also display arrays!",
     new Date(),
     1,
     2,
@@ -326,9 +328,9 @@ function getExampleArray() {
     {
       pretty_cool: true,
     },
-  ]
+  ];
 }
 
 function getExampleWithStringEscapeSequences() {
-  return { '\\\n\t\r\f\\n': '\\\n\t\r\f\\n' }
+  return { "\\\n\t\r\f\\n": "\\\n\t\r\f\\n" };
 }

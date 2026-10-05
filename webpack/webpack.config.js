@@ -1,42 +1,42 @@
-const path = require('path')
-const TerserPlugin = require('terser-webpack-plugin')
+const path = require("path");
+const TerserPlugin = require("terser-webpack-plugin");
 
 const PATHS = {
-  src: path.join(__dirname, '..', 'src'),
-  js: path.join(__dirname, '..', 'src', 'js'),
-  style: path.join(__dirname, '..', 'src', 'style'),
-  build: path.join(__dirname, '..', 'dist')
-}
+  src: path.join(__dirname, "..", "src"),
+  js: path.join(__dirname, "..", "src", "js"),
+  style: path.join(__dirname, "..", "src", "style"),
+  build: path.join(__dirname, "..", "dist"),
+};
 
 const config = {
-  mode: 'production',
-  entry: [PATHS.js + '/index.js'],
+  mode: "production",
+  entry: [PATHS.js + "/index.js"],
   externals: {
     react: {
-      root: 'React',
-      commonjs2: 'react',
-      commonjs: 'react',
-      amd: 'react',
-      umd: 'react'
+      root: "React",
+      commonjs2: "react",
+      commonjs: "react",
+      amd: "react",
+      umd: "react",
     },
-    'react-dom': {
-      root: 'ReactDOM',
-      commonjs2: 'react-dom',
-      commonjs: 'react-dom',
-      amd: 'react-dom',
-      umd: 'react-dom'
-    }
+    "react-dom": {
+      root: "ReactDOM",
+      commonjs2: "react-dom",
+      commonjs: "react-dom",
+      amd: "react-dom",
+      umd: "react-dom",
+    },
   },
   output: {
     path: PATHS.build,
-    filename: 'main.js',
-    library: 'reactJsonView',
-    libraryTarget: 'umd',
-    globalObject: 'this'
+    filename: "main.js",
+    library: "reactJsonView",
+    libraryTarget: "umd",
+    globalObject: "this",
   },
   plugins: [],
   resolve: {
-    extensions: ['.js', '.json', '.css', '.scss']
+    extensions: [".js", ".json", ".css", ".scss"],
   },
   module: {
     rules: [
@@ -44,24 +44,24 @@ const config = {
         test: /\.jsx?$/,
         use: [
           {
-            loader: 'babel-loader'
-          }
+            loader: "babel-loader",
+          },
         ],
-        include: [PATHS.js]
-      }
-    ]
+        include: [PATHS.js],
+      },
+    ],
   },
   optimization: {
     minimize: true,
     minimizer: [
       new TerserPlugin({
-        extractComments: false
-      })
-    ]
+        extractComments: false,
+      }),
+    ],
   },
   node: {
-    global: false // Prevents webpack from breaking CSP, see https://github.com/microlinkhq/react-json-view/issues/76
-  }
-}
+    global: false, // Prevents webpack from breaking CSP, see https://github.com/microlinkhq/react-json-view/issues/76
+  },
+};
 
-module.exports = config
+module.exports = config;
