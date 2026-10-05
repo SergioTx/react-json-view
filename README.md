@@ -71,7 +71,6 @@ import ReactJsonView from '@sergiotx/react-json-view';
 | `quotesOnKeys`               | `boolean`                 | `true`          | Set to `false` to remove quotes from keys (e.g., `"name":` vs. `name:`).                                                                                                                                      |
 | `displayArrayKey`            | `boolean`                 | `true`          | When set to `true`, the index of the elements prefix values.                                                                                                                                                  |
 | `escapeStrings`              | `boolean`                 | `true`          | When set to `true`, strings sequences such as \n, \t, \r, \f will be escaped.                                                                                                                                 |
-
 | `timestampFields` | `string` or `string[]` | `'timestamp'` | Field names whose numeric values should be parsed as Unix timestamps and show a date tooltip. Matching is by field name at any nesting depth. |
 
 ### Theming
