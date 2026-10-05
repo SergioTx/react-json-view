@@ -13,18 +13,16 @@
     "checkJs": true,
     "noEmit": true,
     "skipLibCheck": false,
-    "types": ["node", "mocha"]
+    "types": ["node", "vitest/globals"]
   },
   "include": [
     "src/**/*",
     "docs/src/**/*",
     "dev-server/src/**/*",
     "test/**/*",
-    "webpack/*.js",
-    "babel.config.js",
+    "vite.config.ts",
     "scripts/*.mjs",
-    "index.d.ts",
-    "index.mjs"
+    "index.d.ts"
   ],
   "exclude": ["node_modules", "dist", "docs/dist", "dev-server/dist"]
 }

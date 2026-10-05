@@ -31,8 +31,6 @@ jobs:
         run: pnpm test
       - name: Type Check
         run: pnpm typecheck
-      - name: Report
-        run: npx c8 report --reporter=text-lcov > coverage/lcov.info
       - name: Coverage
         uses: coverallsapp/github-action@main
         with:

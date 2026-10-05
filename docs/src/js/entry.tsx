@@ -1,7 +1,7 @@
 import { createRoot } from "react-dom/client";
 import Index from "./index";
 
-require("./../style/scss/global.scss");
+import "./../style/scss/global.scss";
 
 const app = document.getElementById("mac-react-container");
 if (!app) throw new Error("Documentation root container is missing");

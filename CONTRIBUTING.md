@@ -9,18 +9,18 @@ npm install --save-dev
 npm run dev
 ```
 
-Webpack Dev Server should automatically open up http://localhost:2000 in your web browser. If it does not, open a browser and navigate to port 2000. The hot reloader will automatically reload when files are modified in the `/src/` directory.
+Vite serves the development examples at http://localhost:2000 and updates them when source files change. Run `npm run docs:dev` for the documentation demo at http://localhost:2001.
 
 ## Run the Production Build
 
 ```bash
-# run the build (note: you may need to use `sudo` priveledges to run the build successfully)
+# build the ESM library and declarations
 npm run build
 ```
 
 Please add tests for your code before posting a pull request.
 
-You can run the test suite with `npm run test` or `npm run test:watch` to automatically reload when files are modified.
+Vitest runs the tests with jsdom and React Testing Library. Use `npm run test` for tests and V8 coverage, `npm run test:unit` for tests without coverage, or `npm run test:watch` for watch mode. Coverage includes `coverage/lcov.info` for CI.
 
 ## Type Checking
 
@@ -33,4 +33,4 @@ npm run lint
 
 Both commands enforce the no-`any` policy, including inferred `any` values and unsafe calls or member access. Use `unknown` and runtime narrowing for inspected JSON values. The policy gate uses the pinned TypeScript 7 native API because the current TypeScript ESLint parser does not support TypeScript 7.
 
-`npm run build` generates declaration files before compiling the distributable library. Add external `@types` packages when a dependency does not bundle its own declarations.
+`npm run build` bundles the library with Vite and generates declaration files. Only ESM is published; React remains external. Babel, webpack, and CommonJS output are not used. Add external `@types` packages when a dependency does not bundle its own declarations.

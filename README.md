@@ -28,6 +28,8 @@
 
 Requires React 19 or newer.
 
+This package is ESM-only. Development requires Node.js 22.12 or newer.
+
 ```shell
 npm install @microlink/react-json-view --save
 ```
