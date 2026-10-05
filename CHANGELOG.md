@@ -1,3 +1,9 @@
+## 1.1.1 (2026-10-05)
+
+### Bug Fixes
+
+* **ci:** configure release git identity ([ee466fd](https://github.com/sergiotx/react-json-view/commit/ee466fd78c0502755b94bde48835808eaded0b90))
+
 # Changelog
 
 ## 1.1.0 (2026-10-05)
