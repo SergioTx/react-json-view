@@ -1,3 +1,9 @@
+## 1.1.3 (2026-10-05)
+
+### Bug Fixes
+
+* limit timestamp tooltip to timestamp field ([15ac93f](https://github.com/sergiotx/react-json-view/commit/15ac93f913966206dbb11ef61b2ed72980273dc8))
+
 ## 1.1.2 (2026-10-05)
 
 ### Bug Fixes
