@@ -1,6 +1,6 @@
-import type { NameProps } from "../types";
-import React from "react";
-import Theme from "./../themes/getStyle";
+import type { NameProps } from '../types';
+import React from 'react';
+import Theme from './../themes/getStyle';
 export default function getObjectName(props: NameProps) {
   const {
     parent_type: parentType,
@@ -11,26 +11,26 @@ export default function getObjectName(props: NameProps) {
     name,
     displayArrayKey,
   } = props;
-  const displayName = props.name ? props.name : "";
+  const displayName = props.name ? props.name : '';
   if (jsvRoot && (name === false || name === null)) {
     return <span />;
-  } else if (parentType === "array") {
+  } else if (parentType === 'array') {
     return displayArrayKey ? (
-      <span {...Theme(theme, "array-key")} key={JSON.stringify(namespace)}>
+      <span {...Theme(theme, 'array-key')} key={JSON.stringify(namespace)}>
         <span className="array-key">{displayName}</span>
-        <span {...Theme(theme, "colon")}>:</span>
+        <span {...Theme(theme, 'colon')}>:</span>
       </span>
     ) : (
       <span />
     );
   } else {
     return (
-      <span {...Theme(theme, "object-name")} key={JSON.stringify(namespace)}>
+      <span {...Theme(theme, 'object-name')} key={JSON.stringify(namespace)}>
         <span className="object-key">
           {quotesOnKeys && (
             <span
               style={{
-                verticalAlign: "top",
+                verticalAlign: 'top',
               }}
             >
               "
@@ -40,14 +40,14 @@ export default function getObjectName(props: NameProps) {
           {quotesOnKeys && (
             <span
               style={{
-                verticalAlign: "top",
+                verticalAlign: 'top',
               }}
             >
               "
             </span>
           )}
         </span>
-        <span {...Theme(theme, "colon")}>:</span>
+        <span {...Theme(theme, 'colon')}>:</span>
       </span>
     );
   }

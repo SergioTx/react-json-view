@@ -1,8 +1,8 @@
-import type { CircularProps } from "../../types";
-import React from "react";
+import type { CircularProps } from '../../types';
+import React from 'react';
 
 // theme
-import Theme from "./../../themes/getStyle";
+import Theme from './../../themes/getStyle';
 export default function CircularReference(props: CircularProps) {
   const {
     namespace,
@@ -13,13 +13,13 @@ export default function CircularReference(props: CircularProps) {
     isLast,
     jsvRoot,
   } = props;
-  const displayName = props.name ? props.name : "";
+  const displayName = props.name ? props.name : '';
   return (
     <div className="variable-row">
       <span
-        {...Theme(theme, "object-name")}
+        {...Theme(theme, 'object-name')}
         key={JSON.stringify(namespace)}
-        {...Theme(theme, "objectKeyVal", {
+        {...Theme(theme, 'objectKeyVal', {
           paddingLeft: indentWidth * singleIndent,
         })}
       >
@@ -27,7 +27,7 @@ export default function CircularReference(props: CircularProps) {
           {quotesOnKeys && (
             <span
               style={{
-                verticalAlign: "top",
+                verticalAlign: 'top',
               }}
             >
               "
@@ -37,17 +37,17 @@ export default function CircularReference(props: CircularProps) {
           {quotesOnKeys && (
             <span
               style={{
-                verticalAlign: "top",
+                verticalAlign: 'top',
               }}
             >
               "
             </span>
           )}
         </span>
-        <span {...Theme(theme, "colon")}>:</span>
+        <span {...Theme(theme, 'colon')}>:</span>
       </span>
-      <span {...Theme(theme, "circularReference")}>[CIRCULAR REFERENCE]</span>
-      {!isLast && !jsvRoot && <span {...Theme(theme, "comma")}>,</span>}
+      <span {...Theme(theme, 'circularReference')}>[CIRCULAR REFERENCE]</span>
+      {!isLast && !jsvRoot && <span {...Theme(theme, 'comma')}>,</span>}
     </div>
   );
 }

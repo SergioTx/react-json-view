@@ -1,12 +1,12 @@
-import type { NodeProps } from "../types";
-import React from "react";
-import Theme from "./../themes/getStyle";
-import VariableMeta from "./VariableMeta";
-import ObjectName from "./ObjectName";
-import ObjectComponent from "./DataTypes/Object";
+import type { NodeProps } from '../types';
+import React from 'react';
+import Theme from './../themes/getStyle';
+import VariableMeta from './VariableMeta';
+import ObjectName from './ObjectName';
+import ObjectComponent from './DataTypes/Object';
 
 // icons
-import { CollapsedIcon, ExpandedIcon } from "./ToggleIcons";
+import { CollapsedIcon, ExpandedIcon } from './ToggleIcons';
 
 // single indent is 5px
 const SINGLE_INDENT = 5;
@@ -63,7 +63,7 @@ export default function ArrayGroup(props: NodeProps): React.JSX.Element {
   return (
     <div
       className="object-key-val"
-      {...Theme(theme, jsvRoot ? "jsv-root" : "objectKeyVal", {
+      {...Theme(theme, jsvRoot ? 'jsv-root' : 'objectKeyVal', {
         paddingLeft: objectPaddingLeft,
       })}
     >
@@ -76,15 +76,15 @@ export default function ArrayGroup(props: NodeProps): React.JSX.Element {
         <div
           key={index}
           className="object-key-val array-group"
-          {...Theme(theme, "objectKeyVal", {
+          {...Theme(theme, 'objectKeyVal', {
             marginLeft: 6,
             paddingLeft: arrayGroupPaddingLeft,
           })}
         >
-          <span {...Theme(theme, "brace-row")}>
+          <span {...Theme(theme, 'brace-row')}>
             <div
               className="icon-container"
-              {...Theme(theme, "icon-container")}
+              {...Theme(theme, 'icon-container')}
               onClick={(e) => {
                 toggleCollapsed(index);
               }}
@@ -110,7 +110,7 @@ export default function ArrayGroup(props: NodeProps): React.JSX.Element {
               />
             ) : (
               <span
-                {...Theme(theme, "brace")}
+                {...Theme(theme, 'brace')}
                 onClick={(e) => {
                   toggleCollapsed(index);
                 }}
@@ -118,15 +118,15 @@ export default function ArrayGroup(props: NodeProps): React.JSX.Element {
               >
                 [
                 <div
-                  {...Theme(theme, "array-group-meta-data")}
+                  {...Theme(theme, 'array-group-meta-data')}
                   className="array-group-meta-data"
                 >
                   <span
                     className="object-size"
-                    {...Theme(theme, "object-size")}
+                    {...Theme(theme, 'object-size')}
                   >
                     {index * size}
-                    {" - "}
+                    {' - '}
                     {index * size + size - 1 > src.length
                       ? src.length - 1
                       : index * size + size - 1}
@@ -137,7 +137,7 @@ export default function ArrayGroup(props: NodeProps): React.JSX.Element {
             )}
             {!expanded[index] &&
               (index !== groups - 1 || (!jsvRoot && !props.isLast)) && (
-                <span {...Theme(theme, "comma")}>,</span>
+                <span {...Theme(theme, 'comma')}>,</span>
               )}
           </span>
         </div>

@@ -1,11 +1,11 @@
-import type { CSSProperties, HTMLAttributes, ReactElement } from "react";
-import type { ReactJsonViewProps, ThemeKeys, ThemeObject } from "../../index";
-export type Theme = ThemeKeys | ThemeObject | "none" | false;
+import type { CSSProperties, HTMLAttributes, ReactElement } from 'react';
+import type { ReactJsonViewProps, ThemeKeys, ThemeObject } from '../../index';
+export type Theme = ThemeKeys | ThemeObject | 'none' | false;
 export type NodeName = string | number | false | null | ReactElement;
 export type Namespace = (string | number | false | null)[];
 export type CacheNamespace = Namespace | string | undefined;
 export type ViewerId = string | number | undefined;
-type Options = Omit<ReactJsonViewProps, "src" | "name" | "theme">;
+type Options = Omit<ReactJsonViewProps, 'src' | 'name' | 'theme'>;
 export type DisplayProps = {
   [Key in keyof Options]?: Options[Key] | undefined;
 } & {
@@ -17,8 +17,8 @@ export interface NodeProps extends DisplayProps {
   name?: NodeName | undefined;
   namespace?: CacheNamespace;
   depth?: number | undefined;
-  type?: "array" | "object" | undefined;
-  parent_type?: "array" | "object" | "array_group" | undefined;
+  type?: 'array' | 'object' | undefined;
+  parent_type?: 'array' | 'object' | 'array_group' | undefined;
   jsvRoot?: boolean | undefined;
   isLast?: boolean | undefined;
   listOfAncestors?: object[] | undefined;
@@ -36,7 +36,7 @@ export interface VariableProps extends DisplayProps {
   };
   namespace?: CacheNamespace;
   singleIndent?: number | undefined;
-  type?: "array" | "object" | undefined;
+  type?: 'array' | 'object' | undefined;
   isLast?: boolean | undefined;
 }
 export interface MetadataProps extends DisplayProps {
@@ -49,7 +49,7 @@ export interface ClipboardProps extends DisplayProps {
   src: unknown;
   namespace?: CacheNamespace;
   rowHovered?: boolean | undefined;
-  clickCallback?: ReactJsonViewProps["enableClipboard"] | undefined;
+  clickCallback?: ReactJsonViewProps['enableClipboard'] | undefined;
 }
 export interface CircularProps extends DisplayProps {
   name?: NodeName | undefined;
@@ -63,7 +63,7 @@ export type IconProps = HTMLAttributes<HTMLSpanElement>;
 export interface NameProps extends DisplayProps {
   name?: NodeName | undefined;
   namespace?: CacheNamespace;
-  parent_type?: NodeProps["parent_type"];
+  parent_type?: NodeProps['parent_type'];
   jsvRoot?: boolean | undefined;
 }
 export interface LabelProps extends DisplayProps {
@@ -74,5 +74,5 @@ export type StyleProps = {
   style?: CSSProperties | undefined;
 };
 export function normalizeNamespace(namespace: CacheNamespace): Namespace {
-  return typeof namespace === "string" ? [namespace] : (namespace ?? []);
+  return typeof namespace === 'string' ? [namespace] : (namespace ?? []);
 }

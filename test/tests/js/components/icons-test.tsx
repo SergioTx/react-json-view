@@ -1,6 +1,6 @@
-import React from "react";
-import { render } from "@testing-library/react";
-import { expect } from "chai";
+import React from 'react';
+import { render } from '@testing-library/react';
+import { expect } from 'chai';
 import {
   CircleMinus,
   CirclePlus,
@@ -9,60 +9,60 @@ import {
   SquareMinus,
   ArrowDown,
   ArrowRight,
-} from "./../../../../src/js/components/icons";
-describe("svg icons", function () {
-  it("<CircleMinus /> sanity check", function () {
+} from './../../../../src/js/components/icons';
+describe('svg icons', function () {
+  it('<CircleMinus /> sanity check', function () {
     const wrapper = render(<CircleMinus />);
     expect(
-      wrapper.container.querySelectorAll<SVGElement>("svg").length
+      wrapper.container.querySelectorAll<SVGElement>('svg').length
     ).to.equal(1);
   });
-  it("<CirclePlus /> sanity check", function () {
+  it('<CirclePlus /> sanity check', function () {
     const wrapper = render(<CirclePlus />);
     expect(
-      wrapper.container.querySelectorAll<SVGElement>("svg").length
+      wrapper.container.querySelectorAll<SVGElement>('svg').length
     ).to.equal(1);
   });
-  it("<SquarePlus /> sanity check", function () {
+  it('<SquarePlus /> sanity check', function () {
     const wrapper = render(<SquarePlus />);
     expect(
-      wrapper.container.querySelectorAll<SVGElement>("svg").length
+      wrapper.container.querySelectorAll<SVGElement>('svg').length
     ).to.equal(1);
   });
-  it("<SquareMinus /> sanity check", function () {
+  it('<SquareMinus /> sanity check', function () {
     const wrapper = render(<SquareMinus />);
     expect(
-      wrapper.container.querySelectorAll<SVGElement>("svg").length
+      wrapper.container.querySelectorAll<SVGElement>('svg').length
     ).to.equal(1);
   });
-  it("<ArrowDown /> sanity check", function () {
+  it('<ArrowDown /> sanity check', function () {
     const wrapper = render(<ArrowDown />);
     expect(
-      wrapper.container.querySelectorAll<SVGElement>("svg").length
+      wrapper.container.querySelectorAll<SVGElement>('svg').length
     ).to.equal(1);
   });
-  it("<ArrowRight /> sanity check", function () {
+  it('<ArrowRight /> sanity check', function () {
     const wrapper = render(<ArrowRight />);
     expect(
-      wrapper.container.querySelectorAll<SVGElement>("svg").length
+      wrapper.container.querySelectorAll<SVGElement>('svg').length
     ).to.equal(1);
   });
-  it("<Clippy /> sanity check", function () {
+  it('<Clippy /> sanity check', function () {
     const wrapper = render(<Clippy />);
     expect(
-      wrapper.container.querySelectorAll<SVGElement>("svg").length
+      wrapper.container.querySelectorAll<SVGElement>('svg').length
     ).to.equal(1);
   });
-  it("icon with color", function () {
+  it('icon with color', function () {
     const wrapper = render(
       <Clippy
         style={{
-          color: "green",
+          color: 'green',
         }}
       />
     );
     expect(
-      wrapper.container.querySelectorAll<SVGElement>("svg").length
+      wrapper.container.querySelectorAll<SVGElement>('svg').length
     ).to.equal(1);
   });
 });

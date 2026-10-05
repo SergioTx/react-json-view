@@ -1,10 +1,10 @@
-import React from "react";
-import { render } from "@testing-library/react";
-import { expect } from "chai";
-import DataTypeLabel from "./../../../../../src/js/components/DataTypes/DataTypeLabel";
-describe("<DataTypeLabel />", function () {
+import React from 'react';
+import { render } from '@testing-library/react';
+import { expect } from 'chai';
+import DataTypeLabel from './../../../../../src/js/components/DataTypes/DataTypeLabel';
+describe('<DataTypeLabel />', function () {
   const rjvId = 1;
-  it("DataTypeLabel should exist when displayDataTypes is true", function () {
+  it('DataTypeLabel should exist when displayDataTypes is true', function () {
     const wrapper = render(
       <DataTypeLabel
         typeName="test"
@@ -14,10 +14,10 @@ describe("<DataTypeLabel />", function () {
       />
     );
     expect(
-      wrapper.container.querySelectorAll<HTMLElement>(".data-type-label")
+      wrapper.container.querySelectorAll<HTMLElement>('.data-type-label')
     ).to.have.length(1);
   });
-  it("DataTypeLabel should not exist when displayDataTypes is false", function () {
+  it('DataTypeLabel should not exist when displayDataTypes is false', function () {
     const wrapper = render(
       <DataTypeLabel
         typeName="test"
@@ -27,7 +27,7 @@ describe("<DataTypeLabel />", function () {
       />
     );
     expect(
-      wrapper.container.querySelectorAll<HTMLElement>(".data-type-label")
+      wrapper.container.querySelectorAll<HTMLElement>('.data-type-label')
     ).to.have.length(0);
   });
 });

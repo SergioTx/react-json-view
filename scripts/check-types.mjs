@@ -1,5 +1,5 @@
-import { resolve, relative } from "node:path";
-import { API, TypeFlags } from "typescript/unstable/sync";
+import { resolve, relative } from 'node:path';
+import { API, TypeFlags } from 'typescript/unstable/sync';
 import {
   SyntaxKind,
   isVariableDeclaration,
@@ -11,14 +11,14 @@ import {
   isPropertyAccessExpression,
   isElementAccessExpression,
   isReturnStatement,
-} from "typescript/unstable/ast";
+} from 'typescript/unstable/ast';
 
 const api = new API({ cwd: process.cwd() });
-const config = resolve("tsconfig.json");
+const config = resolve('tsconfig.json');
 const snapshot = api.updateSnapshot({ openProjects: [config] });
 try {
   const project = snapshot.getProject(config);
-  if (!project) throw new Error("TypeScript project could not be loaded");
+  if (!project) throw new Error('TypeScript project could not be loaded');
   const { checker, program } = project;
   let failures = 0;
 
@@ -37,14 +37,14 @@ try {
     const name = type.getTarget().getSymbol()?.name;
     return (
       [
-        "Array",
-        "ReadonlyArray",
-        "Map",
-        "ReadonlyMap",
-        "Set",
-        "ReadonlySet",
-        "Promise",
-      ].includes(name ?? "") &&
+        'Array',
+        'ReadonlyArray',
+        'Map',
+        'ReadonlyMap',
+        'Set',
+        'ReadonlySet',
+        'Promise',
+      ].includes(name ?? '') &&
       checker
         .getTypeArguments(type)
         .some((argument) => containsAny(argument, seen))
@@ -63,7 +63,7 @@ try {
       /** @type {string | undefined} */
       let message;
       if (node.kind === SyntaxKind.AnyKeyword)
-        message = "Explicit any is not allowed";
+        message = 'Explicit any is not allowed';
       if (
         (isVariableDeclaration(node) ||
           isParameterDeclaration(node) ||
@@ -72,23 +72,23 @@ try {
         isIdentifier(node.name) &&
         containsAny(checker.getTypeAtLocation(node.name))
       )
-        message = "Declaration contains inferred any";
+        message = 'Declaration contains inferred any';
       if (
         (isCallExpression(node) || isNewExpression(node)) &&
         (checker.getTypeAtLocation(node.expression)?.flags ?? 0) & TypeFlags.Any
       )
-        message = "Unsafe invocation of any";
+        message = 'Unsafe invocation of any';
       if (
         (isPropertyAccessExpression(node) || isElementAccessExpression(node)) &&
         (checker.getTypeAtLocation(node.expression)?.flags ?? 0) & TypeFlags.Any
       )
-        message = "Unsafe member access on any";
+        message = 'Unsafe member access on any';
       if (
         isReturnStatement(node) &&
         node.expression &&
         containsAny(checker.getTypeAtLocation(node.expression))
       )
-        message = "Unsafe return of any";
+        message = 'Unsafe return of any';
       if (message) {
         const location = source.getLineAndCharacterOfPosition(
           Math.max(0, node.pos)
@@ -105,7 +105,7 @@ try {
     visit(source);
   }
   if (failures) process.exitCode = 1;
-  else console.log("No explicit, inferred, or unsafely used any types found");
+  else console.log('No explicit, inferred, or unsafely used any types found');
 } finally {
   snapshot.dispose();
   api.close();

@@ -1,16 +1,16 @@
-import type { ClipboardProps } from "../types";
-import { normalizeNamespace } from "../types";
-import React from "react";
-import { toType } from "./../helpers/util";
-import { Clippy } from "./icons";
-import Theme from "./../themes/getStyle";
+import type { ClipboardProps } from '../types';
+import { normalizeNamespace } from '../types';
+import React from 'react';
+import { toType } from './../helpers/util';
+import { Clippy } from './icons';
+import Theme from './../themes/getStyle';
 function copyToClipboardFallback(text: string): void {
-  const textArea = document.createElement("textarea");
+  const textArea = document.createElement('textarea');
   textArea.value = text;
   document.body.appendChild(textArea);
   textArea.select();
   try {
-    document.execCommand("copy");
+    document.execCommand('copy');
   } finally {
     document.body.removeChild(textArea);
   }
@@ -30,11 +30,11 @@ export default function CopyToClipboard({
   React.useEffect(() => () => clearTimeout(copiedTimer.current), []);
   function handleCopy() {
     const type = toType(src);
-    const value = type === "function" || type === "regexp" ? String(src) : src;
+    const value = type === 'function' || type === 'regexp' ? String(src) : src;
     const text =
-      typeof value === "string"
+      typeof value === 'string'
         ? value
-        : (JSON.stringify(value, null, "  ") ?? "undefined");
+        : (JSON.stringify(value, null, '  ') ?? 'undefined');
     if (navigator.clipboard) {
       navigator.clipboard
         .writeText(text)
@@ -45,7 +45,7 @@ export default function CopyToClipboard({
     clearTimeout(copiedTimer.current);
     copiedTimer.current = setTimeout(() => setCopied(false), 5500);
     setCopied(true);
-    if (typeof clickCallback === "function") {
+    if (typeof clickCallback === 'function') {
       clickCallback({
         src,
         namespace,
@@ -58,17 +58,17 @@ export default function CopyToClipboard({
       className="copy-to-clipboard-container"
       title="Copy to clipboard"
       style={{
-        verticalAlign: "top",
-        display: rowHovered ? "inline-block" : "none",
+        verticalAlign: 'top',
+        display: rowHovered ? 'inline-block' : 'none',
       }}
     >
       <span
-        style={Theme(theme, "copy-to-clipboard").style}
+        style={Theme(theme, 'copy-to-clipboard').style}
         onClick={handleCopy}
       >
-        <Clippy className="copy-icon" {...Theme(theme, "copy-icon")} />
+        <Clippy className="copy-icon" {...Theme(theme, 'copy-icon')} />
         {copied && (
-          <span {...Theme(theme, "copy-icon-copied")}>{"\u2714"}</span>
+          <span {...Theme(theme, 'copy-icon-copied')}>{'\u2714'}</span>
         )}
       </span>
     </span>

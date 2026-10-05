@@ -1,5 +1,5 @@
-import React from "react";
-import ReactJsonDemo from "./components/Demo";
+import React from 'react';
+import ReactJsonDemo from './components/Demo';
 
 // index entrypoint component
 export default function Demo() {

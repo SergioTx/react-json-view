@@ -1,6 +1,6 @@
-import type { IconProps } from "../types";
-import React from "react";
-const DEFAULT_COLOR = "#000000";
+import type { IconProps } from '../types';
+import React from 'react';
+const DEFAULT_COLOR = '#000000';
 export function CircleMinus(props: IconProps) {
   const { style, ...rest } = props;
   return (
@@ -72,8 +72,8 @@ export function ArrowRight(props: IconProps) {
       <svg
         style={{
           ...getIconStyle(style).style,
-          paddingLeft: "2px",
-          verticalAlign: "top",
+          paddingLeft: '2px',
+          verticalAlign: 'top',
         }}
         viewBox="0 0 15 15"
         fill="currentColor"
@@ -90,8 +90,8 @@ export function ArrowDown(props: IconProps) {
       <svg
         style={{
           ...getIconStyle(style).style,
-          paddingLeft: "2px",
-          verticalAlign: "top",
+          paddingLeft: '2px',
+          verticalAlign: 'top',
         }}
         viewBox="0 0 15 15"
         fill="currentColor"
@@ -124,11 +124,11 @@ function getIconStyle(style: React.CSSProperties | undefined) {
   }
   return {
     style: {
-      verticalAlign: "middle",
+      verticalAlign: 'middle',
       ...style,
       color: style.color ? style.color : DEFAULT_COLOR,
-      height: "1em",
-      width: "1em",
+      height: '1em',
+      width: '1em',
     },
   };
 }

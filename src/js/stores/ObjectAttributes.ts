@@ -1,7 +1,7 @@
-import type { CacheNamespace, ViewerId } from "../types";
+import type { CacheNamespace, ViewerId } from '../types';
 const objects = new Map<ViewerId, Map<string, Map<string, unknown>>>();
 const pathKey = (name: CacheNamespace): string =>
-  JSON.stringify(name) ?? "undefined";
+  JSON.stringify(name) ?? 'undefined';
 function get(
   rjvId: ViewerId,
   name: CacheNamespace,
@@ -21,8 +21,8 @@ function get(
   defaultValue?: unknown
 ): unknown {
   const value = objects.get(rjvId)?.get(pathKey(name))?.get(key);
-  if (typeof defaultValue === "boolean")
-    return typeof value === "boolean" ? value : defaultValue;
+  if (typeof defaultValue === 'boolean')
+    return typeof value === 'boolean' ? value : defaultValue;
   return value === undefined ? defaultValue : value;
 }
 export default {

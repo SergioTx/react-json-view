@@ -1,8 +1,8 @@
-import type { ValueProps } from "../../types";
-import React from "react";
+import type { ValueProps } from '../../types';
+import React from 'react';
 
 // theme
-import Theme from "./../../themes/getStyle";
+import Theme from './../../themes/getStyle';
 export default function Null(props: ValueProps) {
-  return <div {...Theme(props.theme, "null")}>NULL</div>;
+  return <div {...Theme(props.theme, 'null')}>NULL</div>;
 }
