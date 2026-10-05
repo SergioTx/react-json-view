@@ -1,18 +1,10 @@
 <h1 align="center">
-  <a href="https://react-json-view.microlink.io/">
-  <img src="https://raw.githubusercontent.com/microlinkhq/react-json-view/master/docs/assets/rjv-icon-alt.png" alt="react-json-view" width="200"></a>
-  <br>
   react-json-view
-  <br>
-  <a href="https://www.npmjs.com/package/@microlink/react-json-view"><img src="https://img.shields.io/npm/v/%40microlink%2Freact-json-view.svg" alt="npm version"></a>
-  <a href="https://github.com/microlinkhq/react-json-view/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/%40microlink%2Freact-json-view.svg" alt="npm license"></a>
-  <a href="https://github.com/microlinkhq/react-json-view/actions/workflows/main.yml?query=branch%3Amaster"><img src="https://github.com/microlinkhq/react-json-view/workflows/test/badge.svg" alt="Build Status"></a>
-  <br>
 </h1>
 
 **react-json-view** (rjv) is a React component for displaying JavaScript **arrays** and **JSON objects**.
 
-![](https://raw.githubusercontent.com/microlinkhq/react-json-view/docs/docs/assets/banner.png)
+Fork from [https://github.com/uiwjs/react-json-view](https://github.com/uiwjs/react-json-view).
 
 ### Highlights
 
@@ -30,13 +22,13 @@ Requires React 19 or newer.
 This package is ESM-only. Development requires Node.js 22.12 or newer.
 
 ```shell
-npm install @microlink/react-json-view --save
+npm install @sergiotx/react-json-view --save
 ```
 
 ### Usage
 
 ```js
-import ReactJsonView from '@microlink/react-json-view';
+import ReactJsonView from '@sergiotx/react-json-view';
 
 <ReactJsonView
   src={{
@@ -62,7 +54,7 @@ import ReactJsonView from '@microlink/react-json-view';
 | :--------------------------- | :------------------------ | :-------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `src`                        | `JSON Object`             | None            | This property contains your input JSON.                                                                                                                                                                       |
 | `name`                       | `string` or `JSX.Element` | `false`         | "root" - Contains the name of your root node. Use `null` or `false` for no name.                                                                                                                              |
-| `theme`                      | `string`                  | `'rjv-default'` | RJV supports base-16 themes. Check out the list of supported themes [in the demo](https://react-json-view.microlink.io/). A custom "rjv-default" theme applies by default.                                    |
+| `theme`                      | `string`                  | `'rjv-default'` | RJV supports base-16 themes. Check out the themes in the [demo source](https://github.com/SergioTx/react-json-view/tree/basic-library/docs). A custom "rjv-default" theme applies by default.                 |
 | `style`                      | `object`                  | `{}`            | Style attributes for react-json-view container. Explicit style attributes will override attributes provided by a theme.                                                                                       |
 | `iconStyle`                  | `string`                  | `'circle'`      | Style of expand/collapse icons. Accepted values are "circle", "triangle" or "square".                                                                                                                         |
 | `indentWidth`                | `integer`                 | 4               | Set the indent-width for nested objects.                                                                                                                                                                      |
@@ -127,17 +119,8 @@ The following themes are builtin with the library:
 - `'tube'`
 - `'twilight'`
 
-Check [react-json-view.microlink.io](https://react-json-view.microlink.io/) to see how they look like.
-
 #### Custom theme
 
 **rjv** supports any base-16 theme. You can supply your own base-16 theme object.
 
-To better understand custom themes, take a look at [my example implementation](https://github.com/microlinkhq/react-json-view/blob/7c154b9a7d83ea89dce2c171ebdf4d163ff49233/dev-server/src/index.js#L135) and the [base-16 theme styling guidelines](https://github.com/chriskempson/base16/blob/master/styling.md).
-
-## License
-
-**react-json-view** © [microlink.io](https://microlink.io), released under the [MIT](https://github.com/microlinkhq/cards/blob/master/LICENSE.md) License.<br>
-Authored by [Mac Gainor](https://github.com/mac-s-g) and maintained by [Kiko Beats](https://kikobeats.com) with help from [contributors](https://github.com/microlinkhq/cards/contributors).
-
-> [microlink.io](https://microlink.io) · GitHub [microlink.io](https://github.com/microlinkhq) · X [@microlinkhq](https://x.com/microlinkhq)
+To better understand custom themes, take a look at the [base-16 theme styling guidelines](https://github.com/chriskempson/base16/blob/master/styling.md).

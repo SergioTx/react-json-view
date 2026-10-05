@@ -1,13 +1,13 @@
-import { fireEvent, render } from "@testing-library/react";
-import { expect } from "chai";
-import React from "react";
-import sinon from "sinon";
+import { fireEvent, render } from '@testing-library/react';
+import { expect } from 'chai';
+import React from 'react';
+import sinon from 'sinon';
 
-import { required } from "../../testHelpers/requireSources";
-import Index from "./../../../src/js/index";
-import ObjectAttributes from "./../../../src/js/stores/ObjectAttributes";
-describe("<Index />", function () {
-  it("supports expansion and source updates in Strict Mode", function () {
+import { required } from '../../testHelpers/requireSources';
+import Index from './../../../src/js/index';
+import ObjectAttributes from './../../../src/js/stores/ObjectAttributes';
+describe('<Index />', function () {
+  it('supports expansion and source updates in Strict Mode', function () {
     const wrapper = render(
       <React.StrictMode>
         <Index
@@ -16,19 +16,19 @@ describe("<Index />", function () {
           }}
           enableClipboard={false}
         />
-      </React.StrictMode>,
+      </React.StrictMode>
     );
     expect(
-      wrapper.container.querySelectorAll<HTMLElement>(".variable-row"),
+      wrapper.container.querySelectorAll<HTMLElement>('.variable-row')
     ).to.have.length(1);
     fireEvent.click(
-      required(wrapper.container.querySelector<HTMLElement>(".icon-container")),
+      required(wrapper.container.querySelector<HTMLElement>('.icon-container'))
     );
     expect(
-      wrapper.container.querySelectorAll<HTMLElement>(".variable-row"),
+      wrapper.container.querySelectorAll<HTMLElement>('.variable-row')
     ).to.have.length(0);
     fireEvent.click(
-      required(wrapper.container.querySelector<HTMLElement>(".icon-container")),
+      required(wrapper.container.querySelector<HTMLElement>('.icon-container'))
     );
     wrapper.rerender(
       <React.StrictMode>
@@ -39,15 +39,15 @@ describe("<Index />", function () {
           }}
           enableClipboard={false}
         />
-      </React.StrictMode>,
+      </React.StrictMode>
     );
     expect(
-      wrapper.container.querySelectorAll<HTMLElement>(".variable-row"),
+      wrapper.container.querySelectorAll<HTMLElement>('.variable-row')
     ).to.have.length(2);
-    expect(wrapper.container.textContent).to.include("int2");
+    expect(wrapper.container.textContent).to.include('int2');
     wrapper.unmount();
   });
-  it("keeps expansion state when its parent is collapsed and expanded", function () {
+  it('keeps expansion state when its parent is collapsed and expanded', function () {
     const wrapper = render(
       <Index
         src={{
@@ -56,43 +56,43 @@ describe("<Index />", function () {
           },
         }}
         enableClipboard={false}
-      />,
+      />
     );
     fireEvent.click(
       required(
-        wrapper.container.querySelectorAll<HTMLElement>(".icon-container")[1],
-      ),
+        wrapper.container.querySelectorAll<HTMLElement>('.icon-container')[1]
+      )
     );
     expect(
-      wrapper.container.querySelectorAll<HTMLElement>(".variable-row"),
+      wrapper.container.querySelectorAll<HTMLElement>('.variable-row')
     ).to.have.length(0);
     fireEvent.click(
       required(
-        wrapper.container.querySelectorAll<HTMLElement>(".icon-container")[0],
-      ),
+        wrapper.container.querySelectorAll<HTMLElement>('.icon-container')[0]
+      )
     );
     fireEvent.click(
       required(
-        wrapper.container.querySelectorAll<HTMLElement>(".icon-container")[0],
-      ),
+        wrapper.container.querySelectorAll<HTMLElement>('.icon-container')[0]
+      )
     );
     expect(
-      wrapper.container.querySelectorAll<HTMLElement>(".node-ellipsis"),
+      wrapper.container.querySelectorAll<HTMLElement>('.node-ellipsis')
     ).to.have.length(1);
     expect(
-      wrapper.container.querySelectorAll<HTMLElement>(".variable-row"),
+      wrapper.container.querySelectorAll<HTMLElement>('.variable-row')
     ).to.have.length(0);
     fireEvent.click(
       required(
-        wrapper.container.querySelectorAll<HTMLElement>(".icon-container")[1],
-      ),
+        wrapper.container.querySelectorAll<HTMLElement>('.icon-container')[1]
+      )
     );
     expect(
-      wrapper.container.querySelectorAll<HTMLElement>(".variable-row"),
+      wrapper.container.querySelectorAll<HTMLElement>('.variable-row')
     ).to.have.length(1);
     wrapper.unmount();
   });
-  it("recomputes ancestors when the source changes", function () {
+  it('recomputes ancestors when the source changes', function () {
     const previous = {
       value: 1,
     };
@@ -105,19 +105,19 @@ describe("<Index />", function () {
     wrapper.rerender(
       React.cloneElement(_element, {
         src: next,
-      }),
+      })
     );
     expect(
-      required(wrapper.container.textContent).split("[CIRCULAR REFERENCE]"),
+      required(wrapper.container.textContent).split('[CIRCULAR REFERENCE]')
     ).to.have.length(2);
     expect(
       required(
-        wrapper.container.querySelectorAll<HTMLElement>(".variable-value")[0],
-      ).textContent,
-    ).to.equal("int1");
+        wrapper.container.querySelectorAll<HTMLElement>('.variable-value')[0]
+      ).textContent
+    ).to.equal('int1');
     wrapper.unmount();
   });
-  it("shows commas between nested array and object values without trailing commas", function () {
+  it('shows commas between nested array and object values without trailing commas', function () {
     const wrapper = render(
       <Index
         src={[
@@ -133,11 +133,11 @@ describe("<Index />", function () {
         displayObjectSize={false}
         displayDataTypes={false}
         enableClipboard={false}
-      />,
+      />
     );
-    expect(wrapper.container.textContent).to.equal("[1,{value:2},[3,4]]");
+    expect(wrapper.container.textContent).to.equal('[1,{value:2},[3,4]]');
   });
-  it("shows commas between collapsed and expanded array groups", function () {
+  it('shows commas between collapsed and expanded array groups', function () {
     const wrapper = render(
       <Index
         src={[1, 2, 3, 4]}
@@ -147,44 +147,40 @@ describe("<Index />", function () {
         displayObjectSize={false}
         displayDataTypes={false}
         enableClipboard={false}
-      />,
+      />
     );
-    expect(wrapper.container.textContent).to.equal("[0 - 1],[2 - 3]");
+    expect(wrapper.container.textContent).to.equal('[0 - 1],[2 - 3]');
     fireEvent.click(
       required(
-        wrapper.container.querySelectorAll<HTMLElement>(
-          ".array-group-brace",
-        )[0],
-      ),
+        wrapper.container.querySelectorAll<HTMLElement>('.array-group-brace')[0]
+      )
     );
     fireEvent.click(
       required(
-        wrapper.container.querySelectorAll<HTMLElement>(
-          ".array-group-brace",
-        )[0],
-      ),
+        wrapper.container.querySelectorAll<HTMLElement>('.array-group-brace')[0]
+      )
     );
-    expect(wrapper.container.textContent).to.equal("[1,2],[3,4]");
+    expect(wrapper.container.textContent).to.equal('[1,2],[3,4]');
     wrapper.unmount();
   });
-  it("detects circular arrays inside expanded groups", function () {
+  it('detects circular arrays inside expanded groups', function () {
     const src: unknown[] = [1, 2];
     src.push(src);
     const wrapper = render(
-      <Index src={src} groupArraysAfterLength={2} enableClipboard={false} />,
+      <Index src={src} groupArraysAfterLength={2} enableClipboard={false} />
     );
     fireEvent.click(
       required(
         Array.from(
-          wrapper.container.querySelectorAll<HTMLElement>(".array-group-brace"),
-        ).at(-1),
-      ),
+          wrapper.container.querySelectorAll<HTMLElement>('.array-group-brace')
+        ).at(-1)
+      )
     );
-    expect(wrapper.container.textContent).to.include("[CIRCULAR REFERENCE]");
+    expect(wrapper.container.textContent).to.include('[CIRCULAR REFERENCE]');
     wrapper.unmount();
   });
-  it("clears saved display attributes on unmount", function () {
-    const setAttribute = sinon.spy(ObjectAttributes, "set");
+  it('clears saved display attributes on unmount', function () {
+    const setAttribute = sinon.spy(ObjectAttributes, 'set');
     try {
       const wrapper = render(
         <Index
@@ -192,79 +188,79 @@ describe("<Index />", function () {
             value: 1,
           }}
           enableClipboard={false}
-        />,
+        />
       );
       fireEvent.click(
         required(
-          wrapper.container.querySelectorAll<HTMLElement>(".icon-container")[0],
-        ),
+          wrapper.container.querySelectorAll<HTMLElement>('.icon-container')[0]
+        )
       );
       const rjvId = required(setAttribute.firstCall).args[0];
-      expect(ObjectAttributes.get(rjvId, ["root"], "expanded")).to.equal(false);
+      expect(ObjectAttributes.get(rjvId, ['root'], 'expanded')).to.equal(false);
       wrapper.unmount();
-      expect(ObjectAttributes.get(rjvId, ["root"], "expanded")).to.equal(
-        undefined,
+      expect(ObjectAttributes.get(rjvId, ['root'], 'expanded')).to.equal(
+        undefined
       );
     } finally {
       setAttribute.restore();
     }
   });
-  it("check data type labels from index", function () {
+  it('check data type labels from index', function () {
     const wrapper = render(
       <Index
         src={{
           bool: true,
-          str: "test",
+          str: 'test',
           int: 5,
           nan: NaN,
           null: null,
           func: () => {},
           obj: {
-            arrChild: [1, 2, "three"],
+            arrChild: [1, 2, 'three'],
             objChild: {
               one: 1,
-              two: "two",
+              two: 'two',
             },
           },
           arr: [
-            [1, "two"],
+            [1, 'two'],
             {
-              one: "one",
+              one: 'one',
               two: 2,
             },
           ],
           regexp: /[0-9]/gi,
         }}
-      />,
+      />
     );
     expect(
-      wrapper.container.querySelectorAll<HTMLElement>(".data-type-label"),
+      wrapper.container.querySelectorAll<HTMLElement>('.data-type-label')
     ).to.have.length(14);
     expect(
-      wrapper.container.querySelectorAll<HTMLElement>(".data-type-label"),
+      wrapper.container.querySelectorAll<HTMLElement>('.data-type-label')
     ).to.have.length(14);
   });
-  it("check object-size labels from index", function () {
+  it('check object-size labels from index', function () {
     const _element2 = (
       <Index
         src={{
           bool: true,
-          str: "test",
+          str: 'test',
           int: 5,
           nan: NaN,
           null: null,
           func: () => {},
           obj: {
-            arrChild: [1, 2, "three"],
+            arrChild: [1, 2, 'three'],
             objChild: {
               one: 1,
-              two: "two",
+              two: 'two',
             },
           },
           arr: [
-            [1, "two"],
+            [1, 'two'],
             {
-              one: "one",
+              one: 'one',
               two: 2,
             },
           ],
@@ -277,46 +273,46 @@ describe("<Index />", function () {
     );
     const wrapper = render(_element2);
     expect(
-      wrapper.container.querySelectorAll<HTMLElement>(".object-size"),
+      wrapper.container.querySelectorAll<HTMLElement>('.object-size')
     ).to.have.length(7);
     wrapper.rerender(
       React.cloneElement(_element2, {
         displayObjectSize: false,
-      }),
+      })
     );
     expect(
-      wrapper.container.querySelectorAll<HTMLElement>(".object-size"),
+      wrapper.container.querySelectorAll<HTMLElement>('.object-size')
     ).to.have.length(0);
   });
-  it("src replaced with error message (ERROR OUTPUT EXPECTED)", function () {
+  it('src replaced with error message (ERROR OUTPUT EXPECTED)', function () {
     const wrapper = render(
       <Index
-        src={"{jsonEncodedString:true, createError:true}" as unknown as object}
-      />,
+        src={'{jsonEncodedString:true, createError:true}' as unknown as object}
+      />
     );
     expect(
-      wrapper.container.querySelectorAll<HTMLElement>(".data-type-label"),
+      wrapper.container.querySelectorAll<HTMLElement>('.data-type-label')
     ).to.have.length(1);
   });
-  it("make sure copy to clipboard is displayed all properties", function () {
+  it('make sure copy to clipboard is displayed all properties', function () {
     const wrapper = render(
       <Index
         src={{
           test: true,
-          passing: "hopefully",
+          passing: 'hopefully',
           arr: [5],
           obj: {},
           regexp: /[0-9]/gi,
         }}
-      />,
+      />
     );
     expect(
       wrapper.container.querySelectorAll<HTMLElement>(
-        ".copy-to-clipboard-container",
-      ),
+        '.copy-to-clipboard-container'
+      )
     ).to.have.length(7);
   });
-  it("renders updated source props", function () {
+  it('renders updated source props', function () {
     const _element3 = (
       <Index
         src={{
@@ -326,7 +322,7 @@ describe("<Index />", function () {
     );
     const wrapper = render(_element3);
     expect(
-      wrapper.container.querySelectorAll<HTMLElement>(".data-type-label"),
+      wrapper.container.querySelectorAll<HTMLElement>('.data-type-label')
     ).to.have.length(1);
     wrapper.rerender(
       React.cloneElement(_element3, {
@@ -334,63 +330,63 @@ describe("<Index />", function () {
           test1: true,
           test2: false,
         },
-      }),
+      })
     );
     expect(
-      wrapper.container.querySelectorAll<HTMLElement>(".data-type-label"),
+      wrapper.container.querySelectorAll<HTMLElement>('.data-type-label')
     ).to.have.length(2);
     wrapper.unmount();
   });
-  it("index can have ArrayGroup root component", function () {
+  it('index can have ArrayGroup root component', function () {
     const wrapper = render(
       <Index
         name="test"
         groupArraysAfterLength={5}
         src={Array.from({ length: 15 }).fill(0)}
-      />,
+      />
     );
     expect(
-      wrapper.container.querySelectorAll<HTMLElement>(".array-group"),
+      wrapper.container.querySelectorAll<HTMLElement>('.array-group')
     ).to.have.length(3);
   });
-  it("length is correct even if an object has a length property", function () {
+  it('length is correct even if an object has a length property', function () {
     const wrapper = render(
       <Index
         src={{
-          first: "first property",
-          second: "second property",
+          first: 'first property',
+          second: 'second property',
           length: 1000,
         }}
-      />,
+      />
     );
     expect(
-      wrapper.container.querySelectorAll<HTMLElement>(".object-size"),
+      wrapper.container.querySelectorAll<HTMLElement>('.object-size')
     ).to.have.length(1);
   });
-  it("should show commas between elements", function () {
+  it('should show commas between elements', function () {
     const wrapper = render(
       <Index
         src={{
-          first: "first property",
-          second: "second property",
-          third: "third property",
+          first: 'first property',
+          second: 'second property',
+          third: 'third property',
         }}
-      />,
+      />
     );
     // Check that commas are present in the rendered output
-    expect(wrapper.container.textContent).to.include(",");
+    expect(wrapper.container.textContent).to.include(',');
   });
-  it("should default to showing commas between elements", function () {
+  it('should default to showing commas between elements', function () {
     const wrapper = render(
       <Index
         src={{
-          first: "first property",
-          second: "second property",
-          third: "third property",
+          first: 'first property',
+          second: 'second property',
+          third: 'third property',
         }}
-      />,
+      />
     );
     // Check that commas are present by default
-    expect(wrapper.container.textContent).to.include(",");
+    expect(wrapper.container.textContent).to.include(',');
   });
 });

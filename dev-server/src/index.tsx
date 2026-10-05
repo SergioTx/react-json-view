@@ -1,17 +1,17 @@
-"use strict";
+'use strict';
 
 //import react and reactDom for browser rendering
-import Moment from "moment";
-import React from "react";
-import { createRoot } from "react-dom/client";
+import Moment from 'moment';
+import React from 'react';
+import { createRoot } from 'react-dom/client';
 
 //import the react-json-view component (installed with npm)
-import JsonViewer from "./../../src/js/index";
+import JsonViewer from './../../src/js/index';
 type ExampleJson = ReturnType<typeof getExampleJson1>;
-type CircularJson = Omit<ExampleJson, "parent"> & {
+type CircularJson = Omit<ExampleJson, 'parent'> & {
   self?: object;
   window?: Window;
-  parent: ExampleJson["parent"] & {
+  parent: ExampleJson['parent'] & {
     self?: object;
     nested_circular_reference?: object;
   };
@@ -19,9 +19,9 @@ type CircularJson = Omit<ExampleJson, "parent"> & {
 const circularReferenceObject = getExampleJson5();
 
 //render 2 different examples of the react-json-view component
-const app = document.getElementById("app-container");
+const app = document.getElementById('app-container');
 if (!app) {
-  throw new Error("Development root container is missing");
+  throw new Error('Development root container is missing');
 }
 createRoot(app).render(
   <div>
@@ -29,26 +29,26 @@ createRoot(app).render(
     <JsonViewer
       sortKeys
       style={{
-        padding: "30px",
-        backgroundColor: "white",
+        padding: '30px',
+        backgroundColor: 'white',
       }}
       src={getExampleJson1()}
       quotesOnKeys={false}
       collapseStringsAfterLength={12}
       displayObjectSize={true}
-      name={"dev-server"}
+      name={'dev-server'}
       enableClipboard={(copy) => {
         // oxlint-disable-next-line eslint/no-console -- Demo feedback for clipboard interaction.
-        console.log("you copied to clipboard!", copy);
+        console.log('you copied to clipboard!', copy);
       }}
       shouldCollapse={({ src, namespace, type }) => {
         if (
-          type === "array" &&
+          type === 'array' &&
           Array.isArray(src) &&
-          src.indexOf("test") > -1
+          src.indexOf('test') > -1
         ) {
           return true;
-        } else if (namespace.indexOf("moment") > -1) {
+        } else if (namespace.indexOf('moment') > -1) {
           return true;
         }
         return false;
@@ -67,9 +67,9 @@ createRoot(app).render(
       name={false}
       iconStyle="triangle"
       shouldCollapse={({ src, type }) =>
-        type === "object" &&
+        type === 'object' &&
         src.constructor &&
-        src.constructor.name === "Moment"
+        src.constructor.name === 'Moment'
       }
     />
 
@@ -79,7 +79,7 @@ createRoot(app).render(
     <JsonViewer
       src={getExampleJson2()}
       collapsed={true}
-      name={"feature_set"}
+      name={'feature_set'}
       displayDataTypes={false}
       indentWidth={2}
     />
@@ -90,7 +90,7 @@ createRoot(app).render(
     <JsonViewer
       src={getExampleJson2()}
       collapsed={1}
-      name={"feature_set"}
+      name={'feature_set'}
       displayDataTypes={false}
       indentWidth={5}
     />
@@ -101,7 +101,7 @@ createRoot(app).render(
     <JsonViewer
       src={getExampleJson3()}
       collapsed={true}
-      name={"collapsed_by_default_example"}
+      name={'collapsed_by_default_example'}
       indentWidth={8}
       displayObjectSize={false}
       displayDataTypes={false}
@@ -119,24 +119,24 @@ createRoot(app).render(
     <JsonViewer
       enableClipboard={false}
       src={getExampleJson1()}
-      shouldCollapse={({ namespace }) => namespace.indexOf("moment") > -1}
+      shouldCollapse={({ namespace }) => namespace.indexOf('moment') > -1}
       theme={{
-        base00: "white",
-        base01: "#ddd",
-        base02: "#ddd",
-        base03: "#444",
-        base04: "purple",
-        base05: "#444",
-        base06: "#444",
-        base07: "#444",
-        base08: "#444",
-        base09: "rgba(70, 70, 230, 1)",
-        base0A: "rgba(70, 70, 230, 1)",
-        base0B: "rgba(70, 70, 230, 1)",
-        base0C: "rgba(70, 70, 230, 1)",
-        base0D: "rgba(70, 70, 230, 1)",
-        base0E: "rgba(70, 70, 230, 1)",
-        base0F: "rgba(70, 70, 230, 1)",
+        base00: 'white',
+        base01: '#ddd',
+        base02: '#ddd',
+        base03: '#444',
+        base04: 'purple',
+        base05: '#444',
+        base06: '#444',
+        base07: '#444',
+        base08: '#444',
+        base09: 'rgba(70, 70, 230, 1)',
+        base0A: 'rgba(70, 70, 230, 1)',
+        base0B: 'rgba(70, 70, 230, 1)',
+        base0C: 'rgba(70, 70, 230, 1)',
+        base0D: 'rgba(70, 70, 230, 1)',
+        base0E: 'rgba(70, 70, 230, 1)',
+        base0F: 'rgba(70, 70, 230, 1)',
       }}
     />
 
@@ -154,7 +154,7 @@ createRoot(app).render(
       name={
         <span
           style={{
-            color: "red",
+            color: 'red',
             fontWeight: 800,
           }}
         >
@@ -177,26 +177,26 @@ createRoot(app).render(
     <JsonViewer
       sortKeys
       style={{
-        padding: "30px",
-        backgroundColor: "white",
+        padding: '30px',
+        backgroundColor: 'white',
       }}
       src={circularReferenceObject}
       quotesOnKeys={false}
       collapseStringsAfterLength={12}
       displayObjectSize={true}
-      name={"circular-reference-example"}
+      name={'circular-reference-example'}
       enableClipboard={(copy) => {
         // oxlint-disable-next-line eslint/no-console -- Demo feedback for clipboard interaction.
-        console.log("you copied to clipboard!", copy);
+        console.log('you copied to clipboard!', copy);
       }}
       shouldCollapse={({ src, namespace, type }) => {
         if (
-          type === "array" &&
+          type === 'array' &&
           Array.isArray(src) &&
-          src.indexOf("test") > -1
+          src.indexOf('test') > -1
         ) {
           return true;
-        } else if (namespace.indexOf("moment") > -1) {
+        } else if (namespace.indexOf('moment') > -1) {
           return true;
         }
         return false;
@@ -211,7 +211,7 @@ createRoot(app).render(
     </button>
 
     <br />
-  </div>,
+  </div>
 );
 
 /*-------------------------------------------------------------------------*/
@@ -221,11 +221,11 @@ createRoot(app).render(
 //just a function to get an example JSON object
 function getExampleJson1() {
   return {
-    string: "this is a test string",
+    string: 'this is a test string',
     integer: 42,
     empty_array: [],
     empty_object: {},
-    array: [1, 2, 3, "test"],
+    array: [1, 2, 3, 'test'],
     float: -2.757,
     undefined_var: undefined,
     parent: {
@@ -233,14 +233,14 @@ function getExampleJson1() {
       sibling2: false,
       sibling3: null,
       isString: (value: unknown) => {
-        if (typeof value === "string") {
-          return "string";
+        if (typeof value === 'string') {
+          return 'string';
         } else {
-          return "other";
+          return 'other';
         }
       },
     },
-    string_number: "1234",
+    string_number: '1234',
     date: new Date(),
     moment: Moment(),
     regexp: /[0-9]/gi,
@@ -251,49 +251,49 @@ function getExampleJson1() {
 function getExampleJson2() {
   return {
     normalized: {
-      "1-grams": {
+      '1-grams': {
         body: 1,
         testing: 1,
       },
-      "2-grams": {
-        "testing body": 1,
+      '2-grams': {
+        'testing body': 1,
       },
-      "3-grams": {},
+      '3-grams': {},
     },
     noun_phrases: {
       body: 1,
     },
     lemmatized: {
-      "1-grams": {
+      '1-grams': {
         test: 1,
         body: 1,
       },
-      "2-grams": {
-        "test body": 1,
+      '2-grams': {
+        'test body': 1,
       },
-      "3-grams": {},
+      '3-grams': {},
     },
     dependency: {
-      "1-grams": {
+      '1-grams': {
         testingVERBROOTtestingVERB: 1,
         bodyNOUNdobjtestingVERB: 1,
       },
-      "2-grams": {
-        "testingVERBROOTtestingVERB bodyNOUNdobjtestingVERB": 1,
+      '2-grams': {
+        'testingVERBROOTtestingVERB bodyNOUNdobjtestingVERB': 1,
       },
-      "3-grams": {},
+      '3-grams': {},
     },
   };
 }
 function getExampleJson3() {
   return {
     example_information:
-      "this example has the collapsed prop set to true and the indentWidth prop is set to 8",
+      'this example has the collapsed prop set to true and the indentWidth prop is set to 8',
     default_collapsed: true,
     collapsed_array: [
-      "you expanded me",
-      "try collapsing and expanding the root node",
-      "i will still be expanded",
+      'you expanded me',
+      'try collapsing and expanding the root node',
+      'i will still be expanded',
       {
         leaf_node: true,
       },
@@ -302,7 +302,7 @@ function getExampleJson3() {
 }
 function getExampleJson4() {
   const large_array = Array.from({ length: 225 }).fill(
-    "this is a large array full of items",
+    'this is a large array full of items'
   );
   large_array.push(getExampleArray());
   large_array.push(Array.from({ length: 75 }).fill(Math.random()));
@@ -312,11 +312,11 @@ function getExampleJson4() {
 //just a function to get an example JSON object
 function getExampleJson5() {
   const circularReferenceObject: CircularJson = {
-    string: "this is a test string",
+    string: 'this is a test string',
     integer: 42,
     empty_array: [],
     empty_object: {},
-    array: [1, 2, 3, "test"],
+    array: [1, 2, 3, 'test'],
     float: -2.757,
     undefined_var: undefined,
     parent: {
@@ -324,14 +324,14 @@ function getExampleJson5() {
       sibling2: false,
       sibling3: null,
       isString: (value: unknown) => {
-        if (typeof value === "string") {
-          return "string";
+        if (typeof value === 'string') {
+          return 'string';
         } else {
-          return "other";
+          return 'other';
         }
       },
     },
-    string_number: "1234",
+    string_number: '1234',
     date: new Date(),
     moment: Moment(),
     regexp: /[0-9]/gi,
@@ -344,7 +344,7 @@ function getExampleJson5() {
 }
 function getExampleArray() {
   return [
-    "you can also display arrays!",
+    'you can also display arrays!',
     new Date(),
     1,
     2,
@@ -356,6 +356,6 @@ function getExampleArray() {
 }
 function getExampleWithStringEscapeSequences() {
   return {
-    "\\\n\t\r\f\\n": "\\\n\t\r\f\\n",
+    '\\\n\t\r\f\\n': '\\\n\t\r\f\\n',
   };
 }

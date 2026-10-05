@@ -2,7 +2,7 @@
 
 ```bash
 # clone this repository
-git clone git@github.com:microlinkhq/react-json-view.git && cd react-json-view
+git clone git@github.com:sergiotx/react-json-view.git && cd react-json-view
 # install dependencies
 npm install --save-dev
 # run the dev server with hot reloading
