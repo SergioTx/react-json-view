@@ -1,7 +1,0 @@
-{
-  "extends": "../tsconfig",
-  "include": ["src/*", ".kktrc.ts"],
-  "compilerOptions": {
-    "noEmit": false
-  }
-}

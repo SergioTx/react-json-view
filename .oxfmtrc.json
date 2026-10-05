@@ -1,0 +1,13 @@
+{
+  "printWidth": 80,
+  "singleQuote": true,
+  "trailingComma": "es5",
+  "ignorePatterns": [
+    "node_modules/**",
+    "dist/**",
+    "docs/dist/**",
+    "dev-server/dist/**",
+    "coverage/**",
+    "**/.vite/**"
+  ]
+}
