@@ -1,3 +1,9 @@
+## 1.3.0 (2026-10-05)
+
+### Features
+
+* configure timestamp fields ([585f57f](https://github.com/sergiotx/react-json-view/commit/585f57ff5ec34f74b5dba7934b0fe42b12bade5b))
+
 ## 1.2.0 (2026-10-05)
 
 ### Added
