@@ -56,7 +56,7 @@ describe('<VariableEditor />', function () {
     const seconds = render(
       getVariable({
         variable: {
-          name: 'seconds',
+          name: 'timestamp',
           value: 1_700_000_000,
           type: 'integer',
         },
@@ -74,7 +74,7 @@ describe('<VariableEditor />', function () {
     const milliseconds = render(
       getVariable({
         variable: {
-          name: 'milliseconds',
+          name: 'timestamp',
           value: 1_700_000_000_000,
           type: 'float',
         },
@@ -92,9 +92,9 @@ describe('<VariableEditor />', function () {
     const regularNumber = render(
       getVariable({
         variable: {
-          name: 'count',
-          value: 42,
-          type: 'integer',
+          name: 'created_at',
+          value: 1_700_000_000_000,
+          type: 'float',
         },
       })
     );

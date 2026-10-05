@@ -39,7 +39,8 @@ export default function VariableEditor(props: VariableProps) {
   const namespace = normalizeNamespace(namespaceProp);
   const [hovered, setHovered] = React.useState(false);
   const ValueComponent = valueComponents[variable.type];
-  const timestampTitle = formatTimestamp(variable.value);
+  const timestampTitle =
+    variable.name === 'timestamp' ? formatTimestamp(variable.value) : undefined;
   let value = '';
   if (!ValueComponent) {
     try {

@@ -50,6 +50,7 @@ jobs:
           git pull origin main
           git fetch --tags origin
           version="$(node -p "require('./package.json').version")"
+          latest_tag="$(git describe --tags --abbrev=0 --match 'v[0-9]*' || true)"
           if git show-ref --verify --quiet "refs/tags/v${version}"; then
             release_status="$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' --header "Authorization: Bearer ${GH_TOKEN}" --header "Accept: application/vnd.github+json" "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/releases/tags/v${version}")"
             if [[ "${release_status}" == "404" ]]; then
@@ -60,6 +61,9 @@ jobs:
               echo "Could not check GitHub release for v${version}: HTTP ${release_status}"
               exit 1
             fi
+          elif [[ -n "${latest_tag}" && "v${version}" != "${latest_tag}" ]]; then
+            pnpm release:tag
+            pnpm run postrelease
           else
             pnpm release
           fi

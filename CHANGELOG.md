@@ -1,8 +1,14 @@
+## 1.1.2 (2026-10-05)
+
+### Bug Fixes
+
+- Limit timestamp tooltip and help cursor to fields named `timestamp`.
+
 ## 1.1.1 (2026-10-05)
 
 ### Bug Fixes
 
-* **ci:** configure release git identity ([ee466fd](https://github.com/sergiotx/react-json-view/commit/ee466fd78c0502755b94bde48835808eaded0b90))
+- **ci:** configure release git identity ([ee466fd](https://github.com/sergiotx/react-json-view/commit/ee466fd78c0502755b94bde48835808eaded0b90))
 
 # Changelog
 
