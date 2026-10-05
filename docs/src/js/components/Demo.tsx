@@ -3,7 +3,7 @@ import ReactSelect from "react-select";
 import type { StylesConfig } from "react-select";
 import type { ReactJsonViewProps, ThemeKeys } from "../../../../index";
 import ReactJson from "./../../../../src/js/index";
-import "./../../style/scss/rjv-demo.scss";
+import "./../../style/rjv-demo.css";
 
 type DemoOptions = Required<
   Pick<

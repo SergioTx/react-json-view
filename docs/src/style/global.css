@@ -1,0 +1,12 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
+
+#mac-react-container {
+  font-family: "Open Sans";
+  padding: 20px;
+}
+
+#mac-react-container .header-1 {
+  font-size: 28px;
+  margin-right: 5px;
+  margin-bottom: 3px;
+}

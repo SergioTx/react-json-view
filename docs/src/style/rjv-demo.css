@@ -1,0 +1,21 @@
+.rjv-demo .rjv-settings,
+.rjv-demo .rjv-source {
+  vertical-align: top;
+  display: inline-block;
+  margin-top: 5px;
+  margin-right: 10px;
+  min-width: 300px;
+  max-width: 400px;
+}
+
+.rjv-demo .rjv-settings .rjv-input,
+.rjv-demo .rjv-source .rjv-input {
+  margin-bottom: 5px;
+}
+
+.rjv-demo .rjv-settings .rjv-input .rjv-label,
+.rjv-demo .rjv-source .rjv-input .rjv-label {
+  padding: 0.5em;
+  font-size: 14px;
+  font-weight: bold;
+}

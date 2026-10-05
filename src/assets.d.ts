@@ -1,8 +1,4 @@
-declare module "*.scss" {
-  const styles: Readonly<Record<string, string>>;
-  export default styles;
-}
-declare module "*.sass" {
+declare module "*.css" {
   const styles: Readonly<Record<string, string>>;
   export default styles;
 }

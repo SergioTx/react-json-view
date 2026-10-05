@@ -1,0 +1,22 @@
+.react-json-view {
+  min-height: 96px;
+  word-break: break-all;
+  -ms-word-break: break-all;
+}
+
+.react-json-view .copy-to-clipboard-container {
+  vertical-align: top;
+  display: none;
+}
+
+.react-json-view
+  .object-key-val:hover
+  > span
+  > .object-meta-data
+  > .copy-to-clipboard-container {
+  display: inline-block;
+}
+
+.react-json-view .variable-row:hover .copy-to-clipboard-container {
+  display: inline-block;
+}
