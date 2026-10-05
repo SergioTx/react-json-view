@@ -1,6 +1,7 @@
 {
   "name": "@sergiotx/react-json-view",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "packageManager": "pnpm@10.33.2",
   "description": "Interactive React component for inspecting JSON objects and arrays with expand/collapse.",
   "keywords": [
     "component",
@@ -54,7 +55,7 @@
     "docs:build": "vite build docs --config vite.config.ts --mode demo --outDir dist",
     "docs:dev": "vite docs --config vite.config.ts --mode demo --port 2001",
     "lint": "oxlint && npm run typecheck",
-    "postrelease": "npm stage publish && pnpm release:tags && pnpm release:github",
+    "postrelease": "npm stage publish --access=public && pnpm release:tags && pnpm release:github",
     "release": "pnpm release:version && pnpm release:changelog && pnpm release:commit && pnpm release:tag",
     "release:changelog": "conventional-changelog -p conventionalcommits -i CHANGELOG.md",
     "release:commit": "git add package.json CHANGELOG.md && git commit -m \"chore(release): $(node -p \"require('./package.json').version\")\"",
