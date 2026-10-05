@@ -21,3 +21,16 @@ npm run build
 Please add tests for your code before posting a pull request.
 
 You can run the test suite with `npm run test` or `npm run test:watch` to automatically reload when files are modified.
+
+## Type Checking
+
+Source, demos, and tests use TypeScript 7 with strict checking, unchecked-index checking, and exact optional properties. Maintained JavaScript entry points and build configuration are also checked. Dependency declarations are checked rather than skipped.
+
+```bash
+npm run typecheck
+npm run lint
+```
+
+Both commands enforce the no-`any` policy, including inferred `any` values and unsafe calls or member access. Use `unknown` and runtime narrowing for inspected JSON values. The policy gate uses the pinned TypeScript 7 native API because the current TypeScript ESLint parser does not support TypeScript 7.
+
+`npm run build` generates declaration files before compiling the distributable library. Add external `@types` packages when a dependency does not bundle its own declarations.

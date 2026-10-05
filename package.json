@@ -287,10 +287,20 @@
     "@babel/eslint-parser": "~8.0.5",
     "@babel/preset-env": "~8.0.5",
     "@babel/preset-react": "~8.0.1",
+    "@babel/preset-typescript": "^8.0.0",
     "@babel/register": "~8.0.5",
     "@commitlint/cli": "latest",
     "@commitlint/config-conventional": "latest",
     "@testing-library/react": "^16.3.0",
+    "@types/chai": "^5.2.0",
+    "@types/convert-source-map": "^2.0.3",
+    "@types/ignore-styles": "^5.0.0",
+    "@types/jsdom": "^30.0.0",
+    "@types/mocha": "^10.0.0",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@types/sinon": "^21.0.0",
     "babel-loader": "10.1.1",
     "babel-plugin-istanbul": "8.0.0",
     "babel-plugin-react-html-attrs": "~3.0.5",
@@ -323,6 +333,7 @@
     "style-loader": "~4.0.0",
     "terser-webpack-plugin": "~5.6.1",
     "tinyrun": "~1.1.0",
+    "typescript": "7.0.2",
     "webpack": "~5.111.0",
     "webpack-bundle-analyzer": "~5.4.0",
     "webpack-bundle-size-analyzer": "~3.1.0",
@@ -338,14 +349,17 @@
     "index.mjs"
   ],
   "scripts": {
-    "build": "NODE_OPTIONS=--openssl-legacy-provider NODE_ENV=production webpack --config webpack/webpack.config.js --progress",
+    "typecheck": "tsc --noEmit && node scripts/check-types.mjs",
+    "pretypecheck": "npm run build:types",
+    "build:types": "tsc -p tsconfig.build.json",
+    "build": "npm run build:types && NODE_OPTIONS=--openssl-legacy-provider NODE_ENV=production webpack --config webpack/webpack.config.js --progress",
     "contributors": "(git-authors-cli && finepack && git add package.json && git commit -m 'build: contributors' --no-verify) || true",
     "dev": "NODE_ENV=development webpack serve --config webpack/webpack.config-dev.js --open",
     "docs:build": "NODE_ENV=production webpack --node-env production --config webpack/webpack.config-docs.js --progress",
     "docs:dev": "tinyrun 'npm run docs:dev:watch' 'npm run docs:dev:browserync'",
     "docs:dev:browserync": "browser-sync start --serveStatic docs/ --server --files 'index.html, **/*.(css|js|md)'",
     "docs:dev:watch": "npm run docs:build -- --watch",
-    "lint": "standard",
+    "lint": "npm run typecheck",
     "modules:size-analyzer": "webpack --config webpack/webpack.config.js --json | webpack-bundle-size-analyzer",
     "modules:tree": "webpack --config webpack/webpack.config.js --json ",
     "postrelease": "pnpm release:tags && pnpm release:github && (ci-publish || pnpm publish --access=public)",
@@ -356,9 +370,9 @@
     "release:tag": "git tag -a v$(node -p \"require('./package.json').version\") -m \"v$(node -p \"require('./package.json').version\")\"",
     "release:tags": "git push origin HEAD:master --follow-tags",
     "release:version": "standard-version --skip.changelog --skip.commit --skip.tag",
-    "test": "NODE_ENV=test c8 mocha --require @babel/register --require test/testHelpers/requireSources.js test/**/*-test.js",
-    "test:unit": "NODE_ENV=test c8 mocha --require @babel/register --require test/testHelpers/requireSources.js test/**/*-test.js",
-    "test:watch": "NODE_ENV=test c8 mocha -w --require @babel/register --require test/testHelpers/requireSources.js test/**/*-test.js"
+    "test": "NODE_ENV=test c8 mocha --require test/testHelpers/register.cjs --require test/testHelpers/requireSources.ts --extension ts,tsx \"test/**/*-test.{ts,tsx}\"",
+    "test:unit": "NODE_ENV=test c8 mocha --require test/testHelpers/register.cjs --require test/testHelpers/requireSources.ts --extension ts,tsx \"test/**/*-test.{ts,tsx}\"",
+    "test:watch": "NODE_ENV=test c8 mocha -w --require test/testHelpers/register.cjs --require test/testHelpers/requireSources.ts --extension ts,tsx \"test/**/*-test.{ts,tsx}\""
   },
   "license": "MIT",
   "commitlint": {
@@ -372,9 +386,8 @@
     }
   },
   "nano-staged": {
-    "*.js": [
-      "npx @kikobeats/prettier-standard",
-      "standard --fix"
+    "*.{js,ts,tsx,mjs,cjs}": [
+      "prettier --write"
     ],
     "package.json": [
       "finepack"

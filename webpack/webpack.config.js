@@ -1,4 +1,6 @@
+/** @type {typeof import("node:path")} */
 const path = require("path");
+/** @type {typeof import("terser-webpack-plugin")} */
 const TerserPlugin = require("terser-webpack-plugin");
 
 const PATHS = {
@@ -8,23 +10,22 @@ const PATHS = {
   build: path.join(__dirname, "..", "dist"),
 };
 
+/** @type {import("webpack").Configuration & { devServer?: import("webpack-dev-server").Configuration }} */
 const config = {
   mode: "production",
-  entry: [PATHS.js + "/index.js"],
+  entry: [PATHS.src + "/main.ts"],
   externals: {
     react: {
       root: "React",
       commonjs2: "react",
       commonjs: "react",
       amd: "react",
-      umd: "react",
     },
     "react-dom": {
       root: "ReactDOM",
       commonjs2: "react-dom",
       commonjs: "react-dom",
       amd: "react-dom",
-      umd: "react-dom",
     },
   },
   output: {
@@ -36,18 +37,18 @@ const config = {
   },
   plugins: [],
   resolve: {
-    extensions: [".js", ".json", ".css", ".scss"],
+    extensions: [".ts", ".tsx", ".js", ".json", ".css", ".scss"],
   },
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.[jt]sx?$/,
         use: [
           {
             loader: "babel-loader",
           },
         ],
-        include: [PATHS.js],
+        include: [PATHS.src],
       },
     ],
   },

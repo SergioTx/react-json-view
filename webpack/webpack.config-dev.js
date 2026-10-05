@@ -1,4 +1,6 @@
+/** @type {typeof import("node:path")} */
 const path = require("path");
+/** @type {typeof import("webpack")} */
 const webpack = require("webpack");
 
 const PATHS = {
@@ -9,9 +11,10 @@ const PATHS = {
   devServer: path.join(__dirname, "..", "dev-server"),
 };
 
+/** @type {import("webpack").Configuration & { devServer?: import("webpack-dev-server").Configuration }} */
 const config = {
   mode: "development",
-  entry: [PATHS.devServer + "/src/index.js"],
+  entry: [PATHS.devServer + "/src/index.tsx"],
   devServer: {
     host: "localhost",
     port: 2000,
@@ -29,13 +32,13 @@ const config = {
     minimize: false,
   },
   resolve: {
-    extensions: [".js", ".json", ".css", ".scss"],
+    extensions: [".ts", ".tsx", ".js", ".json", ".css", ".scss"],
   },
   devtool: "eval-source-map",
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.[jt]sx?$/,
         use: [
           {
             loader: "babel-loader",

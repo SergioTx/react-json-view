@@ -1,4 +1,6 @@
+/** @type {typeof import("node:path")} */
 const path = require("path");
+/** @type {typeof import("terser-webpack-plugin")} */
 const TerserPlugin = require("terser-webpack-plugin");
 
 const PATHS = {
@@ -9,9 +11,10 @@ const PATHS = {
   docs: path.join(__dirname, "..", "docs"),
 };
 
+/** @type {import("webpack").Configuration & { devServer?: import("webpack-dev-server").Configuration }} */
 const config = {
   mode: "production",
-  entry: [PATHS.docs + "/src/js/entry.js"],
+  entry: [PATHS.docs + "/src/js/entry.tsx"],
   output: {
     path: PATHS.docs + "/dist",
     filename: "main.js",
@@ -19,12 +22,12 @@ const config = {
     libraryTarget: "umd",
   },
   resolve: {
-    extensions: [".js", ".json", ".css", ".scss"],
+    extensions: [".ts", ".tsx", ".js", ".json", ".css", ".scss"],
   },
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.[jt]sx?$/,
         use: [
           {
             loader: "babel-loader",

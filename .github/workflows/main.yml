@@ -58,6 +58,8 @@ jobs:
         run: pnpm install --dangerously-allow-all-builds
       - name: Test
         run: pnpm test
+      - name: Type Check
+        run: pnpm typecheck
       - name: Report
         run: npx c8 report --reporter=text-lcov > coverage/lcov.info
       - name: Coverage
