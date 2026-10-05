@@ -42,10 +42,24 @@ jobs:
         run: pnpm build
       - name: Release
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           git config user.email "txitxo37@gmail.com"
           git config user.name "SergioTx"
           git pull origin main
-          pnpm release
+          git fetch --tags origin
+          version="$(node -p "require('./package.json').version")"
+          if git show-ref --verify --quiet "refs/tags/v${version}"; then
+            release_status="$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' --header "Authorization: Bearer ${GH_TOKEN}" --header "Accept: application/vnd.github+json" "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/releases/tags/v${version}")"
+            if [[ "${release_status}" == "404" ]]; then
+              pnpm release:github
+            elif [[ "${release_status}" == "200" ]]; then
+              pnpm release
+            else
+              echo "Could not check GitHub release for v${version}: HTTP ${release_status}"
+              exit 1
+            fi
+          else
+            pnpm release
+          fi
