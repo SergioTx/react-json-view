@@ -38,3 +38,7 @@ npm run lint
 `npm run lint` runs Oxlint and the strict TypeScript/no-`any` checks. The checks reject inferred `any` values and unsafe calls or member access. Use `unknown` and runtime narrowing for inspected JSON values.
 
 `npm run build` bundles the library with Vite and generates declaration files. Only ESM is published; React remains external. Babel, webpack, and CommonJS output are not used. Add external `@types` packages when a dependency does not bundle its own declarations.
+
+## Publishing
+
+The release workflow uses the npm stage-only token to run `npm stage publish`. After CI creates the npm stage, a package maintainer must review it and promote it with npm two-factor authentication. List pending stages with `npm stage list`, inspect one with `npm stage view <stage-id>`, and promote it with `npm stage approve <stage-id> --otp <code>`.
