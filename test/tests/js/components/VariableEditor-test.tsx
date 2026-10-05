@@ -52,6 +52,61 @@ describe('<VariableEditor />', function () {
     ).to.equal('booltrue');
     wrapper.unmount();
   });
+  it('shows parsed dates as tooltips for Unix timestamps', function () {
+    const seconds = render(
+      getVariable({
+        variable: {
+          name: 'seconds',
+          value: 1_700_000_000,
+          type: 'integer',
+        },
+      })
+    );
+    const secondsValue = required(
+      seconds.container.querySelectorAll<HTMLElement>('.variable-value')[0]
+    );
+    expect(secondsValue.getAttribute('title')).to.equal(
+      '2023-11-14T22:13:20.000Z'
+    );
+    expect(secondsValue.style.cursor).to.equal('help');
+    seconds.unmount();
+
+    const milliseconds = render(
+      getVariable({
+        variable: {
+          name: 'milliseconds',
+          value: 1_700_000_000_000,
+          type: 'float',
+        },
+      })
+    );
+    expect(
+      required(
+        milliseconds.container.querySelectorAll<HTMLElement>(
+          '.variable-value'
+        )[0]
+      ).getAttribute('title')
+    ).to.equal('2023-11-14T22:13:20.000Z');
+    milliseconds.unmount();
+
+    const regularNumber = render(
+      getVariable({
+        variable: {
+          name: 'count',
+          value: 42,
+          type: 'integer',
+        },
+      })
+    );
+    const regularNumberValue = required(
+      regularNumber.container.querySelectorAll<HTMLElement>(
+        '.variable-value'
+      )[0]
+    );
+    expect(regularNumberValue.getAttribute('title')).to.equal(null);
+    expect(regularNumberValue.style.cursor).to.equal('default');
+    regularNumber.unmount();
+  });
   it('shows a comma between values but not after the last value', function () {
     const _element = getVariable({
       isLast: false,

@@ -5,7 +5,7 @@ import {
   type ValueProps,
   type VariableProps,
 } from '../types';
-import { escapeString } from './../helpers/util';
+import { escapeString, formatTimestamp } from './../helpers/util';
 import Theme from './../themes/getStyle';
 import CopyToClipboard from './CopyToClipboard';
 import * as DataTypes from './DataTypes/DataTypes';
@@ -39,6 +39,7 @@ export default function VariableEditor(props: VariableProps) {
   const namespace = normalizeNamespace(namespaceProp);
   const [hovered, setHovered] = React.useState(false);
   const ValueComponent = valueComponents[variable.type];
+  const timestampTitle = formatTimestamp(variable.value);
   let value = '';
   if (!ValueComponent) {
     try {
@@ -97,8 +98,9 @@ export default function VariableEditor(props: VariableProps) {
       )}
       <div
         className="variable-value"
+        title={timestampTitle}
         {...Theme(theme, 'variableValue', {
-          cursor: 'default',
+          cursor: timestampTitle ? 'help' : 'default',
         })}
       >
         {ValueComponent ? (

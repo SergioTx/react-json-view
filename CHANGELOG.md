@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.0 (2026-10-05)
+
+### Added
+
+- Show an ISO UTC date tooltip and help cursor for numeric Unix timestamps in seconds or milliseconds.
+- Add a timestamp example to the first development demo object.
+
 ## 1.0.1 (2026-10-05)
 
 ### Fixed

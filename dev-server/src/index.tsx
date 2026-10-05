@@ -8,7 +8,7 @@ import { createRoot } from 'react-dom/client';
 //import the react-json-view component (installed with npm)
 import JsonViewer from './../../src/js/index';
 type ExampleJson = ReturnType<typeof getExampleJson1>;
-type CircularJson = Omit<ExampleJson, 'parent'> & {
+type CircularJson = Omit<ExampleJson, 'parent' | 'timestamp'> & {
   self?: object;
   window?: Window;
   parent: ExampleJson['parent'] & {
@@ -223,6 +223,7 @@ function getExampleJson1() {
   return {
     string: 'this is a test string',
     integer: 42,
+    timestamp: 1_700_000_000_000,
     empty_array: [],
     empty_object: {},
     array: [1, 2, 3, 'test'],

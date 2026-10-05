@@ -34,6 +34,26 @@ export function escapeString(value: string | number): string {
     .replace(/\f/g, '\\f');
 }
 
+export function formatTimestamp(value: unknown): string | undefined {
+  if (typeof value !== 'number') {
+    return undefined;
+  }
+  const absoluteValue = Math.abs(value);
+  let milliseconds: number;
+  if (
+    absoluteValue >= 1_000_000_000_000 &&
+    absoluteValue < 10_000_000_000_000
+  ) {
+    milliseconds = value;
+  } else if (absoluteValue >= 1_000_000_000 && absoluteValue < 10_000_000_000) {
+    milliseconds = value * 1000;
+  } else {
+    return undefined;
+  }
+  const date = new Date(milliseconds);
+  return Number.isNaN(date.getTime()) ? undefined : date.toISOString();
+}
+
 // validation for base-16 themes
 export function isTheme(theme: unknown): theme is ThemeObject {
   const themeKeys = [

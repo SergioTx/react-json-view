@@ -1,22 +1,22 @@
-import React from "react";
-import type { StylesConfig } from "react-select";
-import ReactSelect from "react-select";
+import React from 'react';
+import type { StylesConfig } from 'react-select';
+import ReactSelect from 'react-select';
 
-import type { ReactJsonViewProps, ThemeKeys } from "../../../../index";
-import ReactJson from "./../../../../src/js/index";
+import type { ReactJsonViewProps, ThemeKeys } from '../../../../index';
+import ReactJson from './../../../../src/js/index';
 
-import "./../../style/rjv-demo.css";
+import './../../style/rjv-demo.css';
 
 type DemoOptions = Required<
   Pick<
     ReactJsonViewProps,
-    | "collapsed"
-    | "collapseStringsAfterLength"
-    | "displayObjectSize"
-    | "enableClipboard"
-    | "indentWidth"
-    | "displayDataTypes"
-    | "iconStyle"
+    | 'collapsed'
+    | 'collapseStringsAfterLength'
+    | 'displayObjectSize'
+    | 'enableClipboard'
+    | 'indentWidth'
+    | 'displayDataTypes'
+    | 'iconStyle'
   >
 > & { theme: ThemeKeys };
 type Setting = {
@@ -34,89 +34,89 @@ interface SiteTheme {
 }
 
 const themeNames: ThemeKeys[] = [
-  "apathy",
-  "apathy:inverted",
-  "ashes",
-  "bespin",
-  "brewer",
-  "bright:inverted",
-  "bright",
-  "chalk",
-  "codeschool",
-  "colors",
-  "eighties",
-  "embers",
-  "flat",
-  "google",
-  "grayscale",
-  "grayscale:inverted",
-  "greenscreen",
-  "harmonic",
-  "hopscotch",
-  "isotope",
-  "marrakesh",
-  "mocha",
-  "monokai",
-  "ocean",
-  "paraiso",
-  "pop",
-  "railscasts",
-  "rjv-default",
-  "shapeshifter",
-  "shapeshifter:inverted",
-  "solarized",
-  "summerfruit",
-  "summerfruit:inverted",
-  "threezerotwofour",
-  "tomorrow",
-  "tube",
-  "twilight",
+  'apathy',
+  'apathy:inverted',
+  'ashes',
+  'bespin',
+  'brewer',
+  'bright:inverted',
+  'bright',
+  'chalk',
+  'codeschool',
+  'colors',
+  'eighties',
+  'embers',
+  'flat',
+  'google',
+  'grayscale',
+  'grayscale:inverted',
+  'greenscreen',
+  'harmonic',
+  'hopscotch',
+  'isotope',
+  'marrakesh',
+  'mocha',
+  'monokai',
+  'ocean',
+  'paraiso',
+  'pop',
+  'railscasts',
+  'rjv-default',
+  'shapeshifter',
+  'shapeshifter:inverted',
+  'solarized',
+  'summerfruit',
+  'summerfruit:inverted',
+  'threezerotwofour',
+  'tomorrow',
+  'tube',
+  'twilight',
 ];
 
 const settings: Setting[] = [
-  { field: "theme", label: "Theme:", values: themeNames },
+  { field: 'theme', label: 'Theme:', values: themeNames },
   {
-    field: "iconStyle",
-    label: "Icon Style:",
-    values: ["circle", "square", "triangle"],
+    field: 'iconStyle',
+    label: 'Icon Style:',
+    values: ['circle', 'square', 'triangle'],
   },
   {
-    field: "enableClipboard",
-    label: "Enable Clipboard:",
+    field: 'enableClipboard',
+    label: 'Enable Clipboard:',
     values: [true, false],
   },
   {
-    field: "displayDataTypes",
-    label: "Display Data Types:",
+    field: 'displayDataTypes',
+    label: 'Display Data Types:',
     values: [true, false],
   },
   {
-    field: "displayObjectSize",
-    label: "Display Object Size:",
+    field: 'displayObjectSize',
+    label: 'Display Object Size:',
     values: [true, false],
   },
   {
-    field: "indentWidth",
-    label: "Indent Width:",
+    field: 'indentWidth',
+    label: 'Indent Width:',
     values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   },
-  { field: "collapsed", label: "Collapsed:", values: [true, false, 1, 2] },
+  { field: 'collapsed', label: 'Collapsed:', values: [true, false, 1, 2] },
   {
-    field: "collapseStringsAfterLength",
-    label: "Collapse Strings After Length:",
+    field: 'collapseStringsAfterLength',
+    label: 'Collapse Strings After Length:',
     values: [false, 5, 10, 15, 20],
   },
 ];
 
 function getExampleJson() {
   return {
-    string: "this is a test string",
+    string: 'this is a test string',
     integer: 42,
-    array: [1, 2, 3, "test", NaN],
+    array: [1, 2, 3, 'test', NaN],
     float: 3.14159,
     undefined,
-    object: { "first-child": true, "second-child": false, "last-child": null },
-    string_number: "1234",
+    object: { 'first-child': true, 'second-child': false, 'last-child': null },
+    string_number: '1234',
     date: new Date(),
   };
 }
@@ -124,20 +124,20 @@ function getExampleJson() {
 export default function Demo() {
   const [src] = React.useState(getExampleJson);
   const [options, setOptions] = React.useState<DemoOptions>({
-    theme: "rjv-default",
+    theme: 'rjv-default',
     collapsed: false,
     collapseStringsAfterLength: 15,
     displayObjectSize: true,
     enableClipboard: true,
     indentWidth: 4,
     displayDataTypes: true,
-    iconStyle: "triangle",
+    iconStyle: 'triangle',
   });
   const [siteTheme, setSiteTheme] = React.useState<SiteTheme | null>(null);
   const viewerRef = React.useRef<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
-    const candidate = viewerRef.current?.querySelector(".react-json-view");
+    const candidate = viewerRef.current?.querySelector('.react-json-view');
     if (!candidate) {
       return;
     }
@@ -146,30 +146,30 @@ export default function Demo() {
       const getStyle = (element: Element, property: string): string =>
         window.getComputedStyle(element).getPropertyValue(property);
       let current: Element | null = viewer;
-      let background = "rgb(255, 255, 255)";
+      let background = 'rgb(255, 255, 255)';
       while (current) {
-        const color = getStyle(current, "background-color");
-        if (color && color !== "transparent" && color !== "rgba(0, 0, 0, 0)") {
+        const color = getStyle(current, 'background-color');
+        if (color && color !== 'transparent' && color !== 'rgba(0, 0, 0, 0)') {
           background = color;
           break;
         }
         current = current.parentElement;
       }
       const nextTheme = {
-        color: getStyle(viewer.querySelector(".object-key") || viewer, "color"),
+        color: getStyle(viewer.querySelector('.object-key') || viewer, 'color'),
         bgColor: background,
         borderColor: getStyle(
-          viewer.querySelector(".variable-row") || viewer,
-          "border-left-color",
+          viewer.querySelector('.variable-row') || viewer,
+          'border-left-color'
         ),
       };
       setSiteTheme((previous) =>
         previous &&
-        (["color", "bgColor", "borderColor"] as const).every(
-          (key) => previous[key] === nextTheme[key],
+        (['color', 'bgColor', 'borderColor'] as const).every(
+          (key) => previous[key] === nextTheme[key]
         )
           ? previous
-          : nextTheme,
+          : nextTheme
       );
     }
     updateStyles();
@@ -218,7 +218,7 @@ export default function Demo() {
         </div>
         <ReactJson
           name={false}
-          style={{ padding: "10px", borderRadius: "3px", margin: "10px 0px" }}
+          style={{ padding: '10px', borderRadius: '3px', margin: '10px 0px' }}
           src={src}
           {...options}
         />
@@ -236,7 +236,7 @@ export default function Demo() {
                     name={field}
                     value={
                       choices.find(
-                        (choice) => choice.value === options[field],
+                        (choice) => choice.value === options[field]
                       ) ?? null
                     }
                     options={choices}
