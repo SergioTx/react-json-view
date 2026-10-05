@@ -1,14 +1,11 @@
 import React from 'react'
-import { mount } from 'enzyme'
+import { render } from '@testing-library/react'
 import { expect } from 'chai'
-
 import JsonDate from './../../../../../src/js/components/DataTypes/Date'
-
 describe('<JsonDate />', function () {
   const rjvId = 1
-
   it('date component should have a data type label', function () {
-    const wrapper = mount(
+    const wrapper = render(
       <JsonDate
         value={new Date()}
         displayDataTypes
@@ -16,11 +13,12 @@ describe('<JsonDate />', function () {
         theme='rjv-default'
       />
     )
-    expect(wrapper.find('.data-type-label')).to.have.length(1)
+    expect(
+      wrapper.container.querySelectorAll('.data-type-label')
+    ).to.have.length(1)
   })
-
   it('date component should not have a data type label', function () {
-    const wrapper = mount(
+    const wrapper = render(
       <JsonDate
         value={new Date()}
         displayDataTypes={false}
@@ -28,6 +26,8 @@ describe('<JsonDate />', function () {
         theme='rjv-default'
       />
     )
-    expect(wrapper.find('.data-type-label')).to.have.length(0)
+    expect(
+      wrapper.container.querySelectorAll('.data-type-label')
+    ).to.have.length(0)
   })
 })

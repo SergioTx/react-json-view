@@ -1,7 +1,6 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import { render } from '@testing-library/react'
 import { expect } from 'chai'
-
 import {
   CircleMinus,
   CirclePlus,
@@ -11,45 +10,43 @@ import {
   ArrowDown,
   ArrowRight
 } from './../../../../src/js/components/icons'
-
 describe('svg icons', function () {
   it('<CircleMinus /> sanity check', function () {
-    const wrapper = shallow(<CircleMinus />)
-    expect(wrapper.find('svg').length).to.equal(1)
+    const wrapper = render(<CircleMinus />)
+    expect(wrapper.container.querySelectorAll('svg').length).to.equal(1)
   })
-
   it('<CirclePlus /> sanity check', function () {
-    const wrapper = shallow(<CirclePlus />)
-    expect(wrapper.find('svg').length).to.equal(1)
+    const wrapper = render(<CirclePlus />)
+    expect(wrapper.container.querySelectorAll('svg').length).to.equal(1)
   })
-
   it('<SquarePlus /> sanity check', function () {
-    const wrapper = shallow(<SquarePlus />)
-    expect(wrapper.find('svg').length).to.equal(1)
+    const wrapper = render(<SquarePlus />)
+    expect(wrapper.container.querySelectorAll('svg').length).to.equal(1)
   })
-
   it('<SquareMinus /> sanity check', function () {
-    const wrapper = shallow(<SquareMinus />)
-    expect(wrapper.find('svg').length).to.equal(1)
+    const wrapper = render(<SquareMinus />)
+    expect(wrapper.container.querySelectorAll('svg').length).to.equal(1)
   })
-
   it('<ArrowDown /> sanity check', function () {
-    const wrapper = shallow(<ArrowDown />)
-    expect(wrapper.find('svg').length).to.equal(1)
+    const wrapper = render(<ArrowDown />)
+    expect(wrapper.container.querySelectorAll('svg').length).to.equal(1)
   })
-
   it('<ArrowRight /> sanity check', function () {
-    const wrapper = shallow(<ArrowRight />)
-    expect(wrapper.find('svg').length).to.equal(1)
+    const wrapper = render(<ArrowRight />)
+    expect(wrapper.container.querySelectorAll('svg').length).to.equal(1)
   })
-
   it('<Clippy /> sanity check', function () {
-    const wrapper = shallow(<Clippy />)
-    expect(wrapper.find('svg').length).to.equal(1)
+    const wrapper = render(<Clippy />)
+    expect(wrapper.container.querySelectorAll('svg').length).to.equal(1)
   })
-
   it('icon with color', function () {
-    const wrapper = shallow(<Clippy style={{ color: 'green' }} />)
-    expect(wrapper.find('svg').length).to.equal(1)
+    const wrapper = render(
+      <Clippy
+        style={{
+          color: 'green'
+        }}
+      />
+    )
+    expect(wrapper.container.querySelectorAll('svg').length).to.equal(1)
   })
 })

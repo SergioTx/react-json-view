@@ -26,7 +26,7 @@
 
 ### Installation
 
-Requires React 16.8 or newer.
+Requires React 19 or newer.
 
 ```shell
 npm install @microlink/react-json-view --save

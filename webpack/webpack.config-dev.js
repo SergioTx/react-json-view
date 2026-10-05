@@ -12,10 +12,6 @@ const PATHS = {
 const config = {
   mode: 'development',
   entry: [PATHS.devServer + '/src/index.js'],
-  externals: {
-    react: 'React',
-    'react-dom': 'ReactDOM'
-  },
   devServer: {
     host: 'localhost',
     port: 2000,

@@ -1,13 +1,16 @@
 import React from 'react'
-import { mount } from 'enzyme'
+import { render, fireEvent } from '@testing-library/react'
 import { expect } from 'chai'
 import VariableEditor from './../../../../src/js/components/VariableEditor'
-
 describe('<VariableEditor />', function () {
-  function renderVariable (props = {}) {
-    return mount(
+  function getVariable (props = {}) {
+    return (
       <VariableEditor
-        variable={{ name: 'test', value: true, type: 'boolean' }}
+        variable={{
+          name: 'test',
+          value: true,
+          type: 'boolean'
+        }}
         theme='rjv-default'
         namespace={['root']}
         type='object'
@@ -19,36 +22,54 @@ describe('<VariableEditor />', function () {
       />
     )
   }
-
   it('renders a read-only value and its key', function () {
-    const wrapper = renderVariable()
-    expect(wrapper.find('.object-key').text()).to.equal('"test"')
-    expect(wrapper.find('.variable-value').text()).to.equal('booltrue')
-    expect(wrapper.find('textarea')).to.have.length(0)
-    expect(wrapper.find('.variable-value').prop('onClick')).to.equal(undefined)
+    const wrapper = render(getVariable())
+    expect(
+      wrapper.container.querySelectorAll('.object-key')[0].textContent
+    ).to.equal('"test"')
+    expect(
+      wrapper.container.querySelectorAll('.variable-value')[0].textContent
+    ).to.equal('booltrue')
+    expect(wrapper.container.querySelectorAll('textarea')).to.have.length(0)
+    fireEvent.click(wrapper.container.querySelectorAll('.variable-value')[0])
+    expect(
+      wrapper.container.querySelectorAll('.variable-value')[0].textContent
+    ).to.equal('booltrue')
     wrapper.unmount()
   })
-
   it('shows a comma between values but not after the last value', function () {
-    const wrapper = renderVariable({ isLast: false })
-    expect(wrapper.text()).to.include(',')
-    wrapper.setProps({ isLast: true })
-    expect(wrapper.text()).not.to.include(',')
+    let _element = getVariable({
+      isLast: false
+    })
+    const wrapper = render(_element)
+    expect(wrapper.container.textContent).to.include(',')
+    wrapper.rerender(
+      (_element = React.cloneElement(_element, {
+        isLast: true
+      }))
+    )
+    expect(wrapper.container.textContent).not.to.include(',')
     wrapper.unmount()
   })
-
   it('shows clipboard controls only while hovered', function () {
-    const wrapper = renderVariable({ enableClipboard: true })
+    const wrapper = render(
+      getVariable({
+        enableClipboard: true
+      })
+    )
     expect(
-      wrapper.find('.copy-to-clipboard-container').prop('style').display
+      wrapper.container.querySelectorAll('.copy-to-clipboard-container')[0]
+        .style.display
     ).to.equal('none')
-    wrapper.find('.variable-row').simulate('mouseEnter')
+    fireEvent.mouseEnter(wrapper.container.querySelectorAll('.variable-row')[0])
     expect(
-      wrapper.find('.copy-to-clipboard-container').prop('style').display
+      wrapper.container.querySelectorAll('.copy-to-clipboard-container')[0]
+        .style.display
     ).to.equal('inline-block')
-    wrapper.find('.variable-row').simulate('mouseLeave')
+    fireEvent.mouseLeave(wrapper.container.querySelectorAll('.variable-row')[0])
     expect(
-      wrapper.find('.copy-to-clipboard-container').prop('style').display
+      wrapper.container.querySelectorAll('.copy-to-clipboard-container')[0]
+        .style.display
     ).to.equal('none')
     wrapper.unmount()
   })

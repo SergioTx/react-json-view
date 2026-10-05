@@ -12,7 +12,6 @@ const config = {
   mode: 'production',
   entry: [PATHS.js + '/index.js'],
   externals: {
-    cheerio: 'window',
     react: {
       root: 'React',
       commonjs2: 'react',

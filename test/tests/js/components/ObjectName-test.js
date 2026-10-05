@@ -1,9 +1,7 @@
 import React from 'react'
-import { render } from 'enzyme'
+import { render } from '@testing-library/react'
 import { expect } from 'chai'
-
 import ObjectName from './../../../../src/js/components/ObjectName'
-
 describe('<ObjectName />', function () {
   it('ObjectName mount', function () {
     const wrapper = render(
@@ -14,9 +12,8 @@ describe('<ObjectName />', function () {
         jsvRoot={false}
       />
     )
-    expect(wrapper.find('.object-key')).to.have.length(1)
+    expect(wrapper.container.querySelectorAll('.object-key')).to.have.length(1)
   })
-
   it('ObjectName with parent array mount', function () {
     const wrapper = render(
       <ObjectName
@@ -28,16 +25,16 @@ describe('<ObjectName />', function () {
         displayArrayKey
       />
     )
-    expect(wrapper.find('.array-key')).to.have.length(1)
+    expect(wrapper.container.querySelectorAll('.array-key')).to.have.length(1)
   })
-
   it('ObjectName at root without name', function () {
     const wrapper = render(
       <ObjectName namespace='test' name={false} theme='rjv-default' jsvRoot />
     )
-    expect(wrapper.find('span').children()).to.have.length(0)
+    expect(
+      wrapper.container.querySelectorAll('span')[0].children
+    ).to.have.length(0)
   })
-
   it('ObjectName with quotesOnKeys enabled (default)', function () {
     const wrapper = render(
       <ObjectName
@@ -48,9 +45,12 @@ describe('<ObjectName />', function () {
         quotesOnKeys
       />
     )
-    expect(wrapper.find('.object-key').children('span')).to.have.length(3)
+    expect(
+      wrapper.container
+        .querySelectorAll('.object-key')[0]
+        .querySelectorAll(':scope > span')
+    ).to.have.length(3)
   })
-
   it('ObjectName with quotesOnKeys disabled', function () {
     const wrapper = render(
       <ObjectName
@@ -61,9 +61,12 @@ describe('<ObjectName />', function () {
         quotesOnKeys={false}
       />
     )
-    expect(wrapper.find('.object-key').children('span')).to.have.length(1)
+    expect(
+      wrapper.container
+        .querySelectorAll('.object-key')[0]
+        .querySelectorAll(':scope > span')
+    ).to.have.length(1)
   })
-
   it('ObjectName array hides key', function () {
     const wrapper = render(
       <ObjectName
@@ -75,6 +78,6 @@ describe('<ObjectName />', function () {
         displayArrayKey={false}
       />
     )
-    expect(wrapper.find('.array-key')).to.have.length(0)
+    expect(wrapper.container.querySelectorAll('.array-key')).to.have.length(0)
   })
 })

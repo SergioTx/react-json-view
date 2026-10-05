@@ -290,18 +290,16 @@
     "@babel/register": "~8.0.5",
     "@commitlint/cli": "latest",
     "@commitlint/config-conventional": "latest",
+    "@testing-library/react": "^16.3.0",
     "babel-loader": "10.1.1",
     "babel-plugin-istanbul": "8.0.0",
     "babel-plugin-react-html-attrs": "~3.0.5",
     "browser-sync": "~3.0.3",
     "c8": "latest",
     "chai": "~6.2.2",
-    "cheerio": "1.0.0-rc.3",
     "ci-publish": "latest",
     "conventional-changelog": "latest",
     "css-loader": "~7.1.4",
-    "enzyme": "~3.11.0",
-    "enzyme-adapter-react-16": "~1.15.5",
     "events": "~3.3.0",
     "finepack": "latest",
     "git-authors-cli": "latest",
@@ -313,10 +311,9 @@
     "moment": "~2.31.0",
     "nano-staged": "latest",
     "prettier": "~2.8.8",
-    "react": "~16.14.0",
-    "react-dom": "~16.14.0",
+    "react": "~19.2.0",
+    "react-dom": "~19.2.0",
     "react-select": "~5.10.2",
-    "react-test-renderer": "~16.14.0",
     "sass": "~1.105.0",
     "sass-loader": "~17.0.0",
     "simple-git-hooks": "latest",
@@ -384,8 +381,8 @@
     ]
   },
   "peerDependencies": {
-    "react": ">= 16.8",
-    "react-dom": ">= 16.8"
+    "react": ">= 19",
+    "react-dom": ">= 19"
   },
   "simple-git-hooks": {
     "commit-msg": "npx commitlint --edit",

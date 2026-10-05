@@ -1,14 +1,11 @@
 import React from 'react'
-import { mount } from 'enzyme'
+import { render } from '@testing-library/react'
 import { expect } from 'chai'
-
 import JsonInteger from './../../../../../src/js/components/DataTypes/Integer'
-
 describe('<JsonInteger />', function () {
   const rjvId = 1
-
   it('integer component should have a data type label', function () {
-    const wrapper = mount(
+    const wrapper = render(
       <JsonInteger
         value={1}
         displayDataTypes
@@ -16,11 +13,12 @@ describe('<JsonInteger />', function () {
         theme='rjv-default'
       />
     )
-    expect(wrapper.find('.data-type-label')).to.have.length(1)
+    expect(
+      wrapper.container.querySelectorAll('.data-type-label')
+    ).to.have.length(1)
   })
-
   it('integer component should not have a data type label', function () {
-    const wrapper = mount(
+    const wrapper = render(
       <JsonInteger
         value={1}
         displayDataTypes={false}
@@ -28,6 +26,8 @@ describe('<JsonInteger />', function () {
         theme='rjv-default'
       />
     )
-    expect(wrapper.find('.data-type-label')).to.have.length(0)
+    expect(
+      wrapper.container.querySelectorAll('.data-type-label')
+    ).to.have.length(0)
   })
 })
