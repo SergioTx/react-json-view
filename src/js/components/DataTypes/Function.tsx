@@ -57,6 +57,7 @@ export default function JsonFunction(props: ValueProps) {
           background: 'none',
           color: 'inherit',
           ...Theme(props.theme, 'function-value').style,
+          userSelect: 'text',
         }}
         onClick={handleToggleCollapsed}
       >

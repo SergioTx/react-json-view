@@ -26,54 +26,55 @@ export default function JsonString(props: ValueProps) {
   const rawValue =
     typeof props.value === 'string' ? props.value : String(props.value);
   const content = escapeStrings ? escapeString(rawValue) : rawValue;
-  let value: React.ReactNode = content;
-  const style: {
-    style: React.CSSProperties;
-  } = {
-    style: {
-      cursor: 'default',
-      wordBreak: 'break-all',
-    },
-  };
-  if (
+  const expandable =
     typeof collapseStringsAfterLength === 'number' &&
     toType(collapseStringsAfterLength) === 'integer' &&
-    content.length > collapseStringsAfterLength
-  ) {
-    style.style.cursor = 'pointer';
-    if (collapsed) {
-      value = (
-        <span>
-          {content.substring(0, collapseStringsAfterLength)}
-          <span {...Theme(theme, 'ellipsis')}> ...</span>
-        </span>
-      );
-    }
-  }
+    content.length > collapseStringsAfterLength;
+  const value =
+    expandable && collapsed ? (
+      <span>
+        {content.substring(0, collapseStringsAfterLength)}
+        <span {...Theme(theme, 'ellipsis')}> ...</span>
+      </span>
+    ) : (
+      content
+    );
   return (
     <div {...Theme(theme, 'string')}>
       <DataTypeLabel typeName={typeName} {...props} />
-      <button
-        type="button"
-        className="string-value"
-        aria-label={collapsed ? 'Expand string' : 'Collapse string'}
-        {...style}
-        style={{
-          ...style.style,
-          display: 'inline',
-          border: 0,
-          padding: 0,
-          background: 'none',
-          font: 'inherit',
-          color: 'inherit',
-          verticalAlign: 'baseline',
-        }}
-        onClick={handleToggleCollapsed}
-      >
-        {'"'}
-        {value}
-        {'"'}
-      </button>
+      {expandable ? (
+        <button
+          type="button"
+          className="string-value"
+          aria-label={collapsed ? 'Expand string' : 'Collapse string'}
+          style={{
+            cursor: 'pointer',
+            wordBreak: 'break-all',
+            userSelect: 'text',
+            display: 'inline',
+            border: 0,
+            padding: 0,
+            background: 'none',
+            font: 'inherit',
+            color: 'inherit',
+            verticalAlign: 'baseline',
+          }}
+          onClick={handleToggleCollapsed}
+        >
+          {'"'}
+          {value}
+          {'"'}
+        </button>
+      ) : (
+        <span
+          className="string-value"
+          style={{ cursor: 'default', wordBreak: 'break-all' }}
+        >
+          {'"'}
+          {value}
+          {'"'}
+        </span>
+      )}
     </div>
   );
 }

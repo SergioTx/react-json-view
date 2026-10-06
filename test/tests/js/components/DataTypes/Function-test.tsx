@@ -77,13 +77,13 @@ describe('<JsonFunction />', function () {
     expect(
       wrapper.container.querySelectorAll<HTMLElement>('.function-collapsed')
     ).to.have.length(1);
-    fireEvent.click(
-      required(
-        wrapper.container.querySelectorAll<HTMLElement>(
-          '.rjv-function-container'
-        )[0]
-      )
+    const functionButton = required(
+      wrapper.container.querySelectorAll<HTMLButtonElement>(
+        '.rjv-function-container'
+      )[0]
     );
+    expect(functionButton.style.userSelect).to.equal('text');
+    fireEvent.click(functionButton);
     expect(
       wrapper.container.querySelectorAll<HTMLElement>('.function-collapsed')
     ).to.have.length(0);

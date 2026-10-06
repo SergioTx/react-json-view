@@ -1,8 +1,14 @@
+## 1.4.0 (2026-10-06)
+
+### Changed
+
+- Render string values as buttons only when they can be expanded, and keep text selectable in expandable string and function controls.
+
 ## 1.3.0 (2026-10-05)
 
 ### Features
 
-* configure timestamp fields ([585f57f](https://github.com/sergiotx/react-json-view/commit/585f57ff5ec34f74b5dba7934b0fe42b12bade5b))
+- configure timestamp fields ([585f57f](https://github.com/sergiotx/react-json-view/commit/585f57ff5ec34f74b5dba7934b0fe42b12bade5b))
 
 ## 1.2.0 (2026-10-05)
 

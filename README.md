@@ -1,6 +1,5 @@
 # react-json-view
 
-
 **react-json-view** (rjv) is a React component for displaying JavaScript **arrays** and **JSON objects**.
 
 Fork from [https://github.com/uiwjs/react-json-view](https://github.com/uiwjs/react-json-view).
