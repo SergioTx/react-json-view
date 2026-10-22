@@ -2,7 +2,7 @@
 
 ### Features
 
-* render buttons only for expandable values ([e5a14b9](https://github.com/sergiotx/react-json-view/commit/e5a14b903b70d224e27f3676d438246c6db010a6))
+- render buttons only for expandable values ([e5a14b9](https://github.com/sergiotx/react-json-view/commit/e5a14b903b70d224e27f3676d438246c6db010a6))
 
 ## 1.4.0 (2026-10-06)
 

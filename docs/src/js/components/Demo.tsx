@@ -17,6 +17,7 @@ type DemoOptions = Required<
     | 'indentWidth'
     | 'displayDataTypes'
     | 'iconStyle'
+    | 'flashingUpdates'
   >
 > & { theme: ThemeKeys };
 type Setting = {
@@ -106,9 +107,27 @@ const settings: Setting[] = [
     label: 'Collapse Strings After Length:',
     values: [false, 5, 10, 15, 20],
   },
+  {
+    field: 'flashingUpdates',
+    label: 'Flashing Updates:',
+    values: [true, false],
+  },
 ];
 
-function getExampleJson() {
+interface ExampleJson {
+  string: string;
+  integer: number;
+  array: (number | string)[];
+  float: number;
+  undefined: undefined;
+  object: Record<string, boolean | null>;
+  string_number: string;
+  date: Date;
+  live_status?: string;
+  live_object?: { id: number; label: string };
+}
+
+function getExampleJson(): ExampleJson {
   return {
     string: 'this is a test string',
     integer: 42,
@@ -122,7 +141,7 @@ function getExampleJson() {
 }
 
 export default function Demo() {
-  const [src] = React.useState(getExampleJson);
+  const [src, setSrc] = React.useState(getExampleJson);
   const [options, setOptions] = React.useState<DemoOptions>({
     theme: 'rjv-default',
     collapsed: false,
@@ -132,9 +151,58 @@ export default function Demo() {
     indentWidth: 4,
     displayDataTypes: true,
     iconStyle: 'triangle',
+    flashingUpdates: true,
   });
   const [siteTheme, setSiteTheme] = React.useState<SiteTheme | null>(null);
   const viewerRef = React.useRef<HTMLDivElement | null>(null);
+
+  React.useEffect(() => {
+    if (!options.flashingUpdates) {
+      return;
+    }
+    const interval = window.setInterval(() => {
+      setSrc((previous) => {
+        const next: ExampleJson = {
+          ...previous,
+          integer: Math.floor(Math.random() * 100),
+          float: Math.round(Math.random() * 100_000) / 1000,
+          array: previous.array.map((item, index) =>
+            index === 1 ? Math.floor(Math.random() * 10) : item
+          ),
+          object: {
+            ...previous.object,
+            'first-child': Math.random() > 0.5,
+          },
+          date: new Date(),
+        };
+        if (previous.array.length < 8 && Math.random() > 0.5) {
+          next.array.push(Math.floor(Math.random() * 100));
+        } else if (previous.array.length > 3) {
+          next.array.pop();
+        }
+        if ('extra-child' in previous.object) {
+          delete next.object['extra-child'];
+        } else {
+          next.object['extra-child'] = true;
+        }
+        if (previous.live_status) {
+          delete next.live_status;
+        } else {
+          next.live_status = 'online';
+        }
+        if (Math.random() > 0.5) {
+          delete next.live_object;
+        } else {
+          next.live_object = {
+            id: Math.floor(Math.random() * 1000),
+            label: 'new',
+          };
+        }
+        return next;
+      });
+    }, 2000);
+    return () => window.clearInterval(interval);
+  }, [options.flashingUpdates]);
 
   React.useEffect(() => {
     const candidate = viewerRef.current?.querySelector('.react-json-view');

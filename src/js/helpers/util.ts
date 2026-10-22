@@ -34,6 +34,33 @@ export function escapeString(value: string | number): string {
     .replace(/\f/g, '\\f');
 }
 
+export function isSameValue(previous: unknown, next: unknown): boolean {
+  if (Object.is(previous, next)) {
+    return true;
+  }
+  if (previous instanceof Date && next instanceof Date) {
+    return Object.is(previous.getTime(), next.getTime());
+  }
+  if (
+    (previous instanceof RegExp && next instanceof RegExp) ||
+    (typeof previous === 'function' && typeof next === 'function')
+  ) {
+    return previous.toString() === next.toString();
+  }
+  return false;
+}
+
+// Alternating animation names restarts the flash on consecutive updates.
+export function getFlashClass(
+  enabled: boolean | undefined,
+  count: number
+): string {
+  if (!enabled || count === 0) {
+    return '';
+  }
+  return count % 2 ? 'rjv-flash-a' : 'rjv-flash-b';
+}
+
 export function formatTimestamp(value: unknown): string | undefined {
   if (typeof value !== 'number') {
     return undefined;

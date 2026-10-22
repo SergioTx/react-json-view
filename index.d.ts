@@ -120,6 +120,16 @@ export interface ReactJsonViewProps {
    * Default: "timestamp"
    */
   timestampFields?: string | string[];
+  /**
+   * Set to true when src is expected to change over time.
+   * Each primitive value is compared against its previous value at the same path,
+   * and changed values briefly flash to highlight the update.
+   * Properties that appear flash when added, and object sizes flash when
+   * properties are added or removed.
+   *
+   * Default: false
+   */
+  flashingUpdates?: boolean;
 }
 
 export interface OnCopyProps {

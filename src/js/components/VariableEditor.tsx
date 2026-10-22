@@ -5,7 +5,12 @@ import {
   type ValueProps,
   type VariableProps,
 } from '../types';
-import { escapeString, formatTimestamp } from './../helpers/util';
+import {
+  escapeString,
+  formatTimestamp,
+  getFlashClass,
+  isSameValue,
+} from './../helpers/util';
 import Theme from './../themes/getStyle';
 import CopyToClipboard from './CopyToClipboard';
 import * as DataTypes from './DataTypes/DataTypes';
@@ -36,9 +41,22 @@ export default function VariableEditor(props: VariableProps) {
     quotesOnKeys,
     isLast,
     timestampFields = 'timestamp',
+    flashingUpdates,
+    flashOnMount,
   } = props;
   const namespace = normalizeNamespace(namespaceProp);
   const [hovered, setHovered] = React.useState(false);
+  const [flash, setFlash] = React.useState({
+    value: variable.value,
+    count: flashOnMount ? 1 : 0,
+  });
+  if (!isSameValue(flash.value, variable.value)) {
+    setFlash({
+      value: variable.value,
+      count: flashingUpdates ? flash.count + 1 : flash.count,
+    });
+  }
+  const flashClass = getFlashClass(flashingUpdates, flash.count);
   const ValueComponent = valueComponents[variable.type];
   const isTimestampField =
     typeof variable.name === 'string' &&
@@ -105,7 +123,7 @@ export default function VariableEditor(props: VariableProps) {
         </span>
       )}
       <div
-        className="variable-value"
+        className={['variable-value', flashClass].filter(Boolean).join(' ')}
         title={timestampTitle}
         {...Theme(theme, 'variableValue', {
           cursor: timestampTitle ? 'help' : 'default',

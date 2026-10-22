@@ -2,7 +2,7 @@ import React from 'react';
 
 import type { NodeProps } from '../../types';
 import { normalizeNamespace } from '../../types';
-import { toType } from './../../helpers/util';
+import { getFlashClass, toType } from './../../helpers/util';
 import AttributeStore from './../../stores/ObjectAttributes';
 import Theme from './../../themes/getStyle';
 import ArrayGroup from './../ArrayGroup';
@@ -39,6 +39,7 @@ export default function RjvObject(props: NodeProps): React.JSX.Element {
     jsvRoot,
     iconStyle,
     isLast,
+    flashOnMount,
     ...rest
   } = props;
   const namespace = normalizeNamespace(namespaceProp);
@@ -47,6 +48,22 @@ export default function RjvObject(props: NodeProps): React.JSX.Element {
     prevProps: props,
   }));
   const [hovered, setHovered] = React.useState(false);
+  const [keyState, setKeyState] = React.useState(() => ({
+    src,
+    added: [] as string[],
+  }));
+  if (keyState.src !== src) {
+    const previousKeys = Object.keys(keyState.src);
+    setKeyState({
+      src,
+      added: props.flashingUpdates
+        ? Object.keys(src).filter((key) => !previousKeys.includes(key))
+        : [],
+    });
+  }
+  const [flashClass] = React.useState(() =>
+    getFlashClass(props.flashingUpdates, flashOnMount ? 1 : 0)
+  );
   const previous = state.prevProps;
   if (
     src !== previous.src ||
@@ -94,6 +111,7 @@ export default function RjvObject(props: NodeProps): React.JSX.Element {
         namespace: namespace.concat(variableName),
         parent_type: objectType,
         isLast: index === keys.length - 1,
+        flashOnMount: keyState.added.includes(key),
       };
       if (valueType === 'window') {
         return null;
@@ -154,7 +172,7 @@ export default function RjvObject(props: NodeProps): React.JSX.Element {
   const IconComponent = expanded ? ExpandedIcon : CollapsedIcon;
   return (
     <div
-      className="object-key-val"
+      className={['object-key-val', flashClass].filter(Boolean).join(' ')}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       {...Theme(theme, jsvRoot ? 'jsv-root' : 'objectKeyVal', styles)}

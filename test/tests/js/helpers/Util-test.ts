@@ -2,9 +2,37 @@ import { expect } from 'chai';
 
 import {
   escapeString,
+  isSameValue,
   isTheme,
   toType,
 } from './../../../../src/js/helpers/util';
+describe('isSameValue', function () {
+  it('compares primitives', function () {
+    expect(isSameValue(1, 1)).to.equal(true);
+    expect(isSameValue(NaN, NaN)).to.equal(true);
+    expect(isSameValue('a', 'b')).to.equal(false);
+    expect(isSameValue(1, '1')).to.equal(false);
+    expect(isSameValue(null, undefined)).to.equal(false);
+  });
+  it('compares dates, regexps and functions by content', function () {
+    expect(isSameValue(new Date(1), new Date(1))).to.equal(true);
+    expect(isSameValue(new Date(1), new Date(2))).to.equal(false);
+    expect(isSameValue(/a/g, /a/g)).to.equal(true);
+    expect(isSameValue(/a/g, /a/i)).to.equal(false);
+    expect(
+      isSameValue(
+        () => 1,
+        () => 1
+      )
+    ).to.equal(true);
+    expect(
+      isSameValue(
+        () => 1,
+        () => 2
+      )
+    ).to.equal(false);
+  });
+});
 describe('toType', function () {
   it('toType object', function () {
     const test = {

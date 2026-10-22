@@ -24,7 +24,16 @@ const defaultProps: Required<ReactJsonViewProps> = {
   style: {},
   displayArrayKey: true,
   timestampFields: 'timestamp',
+  flashingUpdates: false,
 };
+const flashStyles = `
+@keyframes rjv-flash-a { from { background-color: rgba(255, 196, 0, 0.55); } to { background-color: transparent; } }
+@keyframes rjv-flash-b { from { background-color: rgba(255, 196, 0, 0.55); } to { background-color: transparent; } }
+.react-json-view .rjv-flash-a { animation: rjv-flash-a 1s ease-out; }
+.react-json-view .rjv-flash-b { animation: rjv-flash-b 1s ease-out; }
+@media (prefers-reduced-motion: reduce) {
+  .react-json-view .rjv-flash-a, .react-json-view .rjv-flash-b { animation: none; }
+}`;
 export default function ReactJsonView(
   inputProps: ReactJsonViewProps
 ): React.JSX.Element {
@@ -70,6 +79,7 @@ export default function ReactJsonView(
         ...props.style,
       }}
     >
+      {props.flashingUpdates && <style>{flashStyles}</style>}
       <JsonViewer
         {...props}
         src={src}

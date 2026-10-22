@@ -7,6 +7,125 @@ import { required } from '../../testHelpers/requireSources';
 import Index from './../../../src/js/index';
 import ObjectAttributes from './../../../src/js/stores/ObjectAttributes';
 describe('<Index />', function () {
+  it('flashes changed values when flashingUpdates is enabled', function () {
+    const wrapper = render(
+      <Index
+        src={{ a: 1, b: 'same' }}
+        flashingUpdates
+        enableClipboard={false}
+      />
+    );
+    expect(wrapper.container.querySelector('style')?.textContent).to.include(
+      '@keyframes rjv-flash-a'
+    );
+    const values = () =>
+      Array.from(
+        wrapper.container.querySelectorAll<HTMLElement>('.variable-value')
+      );
+    expect(values().map((value) => value.className)).to.deep.equal([
+      'variable-value',
+      'variable-value',
+    ]);
+    wrapper.rerender(
+      <Index
+        src={{ a: 2, b: 'same' }}
+        flashingUpdates
+        enableClipboard={false}
+      />
+    );
+    expect(values().map((value) => value.className)).to.deep.equal([
+      'variable-value rjv-flash-a',
+      'variable-value',
+    ]);
+    wrapper.rerender(
+      <Index
+        src={{ a: 3, b: 'same' }}
+        flashingUpdates
+        enableClipboard={false}
+      />
+    );
+    expect(required(values()[0]).className).to.equal(
+      'variable-value rjv-flash-b'
+    );
+    wrapper.rerender(
+      <Index
+        src={{ a: 3, b: 'same' }}
+        flashingUpdates
+        enableClipboard={false}
+      />
+    );
+    expect(required(values()[0]).className).to.equal(
+      'variable-value rjv-flash-b'
+    );
+    wrapper.unmount();
+  });
+  it('flashes added properties and size changes when properties come and go', function () {
+    const wrapper = render(
+      <Index
+        src={{ a: 1, list: [1] }}
+        flashingUpdates
+        enableClipboard={false}
+      />
+    );
+    const sizes = () =>
+      Array.from(
+        wrapper.container.querySelectorAll<HTMLElement>('.object-size')
+      ).map((size) => size.className);
+    expect(sizes()).to.deep.equal(['object-size', 'object-size']);
+    wrapper.rerender(
+      <Index
+        src={{ a: 1, b: 2, nested: { c: 3 }, list: [1, 2] }}
+        flashingUpdates
+        enableClipboard={false}
+      />
+    );
+    const rows = Array.from(
+      wrapper.container.querySelectorAll<HTMLElement>('.variable-row')
+    );
+    expect(
+      rows.map(
+        (row) => required(row.querySelector('.variable-value')).className
+      )
+    ).to.deep.equal([
+      'variable-value',
+      'variable-value rjv-flash-a',
+      'variable-value',
+      'variable-value',
+      'variable-value rjv-flash-a',
+    ]);
+    const nested = required(
+      wrapper.container.querySelectorAll<HTMLElement>('.object-key-val')[1]
+    );
+    expect(nested.className).to.equal('object-key-val rjv-flash-a');
+    expect(sizes()).to.deep.equal([
+      'object-size',
+      'object-size rjv-flash-a',
+      'object-size rjv-flash-a',
+    ]);
+    wrapper.rerender(
+      <Index
+        src={{ a: 1, list: [1] }}
+        flashingUpdates
+        enableClipboard={false}
+      />
+    );
+    expect(wrapper.container.textContent).not.to.include('nested');
+    expect(sizes()).to.deep.equal([
+      'object-size rjv-flash-b',
+      'object-size rjv-flash-b',
+    ]);
+    wrapper.unmount();
+  });
+  it('does not flash changed values by default', function () {
+    const wrapper = render(<Index src={{ a: 1 }} enableClipboard={false} />);
+    wrapper.rerender(<Index src={{ a: 2 }} enableClipboard={false} />);
+    expect(wrapper.container.querySelector('style')).to.equal(null);
+    expect(
+      required(wrapper.container.querySelector<HTMLElement>('.variable-value'))
+        .className
+    ).to.equal('variable-value');
+    wrapper.unmount();
+  });
   it('supports expansion and source updates in Strict Mode', function () {
     const wrapper = render(
       <React.StrictMode>

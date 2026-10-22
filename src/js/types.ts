@@ -24,6 +24,7 @@ export interface NodeProps extends DisplayProps {
   isLast?: boolean | undefined;
   listOfAncestors?: object[] | undefined;
   index_offset?: number | undefined;
+  flashOnMount?: boolean | undefined;
 }
 export interface ValueProps extends DisplayProps {
   value?: unknown;
@@ -39,6 +40,7 @@ export interface VariableProps extends DisplayProps {
   singleIndent?: number | undefined;
   type?: 'array' | 'object' | undefined;
   isLast?: boolean | undefined;
+  flashOnMount?: boolean | undefined;
 }
 export interface MetadataProps extends DisplayProps {
   src: unknown;
