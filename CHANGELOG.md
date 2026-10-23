@@ -1,9 +1,3 @@
-## 1.6.2 (2026-10-23)
-
-### Bug Fixes
-
-* share a single flash style tag between viewers (1.6.1) ([422ae23](https://github.com/sergiotx/react-json-view/commit/422ae2310a59e9e79299d5104a63b9d86aebf3bf))
-
 ## 1.6.1 (2026-10-23)
 
 ### Bug Fixes
