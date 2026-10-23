@@ -51,9 +51,18 @@ jobs:
             echo "Version ${version} already exists; nothing to publish."
             exit 0
           fi
+          awk -v heading="## [${version}]" '
+            index($0, heading) == 1 { found = 1; next }
+            found && (/^## / || /^\[[^]]+\]: /) { exit }
+            found { print }
+          ' CHANGELOG.md > "${RUNNER_TEMP}/release-notes.md"
+          if ! grep -q '[^[:space:]]' "${RUNNER_TEMP}/release-notes.md"; then
+            echo "CHANGELOG.md has no notes for ${version}."
+            exit 1
+          fi
           git config user.email "txitxo37@gmail.com"
           git config user.name "SergioTx"
           pnpm release:tag
           npm stage publish --access=public
           git push origin "v${version}"
-          pnpm release:github
+          gh release create "v${version}" --verify-tag --title "v${version}" --notes-file "${RUNNER_TEMP}/release-notes.md"

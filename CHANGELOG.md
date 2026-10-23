@@ -1,82 +1,91 @@
-## 1.6.1 (2026-10-23)
+# Changelog
 
-### Bug Fixes
+All notable changes to this project will be documented in this file.
 
-- render a single shared flash style tag in the document head when multiple viewers use `flashingUpdates`
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 1.6.0 (2026-10-22)
+## [Unreleased]
 
-### Features
+## [1.6.1] - 2026-10-23
 
-- add flashingUpdates prop to highlight changed values ([19e5988](https://github.com/sergiotx/react-json-view/commit/19e5988a8fb8e024dbcdfe8703b9fa292021a68b))
+### Fixed
 
-## 1.5.0 (2026-10-06)
+- Render a single shared flash style tag in the document head when multiple viewers use `flashingUpdates`.
 
-### Features
+## [1.6.0] - 2026-10-22
 
-- render buttons only for expandable values ([e5a14b9](https://github.com/sergiotx/react-json-view/commit/e5a14b903b70d224e27f3676d438246c6db010a6))
+### Added
 
-## 1.4.0 (2026-10-06)
+- Add the `flashingUpdates` prop to highlight changed, added, and removed values when `src` changes.
+
+## [1.5.0] - 2026-10-06
+
+### Changed
+
+- Render buttons only for expandable values.
+
+## [1.4.0] - 2026-10-06
 
 ### Changed
 
 - Render string values as buttons only when they can be expanded, and keep text selectable in expandable string and function controls.
 
-## 1.3.0 (2026-10-05)
+## [1.3.0] - 2026-10-05
 
-### Features
+### Added
 
-- configure timestamp fields ([585f57f](https://github.com/sergiotx/react-json-view/commit/585f57ff5ec34f74b5dba7934b0fe42b12bade5b))
+- Configure timestamp fields.
 
-## 1.2.0 (2026-10-05)
+## [1.2.0] - 2026-10-05
 
 ### Added
 
 - Add the `timestampFields` prop to configure timestamp fields with a string or array. It defaults to `timestamp`.
 
-## 1.1.3 (2026-10-05)
+## [1.1.3] - 2026-10-05
 
-### Bug Fixes
+### Fixed
 
-- limit timestamp tooltip to timestamp field ([15ac93f](https://github.com/sergiotx/react-json-view/commit/15ac93f913966206dbb11ef61b2ed72980273dc8))
+- Limit the timestamp tooltip to the timestamp field.
 
-## 1.1.2 (2026-10-05)
+## [1.1.2] - 2026-10-05
 
-### Bug Fixes
+### Fixed
 
 - Limit timestamp tooltip and help cursor to fields named `timestamp`.
 
-## 1.1.1 (2026-10-05)
+## [1.1.1] - 2026-10-05
 
-### Bug Fixes
+### Fixed
 
-- **ci:** configure release git identity ([ee466fd](https://github.com/sergiotx/react-json-view/commit/ee466fd78c0502755b94bde48835808eaded0b90))
+- Configure the release git identity in CI.
 
-# Changelog
-
-## 1.1.0 (2026-10-05)
+## [1.1.0] - 2026-10-05
 
 ### Added
 
 - Show an ISO UTC date tooltip and help cursor for numeric Unix timestamps in seconds or milliseconds.
 - Add a timestamp example to the first development demo object.
 
-## 1.0.1 (2026-10-05)
+## [1.0.1] - 2026-10-05
 
 ### Fixed
 
 - Update CI and release commands to use `main` as the default branch.
 
-## 1.0.0 (2026-10-05)
+## [1.0.0] - 2026-10-05
 
-### Breaking Changes
+### Removed
 
-- Make the JSON viewer read-only. Remove `onEdit`, `onAdd`, `onDelete`, `onSelect`, `validationMessage`, and custom `bigNumber` support, along with related editing and validation UI.
-- Remove the `defaultValue`, `selectOnFocus`, and `keyModifier` props used by editing workflows.
-- Require React 19 or newer and publish ESM only; CommonJS and UMD entry points are removed.
-- Always show commas between values.
+- **BREAKING:** Make the JSON viewer read-only. Remove `onEdit`, `onAdd`, `onDelete`, `onSelect`, `validationMessage`, and custom `bigNumber` support, along with related editing and validation UI.
+- **BREAKING:** Remove the `defaultValue`, `selectOnFocus`, and `keyModifier` props used by editing workflows.
+- **BREAKING:** Remove CommonJS and UMD entry points; the package is ESM only.
 
 ### Changed
+
+- **BREAKING:** Require React 19 or newer.
+- Always show commas between values.
 
 - Convert components to functional components and hooks, preserving expansion, collapse, clipboard, and circular-reference behavior.
 - Migrate source, demos, tests, and build configuration to strict TypeScript 7. Reject explicit and inferred `any` types and generate declarations during builds.
@@ -85,8 +94,14 @@
 - Replace Prettier with oxfmt and add Oxlint rules for correctness, TypeScript, React, accessibility, and import sorting.
 - Refresh fork repository metadata, README installation examples, contributor instructions, documentation links, development examples, and CI.
 - Make disclosure, string, function, and clipboard controls keyboard-accessible.
-
-### Validation
-
 - Add regression coverage for prop updates, Strict Mode, expansion persistence, grouped-array commas, circular references, and read-only behavior.
-- Verify strict type checking, the no-`any` gate, linting, Vite builds, and the ESM package entry.
+
+[Unreleased]: https://github.com/SergioTx/react-json-view/compare/v1.6.1...HEAD
+[1.6.1]: https://github.com/SergioTx/react-json-view/compare/v1.6.0...v1.6.1
+[1.6.0]: https://github.com/SergioTx/react-json-view/compare/v1.5.0...v1.6.0
+[1.5.0]: https://github.com/SergioTx/react-json-view/compare/v1.3.0...v1.5.0
+[1.3.0]: https://github.com/SergioTx/react-json-view/compare/v1.1.3...v1.3.0
+[1.1.3]: https://github.com/SergioTx/react-json-view/compare/v1.1.1...v1.1.3
+[1.1.1]: https://github.com/SergioTx/react-json-view/compare/v1.0.1...v1.1.1
+[1.0.1]: https://github.com/SergioTx/react-json-view/compare/v1.0.0...v1.0.1
+[1.0.0]: https://github.com/SergioTx/react-json-view/releases/tag/v1.0.0
