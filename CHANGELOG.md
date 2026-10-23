@@ -1,8 +1,14 @@
+## 1.6.1 (2026-10-23)
+
+### Bug Fixes
+
+- render a single shared flash style tag in the document head when multiple viewers use `flashingUpdates`
+
 ## 1.6.0 (2026-10-22)
 
 ### Features
 
-* add flashingUpdates prop to highlight changed values ([19e5988](https://github.com/sergiotx/react-json-view/commit/19e5988a8fb8e024dbcdfe8703b9fa292021a68b))
+- add flashingUpdates prop to highlight changed values ([19e5988](https://github.com/sergiotx/react-json-view/commit/19e5988a8fb8e024dbcdfe8703b9fa292021a68b))
 
 ## 1.5.0 (2026-10-06)
 

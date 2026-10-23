@@ -7,6 +7,23 @@ import { required } from '../../testHelpers/requireSources';
 import Index from './../../../src/js/index';
 import ObjectAttributes from './../../../src/js/stores/ObjectAttributes';
 describe('<Index />', function () {
+  it('shares a single flash style tag between instances', function () {
+    const wrapper = render(
+      <>
+        <Index src={{ a: 1 }} flashingUpdates />
+        <Index src={{ b: 2 }} flashingUpdates />
+      </>
+    );
+    const styles = document.head.querySelectorAll(
+      'style[data-href="rjv-flash"]'
+    );
+    expect(styles).to.have.length(1);
+    expect(required(styles[0]).textContent).to.include(
+      '@keyframes rjv-flash-a'
+    );
+    expect(wrapper.container.querySelector('style')).to.equal(null);
+    wrapper.unmount();
+  });
   it('flashes changed values when flashingUpdates is enabled', function () {
     const wrapper = render(
       <Index
@@ -14,9 +31,6 @@ describe('<Index />', function () {
         flashingUpdates
         enableClipboard={false}
       />
-    );
-    expect(wrapper.container.querySelector('style')?.textContent).to.include(
-      '@keyframes rjv-flash-a'
     );
     const values = () =>
       Array.from(

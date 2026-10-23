@@ -79,7 +79,11 @@ export default function ReactJsonView(
         ...props.style,
       }}
     >
-      {props.flashingUpdates && <style>{flashStyles}</style>}
+      {props.flashingUpdates && (
+        <style href="rjv-flash" precedence="default">
+          {flashStyles}
+        </style>
+      )}
       <JsonViewer
         {...props}
         src={src}
