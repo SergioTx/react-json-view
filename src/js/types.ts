@@ -15,6 +15,8 @@ export type DisplayProps = {
 };
 export interface NodeProps extends DisplayProps {
   src: object;
+  navigationPath?: Namespace | undefined;
+  onNavigate?: ((path: Namespace) => void) | undefined;
   name?: NodeName | undefined;
   namespace?: CacheNamespace;
   depth?: number | undefined;
@@ -41,6 +43,9 @@ export interface VariableProps extends DisplayProps {
   type?: 'array' | 'object' | undefined;
   isLast?: boolean | undefined;
   flashOnMount?: boolean | undefined;
+  navigationPath?: Namespace | undefined;
+  onNavigate?: ((path: Namespace) => void) | undefined;
+  rootValue?: boolean | undefined;
 }
 export interface MetadataProps extends DisplayProps {
   src: unknown;

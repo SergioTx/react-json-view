@@ -18,7 +18,9 @@ export default function getObjectName(props: NameProps) {
   } else if (parentType === 'array') {
     return displayArrayKey ? (
       <span {...Theme(theme, 'array-key')} key={JSON.stringify(namespace)}>
-        <span className="array-key">{displayName}</span>
+        <span className="array-key" style={{ userSelect: 'text' }}>
+          {displayName}
+        </span>
         <span {...Theme(theme, 'colon')}>:</span>
       </span>
     ) : (
@@ -27,7 +29,7 @@ export default function getObjectName(props: NameProps) {
   } else {
     return (
       <span {...Theme(theme, 'object-name')} key={JSON.stringify(namespace)}>
-        <span className="object-key">
+        <span className="object-key" style={{ userSelect: 'text' }}>
           {quotesOnKeys && (
             <span
               style={{

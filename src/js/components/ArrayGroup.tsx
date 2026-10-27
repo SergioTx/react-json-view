@@ -4,6 +4,7 @@ import type { NodeProps } from '../types';
 import Theme from './../themes/getStyle';
 import ObjectComponent from './DataTypes/Object';
 import ObjectName from './ObjectName';
+import { PathPinButton } from './PathNavigation';
 // icons
 import { CollapsedIcon, ExpandedIcon } from './ToggleIcons';
 import VariableMeta from './VariableMeta';
@@ -12,6 +13,7 @@ import VariableMeta from './VariableMeta';
 const SINGLE_INDENT = 5;
 export default function ArrayGroup(props: NodeProps): React.JSX.Element {
   const [expanded, setExpanded] = React.useState<boolean[]>([]);
+  const [hovered, setHovered] = React.useState(false);
   const toggleCollapsed = (index: number) => {
     const newExpanded: boolean[] = [];
     const maxLength = Math.max(expanded.length || 0, index + 1);
@@ -62,11 +64,20 @@ export default function ArrayGroup(props: NodeProps): React.JSX.Element {
   return (
     <div
       className="object-key-val"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       {...Theme(theme, jsvRoot ? 'jsv-root' : 'objectKeyVal', {
         paddingLeft: objectPaddingLeft,
       })}
     >
       <ObjectName {...props} />
+      {props.enablePathNavigation && props.onNavigate && !jsvRoot && (
+        <PathPinButton
+          path={props.navigationPath ?? []}
+          visible={hovered}
+          onNavigate={props.onNavigate}
+        />
+      )}
 
       <span>
         <VariableMeta size={src.length} {...props} />
@@ -109,6 +120,8 @@ export default function ArrayGroup(props: NodeProps): React.JSX.Element {
                 index_offset={index * size}
                 src={src.slice(index * size, index * size + size)}
                 namespace={namespace}
+                navigationPath={props.navigationPath}
+                onNavigate={props.onNavigate}
                 type="array"
                 parent_type="array_group"
                 theme={theme}

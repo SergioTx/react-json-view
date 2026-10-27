@@ -14,6 +14,7 @@ import {
 import Theme from './../themes/getStyle';
 import CopyToClipboard from './CopyToClipboard';
 import * as DataTypes from './DataTypes/DataTypes';
+import { PathPinButton } from './PathNavigation';
 const valueComponents: Partial<
   Record<string, React.ComponentType<ValueProps>>
 > = {
@@ -43,6 +44,10 @@ export default function VariableEditor(props: VariableProps) {
     timestampFields = 'timestamp',
     flashingUpdates,
     flashOnMount,
+    enablePathNavigation,
+    navigationPath = [],
+    onNavigate,
+    rootValue = false,
   } = props;
   const namespace = normalizeNamespace(namespaceProp);
   const [hovered, setHovered] = React.useState(false);
@@ -66,6 +71,7 @@ export default function VariableEditor(props: VariableProps) {
   const timestampTitle = isTimestampField
     ? formatTimestamp(variable.value)
     : undefined;
+  const objectNameStyle = Theme(theme, 'object-name');
   let value = '';
   if (!ValueComponent) {
     try {
@@ -77,22 +83,26 @@ export default function VariableEditor(props: VariableProps) {
   return (
     <div
       {...Theme(theme, 'objectKeyVal', {
-        paddingLeft: indentWidth * singleIndent,
+        paddingLeft: rootValue ? 0 : indentWidth * singleIndent,
       })}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       className="variable-row"
     >
-      {type === 'array' ? (
+      {!rootValue && type === 'array' ? (
         displayArrayKey && (
           <span {...Theme(theme, 'array-key')}>
-            {variable.name}
+            <span style={{ userSelect: 'text' }}>{variable.name}</span>
             <div {...Theme(theme, 'colon')}>:</div>
           </span>
         )
-      ) : (
+      ) : !rootValue ? (
         <span>
-          <span {...Theme(theme, 'object-name')} className="object-key">
+          <span
+            {...objectNameStyle}
+            className="object-key"
+            style={{ ...objectNameStyle.style, userSelect: 'text' }}
+          >
             {!!quotesOnKeys && (
               <span
                 style={{
@@ -121,6 +131,13 @@ export default function VariableEditor(props: VariableProps) {
           </span>
           <span {...Theme(theme, 'colon')}>:</span>
         </span>
+      ) : null}
+      {enablePathNavigation && onNavigate && !rootValue && (
+        <PathPinButton
+          path={navigationPath.length > 0 ? navigationPath : [variable.name]}
+          visible={hovered}
+          onNavigate={onNavigate}
+        />
       )}
       <div
         className={['variable-value', flashClass].filter(Boolean).join(' ')}
@@ -135,7 +152,7 @@ export default function VariableEditor(props: VariableProps) {
           <div className="object-value">{value}</div>
         )}
       </div>
-      {!isLast && <span {...Theme(theme, 'comma')}>,</span>}
+      {!rootValue && !isLast && <span {...Theme(theme, 'comma')}>,</span>}
       {enableClipboard && (
         <CopyToClipboard
           rowHovered={hovered}
@@ -143,7 +160,7 @@ export default function VariableEditor(props: VariableProps) {
           clickCallback={enableClipboard}
           {...{
             theme,
-            namespace: [...namespace, variable.name],
+            namespace: rootValue ? namespace : [...namespace, variable.name],
           }}
         />
       )}

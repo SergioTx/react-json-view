@@ -76,6 +76,13 @@ export interface ReactJsonViewProps {
    */
   enableClipboard?: boolean | ((copy: OnCopyProps) => void);
   /**
+   * When set to true, property rows show a pin button that filters the viewer
+   * to that subpath. The breadcrumb remains visible when the source changes.
+   *
+   * Default: false
+   */
+  enablePathNavigation?: boolean;
+  /**
    * When set to true, objects and arrays are labeled with size.
    *
    * Default: true

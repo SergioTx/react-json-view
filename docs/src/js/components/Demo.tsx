@@ -14,6 +14,7 @@ type DemoOptions = Required<
     | 'collapseStringsAfterLength'
     | 'displayObjectSize'
     | 'enableClipboard'
+    | 'enablePathNavigation'
     | 'indentWidth'
     | 'displayDataTypes'
     | 'iconStyle'
@@ -87,6 +88,11 @@ const settings: Setting[] = [
     values: [true, false],
   },
   {
+    field: 'enablePathNavigation',
+    label: 'Path Navigation:',
+    values: [true, false],
+  },
+  {
     field: 'displayDataTypes',
     label: 'Display Data Types:',
     values: [true, false],
@@ -148,6 +154,7 @@ export default function Demo() {
     collapseStringsAfterLength: 15,
     displayObjectSize: true,
     enableClipboard: true,
+    enablePathNavigation: false,
     indentWidth: 4,
     displayDataTypes: true,
     iconStyle: 'triangle',

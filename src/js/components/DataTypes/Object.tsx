@@ -7,6 +7,7 @@ import AttributeStore from './../../stores/ObjectAttributes';
 import Theme from './../../themes/getStyle';
 import ArrayGroup from './../ArrayGroup';
 import ObjectName from './../ObjectName';
+import { PathPinButton } from './../PathNavigation';
 import { CollapsedIcon, ExpandedIcon } from './../ToggleIcons';
 import VariableEditor from './../VariableEditor';
 import VariableMeta from './../VariableMeta';
@@ -101,6 +102,8 @@ export default function RjvObject(props: NodeProps): React.JSX.Element {
         parentType === 'array_group' && props.index_offset
           ? parseInt(key, 10) + props.index_offset
           : key;
+      const navigationSegment =
+        objectType === 'array' ? Number(variableName) : variableName;
       const childProps = {
         theme,
         iconStyle,
@@ -109,6 +112,7 @@ export default function RjvObject(props: NodeProps): React.JSX.Element {
         name: variableName,
         src: value,
         namespace: namespace.concat(variableName),
+        navigationPath: (props.navigationPath ?? []).concat(navigationSegment),
         parent_type: objectType,
         isLast: index === keys.length - 1,
         flashOnMount: keyState.added.includes(key),
@@ -184,7 +188,7 @@ export default function RjvObject(props: NodeProps): React.JSX.Element {
           </span>
         </span>
       ) : (
-        <span>
+        <span className="object-name-row">
           <button
             type="button"
             onClick={toggleCollapsed}
@@ -213,6 +217,13 @@ export default function RjvObject(props: NodeProps): React.JSX.Element {
               {objectType === 'array' ? '[' : '{'}
             </span>
           </button>
+          {props.enablePathNavigation && props.onNavigate && !jsvRoot && (
+            <PathPinButton
+              path={props.navigationPath ?? []}
+              visible={hovered}
+              onNavigate={props.onNavigate}
+            />
+          )}
         </span>
       )}
       {expanded ? (

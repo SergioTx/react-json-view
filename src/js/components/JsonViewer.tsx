@@ -26,6 +26,7 @@ export default function JsonViewer(props: NodeProps) {
           : 'Anonymous';
     namespace = [componentName];
   }
+  namespace = namespace.concat(props.navigationPath ?? []);
   if (
     Array.isArray(props.src) &&
     props.groupArraysAfterLength &&

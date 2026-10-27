@@ -6,6 +6,7 @@ import sinon from 'sinon';
 import { required } from '../../testHelpers/requireSources';
 import Index from './../../../src/js/index';
 import ObjectAttributes from './../../../src/js/stores/ObjectAttributes';
+import Theme from './../../../src/js/themes/getStyle';
 describe('<Index />', function () {
   it('shares a single flash style tag between instances', function () {
     const wrapper = render(
@@ -138,6 +139,185 @@ describe('<Index />', function () {
       required(wrapper.container.querySelector<HTMLElement>('.variable-value'))
         .className
     ).to.equal('variable-value');
+    wrapper.unmount();
+  });
+  it('navigates property paths and keeps breadcrumbs when the source changes', function () {
+    const wrapper = render(
+      <Index
+        src={{ account: { name: 'Ada', details: { active: true } }, other: 1 }}
+        enablePathNavigation
+        enableClipboard={false}
+      />
+    );
+    const pin = wrapper.container.querySelector<HTMLButtonElement>(
+      '.path-navigation-button'
+    );
+    expect(
+      wrapper.container.querySelector('.path-breadcrumb')?.textContent
+    ).to.equal('root');
+    const rootCrumb = required(
+      wrapper.container.querySelector<HTMLButtonElement>(
+        '.path-breadcrumb-segment'
+      )
+    );
+    expect(rootCrumb.disabled).to.equal(true);
+    expect(rootCrumb.style.textDecoration).to.equal('none');
+    const row = required(pin?.closest('.object-key-val'));
+    expect(required(pin).style.opacity).to.equal('0');
+    fireEvent.mouseEnter(row);
+    expect(required(pin).style.opacity).to.equal('1');
+    fireEvent.mouseLeave(row);
+    expect(required(pin).style.opacity).to.equal('0');
+    fireEvent.focus(required(pin));
+    expect(required(pin).style.opacity).to.equal('1');
+    fireEvent.blur(required(pin));
+    expect(required(pin).style.opacity).to.equal('0');
+    expect(
+      required(wrapper.container.querySelector<HTMLElement>('.object-key'))
+        .style.userSelect
+    ).to.equal('text');
+    fireEvent.click(required(pin));
+    expect(required(pin).tagName).to.equal('BUTTON');
+    expect(required(pin).getAttribute('aria-label')).to.include('account');
+    expect(required(pin).style.userSelect).to.equal('none');
+    expect(required(pin).parentElement?.closest('button')).to.equal(null);
+    expect(
+      wrapper.container.querySelector('.path-breadcrumb')?.textContent
+    ).to.equal('root > account');
+    const accountCrumbs = wrapper.container.querySelectorAll<HTMLButtonElement>(
+      '.path-breadcrumb-segment'
+    );
+    expect(required(accountCrumbs[0]).disabled).to.equal(false);
+    expect(required(accountCrumbs[0]).style.textDecoration).to.equal(
+      'underline'
+    );
+    expect(required(accountCrumbs[1]).disabled).to.equal(true);
+    expect(required(accountCrumbs[1]).style.textDecoration).to.equal('none');
+    expect(wrapper.container.textContent).to.include('name');
+    expect(wrapper.container.textContent).not.to.include('other');
+
+    const namePin = wrapper.container.querySelector<HTMLButtonElement>(
+      '.variable-row .path-navigation-button'
+    );
+    fireEvent.click(required(namePin));
+    expect(
+      wrapper.container.querySelector('.path-breadcrumb')?.textContent
+    ).to.equal('root > account > name');
+    expect(wrapper.container.textContent).to.include('string"Ada"');
+
+    wrapper.rerender(
+      <Index
+        src={{ account: { details: { active: false } }, other: 2 }}
+        enablePathNavigation
+        enableClipboard={false}
+      />
+    );
+    const crumbs = wrapper.container.querySelectorAll<HTMLButtonElement>(
+      '.path-breadcrumb-segment'
+    );
+    expect(crumbs).to.have.length(3);
+    expect(required(crumbs[0]).disabled).to.equal(false);
+    expect(required(crumbs[1]).disabled).to.equal(false);
+    expect(required(crumbs[2]).disabled).to.equal(true);
+    expect(required(crumbs[0]).style.textDecoration).to.equal('underline');
+    expect(required(crumbs[1]).style.textDecoration).to.equal('underline');
+    expect(required(crumbs[2]).style.textDecoration).to.equal('none');
+    expect(wrapper.container.textContent).to.include('undefined');
+    fireEvent.click(required(crumbs[0]));
+    expect(
+      wrapper.container.querySelector('.path-breadcrumb')?.textContent
+    ).to.equal('root');
+    expect(wrapper.container.textContent).to.include('other');
+    wrapper.rerender(
+      <Index
+        src={{ account: { details: { active: false } }, other: 2 }}
+        enableClipboard={false}
+      />
+    );
+    expect(wrapper.container.querySelector('.path-breadcrumb')).to.equal(null);
+    expect(wrapper.container.textContent).to.include('other');
+    wrapper.unmount();
+  });
+  it('shows array indexes in breadcrumbs and keeps navigation disabled by default', function () {
+    const wrapper = render(
+      <Index src={{ list: ['first', 'second'] }} enableClipboard={false} />
+    );
+    expect(
+      wrapper.container.querySelectorAll('.path-navigation-button')
+    ).to.have.length(0);
+    wrapper.rerender(
+      <Index
+        src={{ list: ['first', 'second'] }}
+        name="payload"
+        enablePathNavigation
+        enableClipboard={false}
+      />
+    );
+    const pin = wrapper.container.querySelector<HTMLButtonElement>(
+      '.path-navigation-button'
+    );
+    fireEvent.click(required(pin));
+    const indexPin = wrapper.container.querySelector<HTMLButtonElement>(
+      '.variable-row .path-navigation-button'
+    );
+    fireEvent.click(required(indexPin));
+    expect(
+      wrapper.container.querySelector('.path-breadcrumb')?.textContent
+    ).to.equal('payload > list > 0');
+    const crumbs = wrapper.container.querySelectorAll<HTMLButtonElement>(
+      '.path-breadcrumb-segment'
+    );
+    expect(crumbs).to.have.length(3);
+    expect(required(crumbs[0]).textContent).to.equal('payload');
+    expect(required(crumbs[2]).disabled).to.equal(true);
+    expect(required(crumbs[2]).style.textDecoration).to.equal('none');
+    const objectKeyColor = document.createElement('span');
+    objectKeyColor.style.color = String(
+      Theme('rjv-default', 'object-name').style?.color
+    );
+    const arrayKeyColor = document.createElement('span');
+    arrayKeyColor.style.color = String(
+      Theme('rjv-default', 'array-key').style?.color
+    );
+    expect(required(crumbs[0]).style.color).to.equal(
+      objectKeyColor.style.color
+    );
+    expect(required(crumbs[2]).style.color).to.equal(arrayKeyColor.style.color);
+    wrapper.unmount();
+  });
+  it('navigates to the correct index inside a grouped array', function () {
+    const wrapper = render(
+      <Index
+        src={{ items: ['zero', 'one', 'two', 'three'] }}
+        enablePathNavigation
+        enableClipboard={false}
+        groupArraysAfterLength={2}
+      />
+    );
+    fireEvent.click(
+      required(
+        wrapper.container.querySelector<HTMLButtonElement>(
+          '.path-navigation-button'
+        )
+      )
+    );
+    fireEvent.click(
+      required(
+        wrapper.container.querySelectorAll<HTMLButtonElement>(
+          '.array-group .icon-container'
+        )[1]
+      )
+    );
+    const itemPins = wrapper.container.querySelectorAll<HTMLButtonElement>(
+      '.variable-row .path-navigation-button'
+    );
+    expect(itemPins).to.have.length(2);
+    fireEvent.click(required(itemPins[0]));
+    expect(
+      wrapper.container.querySelector('.path-breadcrumb')?.textContent
+    ).to.equal('root > items > 2');
+    expect(wrapper.container.textContent).to.include('string"two"');
+    expect(wrapper.container.textContent).not.to.include('zero');
     wrapper.unmount();
   });
   it('supports expansion and source updates in Strict Mode', function () {
