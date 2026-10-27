@@ -11,6 +11,8 @@ export default function getObjectName(props: NameProps) {
     jsvRoot,
     name,
     displayArrayKey,
+    afterName,
+    displayColon = true,
   } = props;
   const displayName = props.name ? props.name : '';
   if (jsvRoot && (name === false || name === null)) {
@@ -21,7 +23,8 @@ export default function getObjectName(props: NameProps) {
         <span className="array-key" style={{ userSelect: 'text' }}>
           {displayName}
         </span>
-        <span {...Theme(theme, 'colon')}>:</span>
+        {afterName}
+        {displayColon && <span {...Theme(theme, 'colon')}>:</span>}
       </span>
     ) : (
       <span />
@@ -50,7 +53,8 @@ export default function getObjectName(props: NameProps) {
             </span>
           )}
         </span>
-        <span {...Theme(theme, 'colon')}>:</span>
+        {afterName}
+        {displayColon && <span {...Theme(theme, 'colon')}>:</span>}
       </span>
     );
   }

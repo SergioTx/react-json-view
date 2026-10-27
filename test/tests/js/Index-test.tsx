@@ -162,25 +162,29 @@ describe('<Index />', function () {
     );
     expect(rootCrumb.disabled).to.equal(true);
     expect(rootCrumb.style.textDecoration).to.equal('none');
-    const row = required(pin?.closest('.object-key-val'));
+    const objectRow = required(pin?.closest('.object-key-val'));
     expect(required(pin).style.opacity).to.equal('0');
-    fireEvent.mouseEnter(row);
-    expect(required(pin).style.opacity).to.equal('1');
-    fireEvent.mouseLeave(row);
-    expect(required(pin).style.opacity).to.equal('0');
-    fireEvent.focus(required(pin));
-    expect(required(pin).style.opacity).to.equal('1');
-    fireEvent.blur(required(pin));
-    expect(required(pin).style.opacity).to.equal('0');
+    expect(required(pin).style.verticalAlign).to.equal('top');
+    expect(
+      required(wrapper.container.querySelector<HTMLElement>('.variable-value'))
+        .style.verticalAlign
+    ).to.equal('top');
     expect(
       required(wrapper.container.querySelector<HTMLElement>('.object-key'))
         .style.userSelect
     ).to.equal('text');
+    fireEvent.mouseEnter(objectRow);
+    expect(required(pin).style.opacity).to.equal('1');
     fireEvent.click(required(pin));
     expect(required(pin).tagName).to.equal('BUTTON');
     expect(required(pin).getAttribute('aria-label')).to.include('account');
     expect(required(pin).style.userSelect).to.equal('none');
     expect(required(pin).parentElement?.closest('button')).to.equal(null);
+    expect(
+      required(pin?.previousElementSibling?.querySelector('.object-key'))
+        .textContent
+    ).to.include('account');
+    expect(pin?.nextElementSibling?.textContent).to.equal(':');
     expect(
       wrapper.container.querySelector('.path-breadcrumb')?.textContent
     ).to.equal('root > account');
@@ -188,10 +192,12 @@ describe('<Index />', function () {
       '.path-breadcrumb-segment'
     );
     expect(required(accountCrumbs[0]).disabled).to.equal(false);
+    expect(required(accountCrumbs[0]).style.cursor).to.equal('pointer');
     expect(required(accountCrumbs[0]).style.textDecoration).to.equal(
       'underline'
     );
     expect(required(accountCrumbs[1]).disabled).to.equal(true);
+    expect(required(accountCrumbs[1]).style.cursor).to.equal('default');
     expect(required(accountCrumbs[1]).style.textDecoration).to.equal('none');
     expect(wrapper.container.textContent).to.include('name');
     expect(wrapper.container.textContent).not.to.include('other');
@@ -199,6 +205,14 @@ describe('<Index />', function () {
     const namePin = wrapper.container.querySelector<HTMLButtonElement>(
       '.variable-row .path-navigation-button'
     );
+    expect(
+      namePin?.previousElementSibling?.classList.contains('object-key')
+    ).to.equal(true);
+    expect(namePin?.nextElementSibling?.textContent).to.equal(':');
+    const nameRow = required(namePin?.closest('.variable-row'));
+    expect(required(namePin).style.opacity).to.equal('0');
+    fireEvent.mouseEnter(nameRow);
+    expect(required(namePin).style.opacity).to.equal('1');
     fireEvent.click(required(namePin));
     expect(
       wrapper.container.querySelector('.path-breadcrumb')?.textContent
@@ -219,6 +233,8 @@ describe('<Index />', function () {
     expect(required(crumbs[0]).disabled).to.equal(false);
     expect(required(crumbs[1]).disabled).to.equal(false);
     expect(required(crumbs[2]).disabled).to.equal(true);
+    expect(required(crumbs[1]).style.cursor).to.equal('pointer');
+    expect(required(crumbs[2]).style.cursor).to.equal('default');
     expect(required(crumbs[0]).style.textDecoration).to.equal('underline');
     expect(required(crumbs[1]).style.textDecoration).to.equal('underline');
     expect(required(crumbs[2]).style.textDecoration).to.equal('none');
@@ -236,6 +252,15 @@ describe('<Index />', function () {
     );
     expect(wrapper.container.querySelector('.path-breadcrumb')).to.equal(null);
     expect(wrapper.container.textContent).to.include('other');
+    wrapper.unmount();
+  });
+  it('uses root as the breadcrumb label when the root name is hidden', function () {
+    const wrapper = render(
+      <Index src={{ value: 1 }} name={false} enablePathNavigation />
+    );
+    expect(
+      wrapper.container.querySelector('.path-breadcrumb')?.textContent
+    ).to.equal('root');
     wrapper.unmount();
   });
   it('shows array indexes in breadcrumbs and keeps navigation disabled by default', function () {
@@ -256,10 +281,15 @@ describe('<Index />', function () {
     const pin = wrapper.container.querySelector<HTMLButtonElement>(
       '.path-navigation-button'
     );
+    fireEvent.mouseEnter(required(pin?.closest('.object-key-val')));
     fireEvent.click(required(pin));
     const indexPin = wrapper.container.querySelector<HTMLButtonElement>(
       '.variable-row .path-navigation-button'
     );
+    expect(indexPin?.nextElementSibling?.textContent).to.equal(':');
+    expect(required(indexPin).style.opacity).to.equal('0');
+    fireEvent.mouseEnter(required(indexPin?.closest('.variable-row')));
+    expect(required(indexPin).style.opacity).to.equal('1');
     fireEvent.click(required(indexPin));
     expect(
       wrapper.container.querySelector('.path-breadcrumb')?.textContent
@@ -294,13 +324,15 @@ describe('<Index />', function () {
         groupArraysAfterLength={2}
       />
     );
-    fireEvent.click(
-      required(
-        wrapper.container.querySelector<HTMLButtonElement>(
-          '.path-navigation-button'
-        )
+    const arrayPin = required(
+      wrapper.container.querySelector<HTMLButtonElement>(
+        '.path-navigation-button'
       )
     );
+    expect(arrayPin.style.opacity).to.equal('0');
+    fireEvent.mouseEnter(required(arrayPin.closest('.object-key-val')));
+    expect(arrayPin.style.opacity).to.equal('1');
+    fireEvent.click(arrayPin);
     fireEvent.click(
       required(
         wrapper.container.querySelectorAll<HTMLButtonElement>(
@@ -312,6 +344,9 @@ describe('<Index />', function () {
       '.variable-row .path-navigation-button'
     );
     expect(itemPins).to.have.length(2);
+    expect(required(itemPins[0]).style.opacity).to.equal('0');
+    fireEvent.mouseEnter(required(itemPins[0]?.closest('.variable-row')));
+    expect(required(itemPins[0]).style.opacity).to.equal('1');
     fireEvent.click(required(itemPins[0]));
     expect(
       wrapper.container.querySelector('.path-breadcrumb')?.textContent

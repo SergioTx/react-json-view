@@ -44,8 +44,6 @@ export function PathPinButton({
   visible,
   onNavigate,
 }: PathPinButtonProps): React.JSX.Element {
-  const [focused, setFocused] = React.useState(false);
-  const shown = visible || focused;
   return (
     <button
       type="button"
@@ -53,20 +51,28 @@ export function PathPinButton({
       aria-label={`Show only ${path.map(String).join(' > ')}`}
       title={`Show only ${path.map(String).join(' > ')}`}
       onClick={() => onNavigate(path)}
-      onFocus={() => setFocused(true)}
-      onBlur={() => setFocused(false)}
       style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        verticalAlign: 'top',
+        width: '1.2em',
+        height: '1.2em',
         border: 0,
-        padding: '0 2px',
+        padding: 0,
+        marginInline: '2px',
         background: 'none',
         font: 'inherit',
+        fontSize: '0.75em',
+        lineHeight: 1,
+        whiteSpace: 'nowrap',
         cursor: 'pointer',
         userSelect: 'none',
-        opacity: shown ? 1 : 0,
-        pointerEvents: shown ? 'auto' : 'none',
+        opacity: visible ? 1 : 0,
+        pointerEvents: visible ? 'auto' : 'none',
       }}
     >
-      📌
+      📍
     </button>
   );
 }
@@ -114,6 +120,7 @@ export function PathBreadcrumb({
           padding: 0,
           background: 'none',
           font: 'inherit',
+          cursor: path.length === 0 ? 'default' : 'pointer',
           textDecoration: path.length === 0 ? 'none' : 'underline',
           userSelect: 'text',
         }}
@@ -153,6 +160,7 @@ export function PathBreadcrumb({
                 padding: 0,
                 background: 'none',
                 font: 'inherit',
+                cursor: isValid && !isCurrent ? 'pointer' : 'default',
                 textDecoration: isValid && !isCurrent ? 'underline' : 'none',
                 userSelect: 'text',
               }}

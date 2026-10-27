@@ -90,6 +90,10 @@ export default function ReactJsonView(
   const selectedParentPath = activePath.slice(0, -1);
   const selectedParent = resolvePath(src, selectedParentPath).value;
   const selectedName = activePath.at(-1);
+  const breadcrumbRootLabel =
+    name === false || name === null || name === undefined || name === ''
+      ? 'root'
+      : name;
   return (
     <div
       className="react-json-view"
@@ -106,7 +110,7 @@ export default function ReactJsonView(
       {props.enablePathNavigation && (
         <PathBreadcrumb
           path={navigationPath}
-          rootLabel={name}
+          rootLabel={breadcrumbRootLabel}
           validPrefixes={pathResolution.validPrefixes}
           arrayPrefixes={pathResolution.arrayPrefixes}
           theme={theme}

@@ -70,14 +70,18 @@ export default function ArrayGroup(props: NodeProps): React.JSX.Element {
         paddingLeft: objectPaddingLeft,
       })}
     >
-      <ObjectName {...props} />
-      {props.enablePathNavigation && props.onNavigate && !jsvRoot && (
-        <PathPinButton
-          path={props.navigationPath ?? []}
-          visible={hovered}
-          onNavigate={props.onNavigate}
-        />
-      )}
+      <ObjectName
+        {...props}
+        afterName={
+          props.enablePathNavigation && props.onNavigate && !jsvRoot ? (
+            <PathPinButton
+              path={props.navigationPath ?? []}
+              visible={hovered}
+              onNavigate={props.onNavigate}
+            />
+          ) : null
+        }
+      />
 
       <span>
         <VariableMeta size={src.length} {...props} />

@@ -72,6 +72,14 @@ export default function VariableEditor(props: VariableProps) {
     ? formatTimestamp(variable.value)
     : undefined;
   const objectNameStyle = Theme(theme, 'object-name');
+  const pathPin =
+    enablePathNavigation && onNavigate && !rootValue ? (
+      <PathPinButton
+        path={navigationPath.length > 0 ? navigationPath : [variable.name]}
+        visible={hovered}
+        onNavigate={onNavigate}
+      />
+    ) : null;
   let value = '';
   if (!ValueComponent) {
     try {
@@ -90,11 +98,14 @@ export default function VariableEditor(props: VariableProps) {
       className="variable-row"
     >
       {!rootValue && type === 'array' ? (
-        displayArrayKey && (
+        displayArrayKey ? (
           <span {...Theme(theme, 'array-key')}>
             <span style={{ userSelect: 'text' }}>{variable.name}</span>
-            <div {...Theme(theme, 'colon')}>:</div>
+            {pathPin}
+            <span {...Theme(theme, 'colon')}>:</span>
           </span>
+        ) : (
+          pathPin
         )
       ) : !rootValue ? (
         <span>
@@ -129,21 +140,16 @@ export default function VariableEditor(props: VariableProps) {
               </span>
             )}
           </span>
+          {pathPin}
           <span {...Theme(theme, 'colon')}>:</span>
         </span>
       ) : null}
-      {enablePathNavigation && onNavigate && !rootValue && (
-        <PathPinButton
-          path={navigationPath.length > 0 ? navigationPath : [variable.name]}
-          visible={hovered}
-          onNavigate={onNavigate}
-        />
-      )}
       <div
         className={['variable-value', flashClass].filter(Boolean).join(' ')}
         title={timestampTitle}
         {...Theme(theme, 'variableValue', {
           cursor: timestampTitle ? 'help' : 'default',
+          verticalAlign: enablePathNavigation ? 'top' : undefined,
         })}
       >
         {ValueComponent ? (

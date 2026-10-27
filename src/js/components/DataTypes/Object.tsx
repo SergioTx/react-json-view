@@ -174,6 +174,18 @@ export default function RjvObject(props: NodeProps): React.JSX.Element {
     styles.display = 'inline';
   }
   const IconComponent = expanded ? ExpandedIcon : CollapsedIcon;
+  const nodeLabel = String(name ?? 'object');
+  const showNodeName =
+    !(jsvRoot && (name === false || name === null)) &&
+    (parentType !== 'array' || props.displayArrayKey !== false);
+  const pathPin =
+    props.enablePathNavigation && props.onNavigate && !jsvRoot ? (
+      <PathPinButton
+        path={props.navigationPath ?? []}
+        visible={hovered}
+        onNavigate={props.onNavigate}
+      />
+    ) : null;
   return (
     <div
       className={['object-key-val', flashClass].filter(Boolean).join(' ')}
@@ -192,11 +204,13 @@ export default function RjvObject(props: NodeProps): React.JSX.Element {
           <button
             type="button"
             onClick={toggleCollapsed}
+            aria-label={`${expanded ? 'Collapse' : 'Expand'} ${nodeLabel}`}
             {...Theme(theme, 'brace-row')}
             style={{
               border: 0,
               padding: 0,
               background: 'none',
+              font: 'inherit',
               color: 'inherit',
               ...Theme(theme, 'brace-row').style,
             }}
@@ -212,18 +226,45 @@ export default function RjvObject(props: NodeProps): React.JSX.Element {
                 }}
               />
             </span>
-            <ObjectName {...props} />
+          </button>
+          {showNodeName && (
+            <button
+              type="button"
+              onClick={toggleCollapsed}
+              aria-label={`${expanded ? 'Collapse' : 'Expand'} ${nodeLabel}`}
+              {...Theme(theme, 'brace-row')}
+              style={{
+                border: 0,
+                padding: 0,
+                background: 'none',
+                font: 'inherit',
+                color: 'inherit',
+                ...Theme(theme, 'brace-row').style,
+              }}
+            >
+              <ObjectName {...props} displayColon={false} />
+            </button>
+          )}
+          {pathPin}
+          {showNodeName && <span {...Theme(theme, 'colon')}>:</span>}
+          <button
+            type="button"
+            onClick={toggleCollapsed}
+            aria-label={`${expanded ? 'Collapse' : 'Expand'} ${nodeLabel}`}
+            {...Theme(theme, 'brace-row')}
+            style={{
+              border: 0,
+              padding: 0,
+              background: 'none',
+              font: 'inherit',
+              color: 'inherit',
+              ...Theme(theme, 'brace-row').style,
+            }}
+          >
             <span {...Theme(theme, 'brace')}>
               {objectType === 'array' ? '[' : '{'}
             </span>
           </button>
-          {props.enablePathNavigation && props.onNavigate && !jsvRoot && (
-            <PathPinButton
-              path={props.navigationPath ?? []}
-              visible={hovered}
-              onNavigate={props.onNavigate}
-            />
-          )}
         </span>
       )}
       {expanded ? (

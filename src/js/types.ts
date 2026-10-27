@@ -1,4 +1,9 @@
-import type { CSSProperties, HTMLAttributes, ReactElement } from 'react';
+import type {
+  CSSProperties,
+  HTMLAttributes,
+  ReactElement,
+  ReactNode,
+} from 'react';
 
 import type { ReactJsonViewProps, ThemeKeys, ThemeObject } from '../../index';
 export type Theme = ThemeKeys | ThemeObject | 'none' | false;
@@ -70,6 +75,8 @@ export interface CircularProps extends DisplayProps {
 export type IconProps = HTMLAttributes<HTMLSpanElement>;
 export interface NameProps extends DisplayProps {
   name?: NodeName | undefined;
+  afterName?: ReactNode | undefined;
+  displayColon?: boolean | undefined;
   namespace?: CacheNamespace;
   parent_type?: NodeProps['parent_type'];
   jsvRoot?: boolean | undefined;
