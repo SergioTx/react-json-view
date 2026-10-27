@@ -291,46 +291,43 @@ export default function Demo() {
         <div className="rjv-header">
           <div className="header-1">@sergiotx/react-json-view</div>
         </div>
+        <div className="rjv-settings">
+          {settings.map(({ field, label, values }) => {
+            const choices: Choice[] = values.map((value) => ({
+              value,
+              label: String(value),
+            }));
+            return (
+              <div className="rjv-input" key={field}>
+                <div className="rjv-label">{label}</div>
+                <ReactSelect<Choice, false>
+                  name={field}
+                  value={
+                    choices.find((choice) => choice.value === options[field]) ??
+                    null
+                  }
+                  options={choices}
+                  styles={selectStyles}
+                  onChange={(choice) => {
+                    if (!choice) {
+                      return;
+                    }
+                    setOptions((previous) => ({
+                      ...previous,
+                      [field]: choice.value,
+                    }));
+                  }}
+                />
+              </div>
+            );
+          })}
+        </div>
         <ReactJson
           name={false}
           style={{ padding: '10px', borderRadius: '3px', margin: '10px 0px' }}
           src={src}
           {...options}
         />
-        {[settings.slice(0, 3), settings.slice(3)].map((group, index) => (
-          <div className="rjv-settings" key={index}>
-            {group.map(({ field, label, values }) => {
-              const choices: Choice[] = values.map((value) => ({
-                value,
-                label: String(value),
-              }));
-              return (
-                <div className="rjv-input" key={field}>
-                  <div className="rjv-label">{label}</div>
-                  <ReactSelect<Choice, false>
-                    name={field}
-                    value={
-                      choices.find(
-                        (choice) => choice.value === options[field]
-                      ) ?? null
-                    }
-                    options={choices}
-                    styles={selectStyles}
-                    onChange={(choice) => {
-                      if (!choice) {
-                        return;
-                      }
-                      setOptions((previous) => ({
-                        ...previous,
-                        [field]: choice.value,
-                      }));
-                    }}
-                  />
-                </div>
-              );
-            })}
-          </div>
-        ))}
       </div>
     </>
   );

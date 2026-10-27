@@ -1,21 +1,30 @@
-.rjv-demo .rjv-settings,
-.rjv-demo .rjv-source {
-  vertical-align: top;
-  display: inline-block;
-  margin-top: 5px;
-  margin-right: 10px;
-  min-width: 300px;
-  max-width: 400px;
+.rjv-demo .rjv-settings {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 240px);
+  gap: 0 12px;
+  align-items: start;
+  width: 100%;
+  margin: 5px 0 10px;
 }
 
-.rjv-demo .rjv-settings .rjv-input,
-.rjv-demo .rjv-source .rjv-input {
+.rjv-demo .rjv-settings .rjv-input {
+  width: 240px;
+  min-width: 0;
   margin-bottom: 5px;
 }
 
-.rjv-demo .rjv-settings .rjv-input .rjv-label,
-.rjv-demo .rjv-source .rjv-input .rjv-label {
+.rjv-demo .rjv-settings .rjv-input .rjv-label {
   padding: 0.5em;
   font-size: 14px;
   font-weight: bold;
+}
+
+@media (max-width: 252px) {
+  .rjv-demo .rjv-settings {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .rjv-demo .rjv-settings .rjv-input {
+    width: 100%;
+  }
 }
