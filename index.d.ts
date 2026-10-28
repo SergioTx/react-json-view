@@ -2,11 +2,13 @@ import * as React from 'react';
 
 export interface ReactJsonViewProps {
   /**
-   * This property contains your input JSON.
+   * Parsed object or array to display. Raw JSON text strings and other
+   * primitive top-level values are not parsed; string values nested in the
+   * data are supported.
    *
-   * Required.
+   * Default: {}
    */
-  src: object;
+  src?: object;
   /**
    * Contains the name of your root node. Use null for no name.
    *
@@ -25,13 +27,13 @@ export interface ReactJsonViewProps {
    * Style attributes for react-json-view container.
    * Explicit style attributes will override attributes provided by a theme.
    *
-   * Default: "rjv-default"
+   * Default: {}
    */
   style?: React.CSSProperties;
   /**
-   * Style of expand/collapse icons. Accepted values are "circle", triangle" or "square".
+   * Style of expand/collapse icons. Accepted values are "circle", "triangle" or "square".
    *
-   * Default: {}
+   * Default: "triangle"
    */
   iconStyle?: 'circle' | 'triangle' | 'square';
   /**

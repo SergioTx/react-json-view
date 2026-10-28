@@ -157,7 +157,7 @@ export default function Demo() {
   const [options, setOptions] = React.useState<DemoOptions>({
     theme: 'rjv-default',
     collapsed: false,
-    collapseStringsAfterLength: 15,
+    collapseStringsAfterLength: false,
     displayObjectSize: false,
     enableClipboard: true,
     enablePathNavigation: false,
@@ -165,7 +165,7 @@ export default function Demo() {
     displayDataTypes: false,
     hideVerticalLines: false,
     iconStyle: 'triangle',
-    flashingUpdates: true,
+    flashingUpdates: false,
   });
   const [siteTheme, setSiteTheme] = React.useState<SiteTheme | null>(null);
   const viewerRef = React.useRef<HTMLDivElement | null>(null);
