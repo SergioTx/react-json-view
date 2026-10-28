@@ -10,7 +10,7 @@ export default {
   ellipsisFontSize: '18px',
   ellipsisLineHeight: '10px',
   ellipsisCursor: 'pointer',
-  keyMargin: '0px 5px',
+  keyMargin: '0px 5px 0px 0px',
   keyLetterSpacing: '0.5px',
   keyFontStyle: 'normal',
   keyBorderRadius: '3px',

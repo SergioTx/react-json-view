@@ -21,6 +21,11 @@ describe('getStyle', function () {
     const style = getStyle('rjv-default', 'app-container');
     expect(required(style.style).cursor).to.equal('default');
   });
+  it('removes the gap before the colon and preserves the gap after it', function () {
+    expect(getStyle('rjv-default', 'colon').style?.margin).to.equal(
+      '0px 5px 0px 0px'
+    );
+  });
   it('uses the rjv-default palette', function () {
     expect(
       getStyle('rjv-default', 'app-container').style?.backgroundColor
