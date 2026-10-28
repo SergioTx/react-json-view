@@ -96,6 +96,12 @@ export interface ReactJsonViewProps {
    */
   displayDataTypes?: boolean;
   /**
+   * When set to true, hides the vertical guide lines between tree rows.
+   *
+   * Default: false
+   */
+  hideVerticalLines?: boolean;
+  /**
    * When set to true, the index of the elements prefix values
    *
    * Default: true

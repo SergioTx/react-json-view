@@ -7,6 +7,7 @@ export default function CircularReference(props: CircularProps) {
   const {
     namespace,
     quotesOnKeys,
+    hideVerticalLines,
     indentWidth = 4,
     theme,
     singleIndent = 5,
@@ -21,6 +22,7 @@ export default function CircularReference(props: CircularProps) {
         key={JSON.stringify(namespace)}
         {...Theme(theme, 'objectKeyVal', {
           paddingLeft: indentWidth * singleIndent,
+          ...(hideVerticalLines ? { borderLeft: 'none' } : {}),
         })}
       >
         <span className="object-key">

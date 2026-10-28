@@ -99,6 +99,31 @@ describe('<Index />', function () {
     expect(nestedIcon.style.left).to.equal('-17px');
     wrapper.unmount();
   });
+  it('hides vertical guides only when requested', function () {
+    const src = { value: 1, nested: { child: 2 }, items: [1, 2, 3] };
+    const wrapper = render(
+      <Index src={src} groupArraysAfterLength={2} enableClipboard={false} />
+    );
+    expect(wrapper.container.querySelector('.object-guide')).not.to.equal(null);
+    wrapper.rerender(
+      <Index
+        src={src}
+        groupArraysAfterLength={2}
+        hideVerticalLines
+        enableClipboard={false}
+      />
+    );
+    expect(wrapper.container.querySelector('.object-guide')).to.equal(null);
+    const rows = wrapper.container.querySelectorAll<HTMLElement>(
+      '.object-key-val, .variable-row'
+    );
+    expect(
+      Array.from(rows).every(
+        (row) => getComputedStyle(row).borderLeftStyle === 'none'
+      )
+    ).to.equal(true);
+    wrapper.unmount();
+  });
 
   it('loads the selected built-in theme asynchronously', async function () {
     const wrapper = render(

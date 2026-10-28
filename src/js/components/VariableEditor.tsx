@@ -38,6 +38,7 @@ export default function VariableEditor(props: VariableProps) {
     namespace: namespaceProp,
     indentWidth = 4,
     enableClipboard,
+    hideVerticalLines,
     displayArrayKey,
     quotesOnKeys,
     isLast,
@@ -92,6 +93,7 @@ export default function VariableEditor(props: VariableProps) {
     <div
       {...Theme(theme, 'objectKeyVal', {
         paddingLeft: rootValue ? 0 : indentWidth * singleIndent,
+        ...(hideVerticalLines ? { borderLeft: 'none' } : {}),
       })}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}

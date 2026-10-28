@@ -68,6 +68,7 @@ export default function ArrayGroup(props: NodeProps): React.JSX.Element {
       onMouseLeave={() => setHovered(false)}
       {...Theme(theme, jsvRoot ? 'jsv-root' : 'objectKeyVal', {
         paddingLeft: objectPaddingLeft,
+        ...(props.hideVerticalLines ? { borderLeft: 'none' } : {}),
       })}
     >
       <ObjectName
@@ -93,6 +94,7 @@ export default function ArrayGroup(props: NodeProps): React.JSX.Element {
           {...Theme(theme, 'objectKeyVal', {
             marginLeft: 6,
             paddingLeft: arrayGroupPaddingLeft,
+            ...(props.hideVerticalLines ? { borderLeft: 'none' } : {}),
           })}
         >
           <span {...Theme(theme, 'brace-row')}>

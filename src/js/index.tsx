@@ -25,6 +25,7 @@ const defaultProps: Required<ReactJsonViewProps> = {
   escapeStrings: true,
   displayObjectSize: false,
   displayDataTypes: false,
+  hideVerticalLines: false,
   iconStyle: 'triangle',
   style: {},
   displayArrayKey: true,

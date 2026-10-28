@@ -17,6 +17,7 @@ type DemoOptions = Required<
     | 'enablePathNavigation'
     | 'indentWidth'
     | 'displayDataTypes'
+    | 'hideVerticalLines'
     | 'iconStyle'
     | 'flashingUpdates'
   >
@@ -103,6 +104,11 @@ const settings: Setting[] = [
     values: [true, false],
   },
   {
+    field: 'hideVerticalLines',
+    label: 'Hide Vertical Lines:',
+    values: [true, false],
+  },
+  {
     field: 'indentWidth',
     label: 'Indent Width:',
     values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
@@ -157,6 +163,7 @@ export default function Demo() {
     enablePathNavigation: false,
     indentWidth: 4,
     displayDataTypes: false,
+    hideVerticalLines: false,
     iconStyle: 'triangle',
     flashingUpdates: true,
   });

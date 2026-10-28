@@ -179,6 +179,9 @@ export default function RjvObject(props: NodeProps): React.JSX.Element {
     styles.borderLeft = 0;
     styles.display = 'inline';
   }
+  if (props.hideVerticalLines) {
+    styles.borderLeft = 'none';
+  }
   const IconComponent = expanded ? ExpandedIcon : CollapsedIcon;
   const nodeLabel = String(name ?? 'object');
   const showNodeName =
@@ -238,13 +241,16 @@ export default function RjvObject(props: NodeProps): React.JSX.Element {
       {...rowTheme}
       style={rowStyle}
     >
-      {expanded && !isArrayGroupRoot && size > 0 && (
-        <span
-          aria-hidden="true"
-          className="object-guide"
-          style={iconGuideStyle}
-        />
-      )}
+      {expanded &&
+        !isArrayGroupRoot &&
+        size > 0 &&
+        !props.hideVerticalLines && (
+          <span
+            aria-hidden="true"
+            className="object-guide"
+            style={iconGuideStyle}
+          />
+        )}
       {parentType === 'array_group' ? (
         <span>
           <span {...Theme(theme, 'brace')}>
