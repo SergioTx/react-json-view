@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **BREAKING:** Restrict the root `name` prop to strings or `null` and default it to `null`.
 - **BREAKING:** Hide object sizes and data type labels by default.
 - Load selected built-in Base16 themes on demand in separate chunks to reduce the initial bundle size.
-- Make the default `rjv-default` palette a clone of the Darcula color scheme.
+- Change `rjv-default` colors. It's now a dark theme.
 - Remove the alternate `rjv-grey` palette; `rjv-default` is now the sole built-in local palette.
 
 ## [1.7.1] - 2026-10-28

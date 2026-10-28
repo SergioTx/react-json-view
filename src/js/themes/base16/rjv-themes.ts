@@ -1,20 +1,20 @@
 export const rjvDefault = {
   scheme: 'rjv-default',
-  author: 'rjv-Darcula',
-  base00: '#2b2b2b',
-  base01: '#3c3f41',
-  base02: '#373737',
-  base03: '#808080',
-  base04: '#808080',
-  base05: '#a9b7c6',
-  base06: '#ffc66d',
-  base07: '#a9b7c6',
-  base08: '#ff6b68',
-  base09: '#6a8759',
-  base0A: '#9876aa',
-  base0B: '#6897bb',
-  base0C: '#a9b7c6',
-  base0D: '#589df6',
-  base0E: '#cc7832',
-  base0F: '#6897bb',
+  author: 'rjv',
+  base00: '#1e1f21', // viewer background
+  base01: '#3c3f41', // reserved alternate background
+  base02: '#373737', // borders, icon states, and special-value backgrounds
+  base03: '#808080', // reserved muted neutral
+  base04: '#808080', // object-size labels
+  base05: '#9570e3', // undefined values
+  base06: '#f5be32', // reserved highlight accent
+  base07: '#b9bacb', // object keys and braces
+  base08: '#9570e3', // NaN values
+  base09: '#ff9940', // strings and ellipsis
+  base0A: '#9570e3', // null and regular expressions
+  base0B: '#98bbf3', // floating-point values
+  base0C: '#868692', // array indexes
+  base0D: '#30cbd1', // dates, functions, and copy-success icon
+  base0E: '#fc6f6f', // booleans
+  base0F: '#98bbf3', // integers and copy icon
 };

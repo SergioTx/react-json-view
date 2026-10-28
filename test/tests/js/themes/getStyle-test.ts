@@ -21,15 +21,25 @@ describe('getStyle', function () {
     const style = getStyle('rjv-default', 'app-container');
     expect(required(style.style).cursor).to.equal('default');
   });
-  it('uses the Darcula palette for the default theme', function () {
+  it('uses the rjv-default palette', function () {
     expect(
       getStyle('rjv-default', 'app-container').style?.backgroundColor
-    ).to.equal('#2b2b2b');
+    ).to.equal('#1e1f21');
     expect(getStyle('rjv-default', 'object-name').style?.color).to.equal(
-      '#a9b7c6'
+      '#b9bacb'
     );
-    expect(getStyle('rjv-default', 'string').style?.color).to.equal('#6a8759');
-    expect(getStyle('rjv-default', 'integer').style?.color).to.equal('#6897bb');
+    expect(getStyle('rjv-default', 'string').style?.color).to.equal('#ff9940');
+    expect(getStyle('rjv-default', 'integer').style?.color).to.equal('#98bbf3');
+    expect(getStyle('rjv-default', 'null').style?.color).to.equal('#9570e3');
+    expect(getStyle('rjv-default', 'undefined').style?.color).to.equal(
+      '#9570e3'
+    );
+    expect(getStyle('rjv-default', 'expanded-icon').style?.color).to.equal(
+      '#373737'
+    );
+    expect(getStyle('rjv-default', 'collapsed-icon').style?.color).to.equal(
+      '#373737'
+    );
   });
   it('test objectKeyVal return', function () {
     const style = getStyle('rjv-default', 'objectKeyVal', {
@@ -39,10 +49,10 @@ describe('getStyle', function () {
   });
   it('test "none" theme', function () {
     const style = getStyle('none', 'app-container');
-    expect(required(style.style).backgroundColor).to.equal('#2b2b2b');
+    expect(required(style.style).backgroundColor).to.equal('#1e1f21');
   });
   it('test theme not set (NOTICE OUTPUT EXPECTED)', function () {
     const style = getStyle(false, 'app-container');
-    expect(required(style.style).backgroundColor).to.equal('#2b2b2b');
+    expect(required(style.style).backgroundColor).to.equal('#1e1f21');
   });
 });
