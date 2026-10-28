@@ -126,17 +126,21 @@ const settings: Setting[] = [
   },
 ];
 
-interface ExampleJson {
-  string: string;
+interface FlashableExample {
   integer: number;
-  array: (number | string)[];
+  array: unknown[];
   float: number;
-  undefined: undefined;
-  object: Record<string, boolean | null>;
-  string_number: string;
-  date: Date;
+  object: Record<string, unknown>;
+  date?: Date | string;
   live_status?: string;
   live_object?: { id: number; label: string };
+}
+
+interface ExampleJson extends FlashableExample {
+  string: string;
+  undefined: undefined;
+  string_number: string;
+  date: Date;
 }
 
 function getExampleJson(): ExampleJson {
@@ -152,8 +156,65 @@ function getExampleJson(): ExampleJson {
   };
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function isFlashableExample(value: object): value is FlashableExample {
+  return (
+    isRecord(value) &&
+    typeof value.integer === 'number' &&
+    typeof value.float === 'number' &&
+    Array.isArray(value.array) &&
+    isRecord(value.object)
+  );
+}
+
+function updateJsonRecord(
+  value: Record<string, unknown>
+): Record<string, unknown> {
+  const firstKey = Object.keys(value)[0];
+  if (firstKey === undefined) {
+    return { demoValue: 1 };
+  }
+  return { ...value, [firstKey]: updateJsonValue(value[firstKey]) };
+}
+
+function updateJsonValue(value: unknown): unknown {
+  if (typeof value === 'boolean') {
+    return !value;
+  }
+  if (typeof value === 'number') {
+    return value + 1;
+  }
+  if (typeof value === 'string') {
+    return value.endsWith('!') ? value.slice(0, -1) : `${value}!`;
+  }
+  if (value === null) {
+    return true;
+  }
+  if (Array.isArray(value) || isRecord(value)) {
+    return updateJsonSource(value);
+  }
+  return true;
+}
+
+function updateJsonSource(value: object): object {
+  if (Array.isArray(value)) {
+    const items: unknown[] = value;
+    return items.length === 0
+      ? [1]
+      : [updateJsonValue(items[0]), ...items.slice(1)];
+  }
+  return updateJsonRecord(value as Record<string, unknown>);
+}
+
 export default function Demo() {
-  const [src, setSrc] = React.useState(getExampleJson);
+  const [src, setSrc] = React.useState<object>(getExampleJson);
+  const [jsonInput, setJsonInput] = React.useState(
+    () => JSON.stringify(src) ?? ''
+  );
+  const [jsonError, setJsonError] = React.useState<string | null>(null);
   const [options, setOptions] = React.useState<DemoOptions>({
     theme: 'rjv-default',
     collapsed: false,
@@ -176,7 +237,10 @@ export default function Demo() {
     }
     const interval = window.setInterval(() => {
       setSrc((previous) => {
-        const next: ExampleJson = {
+        if (!isFlashableExample(previous)) {
+          return updateJsonSource(previous);
+        }
+        const next: FlashableExample = {
           ...previous,
           integer: Math.floor(Math.random() * 100),
           float: Math.round(Math.random() * 100_000) / 1000,
@@ -217,6 +281,29 @@ export default function Demo() {
     }, 2000);
     return () => window.clearInterval(interval);
   }, [options.flashingUpdates]);
+
+  React.useEffect(() => {
+    if (!options.flashingUpdates) {
+      return;
+    }
+    setJsonInput(JSON.stringify(src) ?? '');
+    setJsonError(null);
+  }, [options.flashingUpdates, src]);
+
+  function handleJsonInputChange(value: string) {
+    setJsonInput(value);
+    try {
+      const parsed: unknown = JSON.parse(value);
+      if (Array.isArray(parsed) || isRecord(parsed)) {
+        setSrc(parsed);
+        setJsonError(null);
+      } else {
+        setJsonError('The top-level JSON value must be an object or array.');
+      }
+    } catch (error) {
+      setJsonError(error instanceof Error ? error.message : 'Invalid JSON.');
+    }
+  }
 
   React.useEffect(() => {
     const candidate = viewerRef.current?.querySelector('.react-json-view');
@@ -328,6 +415,36 @@ export default function Demo() {
               </div>
             );
           })}
+        </div>
+        <div className="rjv-json-source">
+          <label className="rjv-label" htmlFor="rjv-json-source-input">
+            JSON source:
+          </label>
+          <textarea
+            id="rjv-json-source-input"
+            rows={3}
+            value={jsonInput}
+            disabled={options.flashingUpdates}
+            aria-invalid={Boolean(jsonError)}
+            aria-describedby={jsonError ? 'rjv-json-source-error' : undefined}
+            onChange={(event) =>
+              handleJsonInputChange(event.currentTarget.value)
+            }
+            style={{
+              color: siteTheme?.color,
+              backgroundColor: siteTheme?.bgColor,
+              borderColor: siteTheme?.borderColor,
+            }}
+          />
+          {jsonError && (
+            <div
+              className="rjv-json-error"
+              id="rjv-json-source-error"
+              role="alert"
+            >
+              {jsonError}
+            </div>
+          )}
         </div>
         <ReactJson
           style={{ padding: '10px', borderRadius: '3px', margin: '10px 0px' }}

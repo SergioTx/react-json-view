@@ -19,6 +19,41 @@
   font-weight: bold;
 }
 
+.rjv-demo .rjv-json-source {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.rjv-demo .rjv-json-source .rjv-label {
+  display: block;
+  padding: 0.5em;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.rjv-demo .rjv-json-source textarea {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 8px;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  background: transparent;
+  color: inherit;
+  font: 13px/1.4 monospace;
+  resize: vertical;
+}
+
+.rjv-demo .rjv-json-source textarea:disabled {
+  opacity: 0.65;
+}
+
+.rjv-demo .rjv-json-error {
+  margin-top: 4px;
+  color: #d92d20;
+  font-size: 13px;
+}
+
 @media (max-width: 252px) {
   .rjv-demo .rjv-settings {
     grid-template-columns: minmax(0, 1fr);
