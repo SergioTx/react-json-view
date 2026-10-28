@@ -172,21 +172,26 @@ export default function ReactJsonView(
   props: ReactJsonViewProps
 ): React.JSX.Element {
   const theme = props.theme ?? defaultProps.theme;
+  const deferredTheme = React.useDeferredValue(theme);
+  const renderProps =
+    deferredTheme === theme ? props : { ...props, theme: deferredTheme };
   if (
-    typeof theme === 'string' &&
-    theme !== 'rjv-default' &&
-    String(theme) !== 'none'
+    typeof deferredTheme === 'string' &&
+    deferredTheme !== 'rjv-default' &&
+    String(deferredTheme) !== 'none'
   ) {
-    const ThemeComponent = themeComponents.get(theme);
+    const ThemeComponent = themeComponents.get(deferredTheme);
     if (ThemeComponent) {
       return (
         <React.Suspense
-          fallback={<ReactJsonViewContent {...props} theme="rjv-default" />}
+          fallback={
+            <ReactJsonViewContent {...renderProps} theme="rjv-default" />
+          }
         >
-          {React.createElement(ThemeComponent, props)}
+          {React.createElement(ThemeComponent, renderProps)}
         </React.Suspense>
       );
     }
   }
-  return <ReactJsonViewContent {...props} />;
+  return <ReactJsonViewContent {...renderProps} />;
 }

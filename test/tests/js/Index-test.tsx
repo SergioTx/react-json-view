@@ -38,6 +38,31 @@ describe('<Index />', function () {
     });
     wrapper.unmount();
   });
+  it('keeps the active theme visible while loading another theme', async function () {
+    const wrapper = render(
+      <Index src={{ value: 1 }} theme="solarized" enableClipboard={false} />
+    );
+    await waitFor(() => {
+      expect(
+        wrapper.container.querySelector<HTMLElement>('.react-json-view')?.style
+          .backgroundColor
+      ).to.equal('rgb(0, 43, 54)');
+    });
+    wrapper.rerender(
+      <Index src={{ value: 1 }} theme="twilight" enableClipboard={false} />
+    );
+    expect(
+      wrapper.container.querySelector<HTMLElement>('.react-json-view')?.style
+        .backgroundColor
+    ).to.equal('rgb(0, 43, 54)');
+    await waitFor(() => {
+      expect(
+        wrapper.container.querySelector<HTMLElement>('.react-json-view')?.style
+          .backgroundColor
+      ).not.to.equal('rgb(0, 43, 54)');
+    });
+    wrapper.unmount();
+  });
 
   it('shares a single flash style tag between instances', function () {
     const wrapper = render(
