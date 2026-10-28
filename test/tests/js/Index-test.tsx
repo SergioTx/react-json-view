@@ -38,13 +38,61 @@ describe('<Index />', function () {
     const rootIcon = required(
       rootRow.querySelector<HTMLButtonElement>('.object-name-row > button')
     );
+    const rootIconContainer = required(
+      rootIcon.querySelector<HTMLElement>('.icon-container')
+    );
+    const rootContent = required(
+      rootRow.querySelector<HTMLElement>('.object-content')
+    );
     const objectNameRow = required(
       nestedRow.querySelector<HTMLElement>('.object-name-row')
     );
     const nestedIcon = required(
       objectNameRow.querySelector<HTMLButtonElement>('button')
     );
-    expect(rootIcon.style.position).to.equal('');
+    const rootGuide = required(
+      rootRow.querySelector<HTMLElement>('.object-guide')
+    );
+    const nestedGuide = required(
+      nestedRow.querySelector<HTMLElement>('.object-guide')
+    );
+    expect(rootRow.style.paddingLeft).to.equal('11px');
+    expect(rootIcon.style.marginLeft).to.equal('-11px');
+    const guideBorderWidth = Number.parseFloat(
+      getComputedStyle(nestedRow).borderLeftWidth
+    );
+    expect(
+      Number.parseFloat(rootRow.style.paddingLeft) +
+        Number.parseFloat(rootContent.style.marginLeft) +
+        guideBorderWidth / 2
+    ).to.equal(Number.parseFloat(rootIconContainer.style.width) / 2);
+    expect(rootGuide.style.top).to.equal('0px');
+    expect(rootGuide.style.bottom).to.equal('0px');
+    expect(
+      Number.parseFloat(rootGuide.style.left) + guideBorderWidth / 2
+    ).to.equal(Number.parseFloat(rootIconContainer.style.width) / 2);
+    expect(nestedGuide.style.top).to.equal('3px');
+    expect(nestedGuide.style.bottom).to.equal('3px');
+    expect(nestedRow.style.paddingLeft).to.equal('20px');
+    const nestedIconCenter =
+      Number.parseFloat(nestedRow.style.borderLeftWidth) +
+      Number.parseFloat(nestedRow.style.paddingLeft) +
+      Number.parseFloat(nestedIcon.style.left) +
+      Number.parseFloat(rootIconContainer.style.width) / 2;
+    expect(
+      Number.parseFloat(nestedRow.style.borderLeftWidth) +
+        Number.parseFloat(nestedGuide.style.left) +
+        guideBorderWidth / 2
+    ).to.equal(nestedIconCenter);
+    expect(
+      Number.parseFloat(nestedRow.style.paddingLeft) +
+        Number.parseFloat(nestedRow.style.borderLeftWidth) +
+        Number.parseFloat(
+          required(nestedRow.querySelector<HTMLElement>('.object-content'))
+            .style.marginLeft
+        ) +
+        guideBorderWidth / 2
+    ).to.equal(nestedIconCenter);
     expect(objectNameRow.style.position).to.equal('relative');
     expect(objectNameRow.style.display).to.equal('inline-block');
     expect(nestedIcon.style.position).to.equal('absolute');

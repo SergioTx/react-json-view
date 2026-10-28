@@ -14,6 +14,11 @@ import VariableEditor from './../VariableEditor';
 import VariableMeta from './../VariableMeta';
 import { JsonCircularReference } from './DataTypes';
 const SINGLE_INDENT = 5;
+const ROOT_ICON_CENTER = Number.parseFloat(constants.iconContainerWidth) / 2;
+const ROOT_ICON_GUTTER =
+  Number.parseFloat(constants.iconContainerWidth) -
+  Number.parseFloat(constants.pushedContentMarginLeft);
+const GUIDE_BORDER_WIDTH = Number.parseFloat(constants.keyValBorderLeft);
 function getExpanded(props: NodeProps) {
   const expanded =
     (props.collapsed === false ||
@@ -187,20 +192,59 @@ export default function RjvObject(props: NodeProps): React.JSX.Element {
         onNavigate={props.onNavigate}
       />
     ) : null;
+  const isArrayGroupRoot = parentType === 'array_group';
+  const rowIndent = jsvRoot
+    ? ROOT_ICON_GUTTER
+    : (props.indentWidth ?? 4) * SINGLE_INDENT;
+  const rowBorderWidth = jsvRoot || isArrayGroupRoot ? 0 : GUIDE_BORDER_WIDTH;
+  const iconGuideCenter = jsvRoot
+    ? ROOT_ICON_CENTER
+    : rowBorderWidth + rowIndent - ROOT_ICON_CENTER;
+  const iconGuideStyle: React.CSSProperties = {
+    position: 'absolute',
+    left: `${iconGuideCenter - rowBorderWidth - GUIDE_BORDER_WIDTH / 2}px`,
+    top: jsvRoot ? 0 : constants.keyValPaddingTop,
+    bottom: jsvRoot ? 0 : constants.keyValPaddingBottom,
+    borderLeft: Theme(theme, 'objectKeyVal').style?.borderLeft,
+    pointerEvents: 'none',
+    zIndex: 0,
+  };
   const nestedIconStyle: React.CSSProperties = jsvRoot
-    ? {}
+    ? { marginLeft: -ROOT_ICON_GUTTER }
     : {
         position: 'absolute',
         left: `-${constants.iconContainerWidth}`,
         top: 0,
       };
+  const rowTheme = Theme(theme, jsvRoot ? 'jsv-root' : 'objectKeyVal', styles);
+  const rowStyle: React.CSSProperties = {
+    ...rowTheme.style,
+    ...(jsvRoot ? { paddingLeft: ROOT_ICON_GUTTER } : {}),
+    ...(parentType !== 'array_group' ? { position: 'relative' } : {}),
+  };
+  const pushedContentTheme = Theme(theme, 'pushed-content');
+  const pushedContentMarginLeft = isArrayGroupRoot
+    ? Number.parseFloat(constants.pushedContentMarginLeft)
+    : iconGuideCenter - rowBorderWidth - rowIndent - GUIDE_BORDER_WIDTH / 2;
+  const pushedContentStyle = {
+    ...pushedContentTheme.style,
+    marginLeft: pushedContentMarginLeft,
+  };
   return (
     <div
       className={['object-key-val', flashClass].filter(Boolean).join(' ')}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      {...Theme(theme, jsvRoot ? 'jsv-root' : 'objectKeyVal', styles)}
+      {...rowTheme}
+      style={rowStyle}
     >
+      {expanded && !isArrayGroupRoot && size > 0 && (
+        <span
+          aria-hidden="true"
+          className="object-guide"
+          style={iconGuideStyle}
+        />
+      )}
       {parentType === 'array_group' ? (
         <span>
           <span {...Theme(theme, 'brace')}>
@@ -225,6 +269,8 @@ export default function RjvObject(props: NodeProps): React.JSX.Element {
               color: 'inherit',
               ...Theme(theme, 'brace-row').style,
               ...nestedIconStyle,
+              position: jsvRoot ? 'relative' : 'absolute',
+              zIndex: 1,
             }}
           >
             <span
@@ -281,7 +327,11 @@ export default function RjvObject(props: NodeProps): React.JSX.Element {
       )}
       {expanded ? (
         <div className="pushed-content object-container">
-          <div className="object-content" {...Theme(theme, 'pushed-content')}>
+          <div
+            className="object-content"
+            {...pushedContentTheme}
+            style={pushedContentStyle}
+          >
             {renderContents()}
           </div>
         </div>
