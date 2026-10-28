@@ -1,11 +1,5 @@
 import type { CSSProperties } from 'react';
-import type {
-  Base16Theme,
-  StylingConfig,
-  StylingFunction,
-  Theme as LibraryTheme,
-} from 'react-base16-styling';
-import { createStyling } from 'react-base16-styling';
+import type { Base16Theme, Styling, StylingConfig } from 'react-base16-styling';
 
 import type { StyleProps, Theme } from '../types';
 import { rjvDefault, rjvGrey } from './base16/rjv-themes';
@@ -243,28 +237,26 @@ const getDefaultThemeStyling = (theme: Base16Theme): StylingConfig => {
     },
   };
 };
-const getStyle = (theme: Theme | undefined): StylingFunction => {
+const getStyle = (theme: Theme | undefined) => {
   let rjvTheme = rjvDefault;
   if (theme === false || theme === 'none') {
     rjvTheme = rjvGrey;
   }
-  const selected: LibraryTheme =
-    typeof theme === 'object'
-      ? {
-          ...theme,
-          scheme: 'custom',
-          author: 'custom',
-        }
-      : typeof theme === 'string'
-        ? theme
-        : rjvTheme;
-  return createStyling(
-    getDefaultThemeStyling,
-    {
-      defaultBase16: rjvTheme,
-    },
-    selected
-  );
+  const selected: Base16Theme =
+    typeof theme === 'object' && theme
+      ? { ...theme, scheme: 'custom', author: 'custom' }
+      : rjvTheme;
+  const styling = getDefaultThemeStyling(selected);
+  return (component: string, args?: CSSProperties): StyleProps => {
+    const value = styling[component];
+    if (typeof value === 'function') {
+      return value({ className: '', style: {} }, args) as Styling;
+    }
+    if (typeof value === 'string') {
+      return { className: value };
+    }
+    return { style: value as CSSProperties };
+  };
 };
 export default function style(
   theme: Theme | undefined,

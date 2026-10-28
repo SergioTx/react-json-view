@@ -85,6 +85,10 @@ You can specify a `theme` name or object when you instantiate your rjv component
 <ReactJsonView src={my_important_json} theme="monokai" />
 ```
 
+Named built-in themes load on demand in separate chunks. Until the selected
+theme is ready, the viewer uses `rjv-default`; the default and custom theme
+objects render synchronously.
+
 The following themes are builtin with the library:
 
 - `'apathy'`

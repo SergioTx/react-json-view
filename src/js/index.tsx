@@ -7,6 +7,7 @@ import VariableEditor from './components/VariableEditor';
 import { isTheme, toType } from './helpers/util';
 import AttributeStore from './stores/ObjectAttributes';
 import Theme from './themes/getStyle';
+import { loadTheme, themeNames } from './themes/loadTheme';
 import type { Namespace } from './types';
 const defaultProps: Required<ReactJsonViewProps> = {
   src: {},
@@ -38,7 +39,7 @@ const flashStyles = `
 @media (prefers-reduced-motion: reduce) {
   .react-json-view .rjv-flash-a, .react-json-view .rjv-flash-b { animation: none; }
 }`;
-export default function ReactJsonView(
+function ReactJsonViewContent(
   inputProps: ReactJsonViewProps
 ): React.JSX.Element {
   const supplied = Object.fromEntries<unknown>(
@@ -155,4 +156,43 @@ export default function ReactJsonView(
       )}
     </div>
   );
+}
+
+const themeComponents = new Map<
+  string,
+  React.LazyExoticComponent<React.ComponentType<ReactJsonViewProps>>
+>(
+  themeNames.map((themeName) => [
+    themeName,
+    React.lazy(() =>
+      loadTheme(themeName).then((theme) => ({
+        default: (props: ReactJsonViewProps) => (
+          <ReactJsonViewContent {...props} theme={theme} />
+        ),
+      }))
+    ),
+  ])
+);
+
+export default function ReactJsonView(
+  props: ReactJsonViewProps
+): React.JSX.Element {
+  const theme = props.theme ?? defaultProps.theme;
+  if (
+    typeof theme === 'string' &&
+    theme !== 'rjv-default' &&
+    String(theme) !== 'none'
+  ) {
+    const ThemeComponent = themeComponents.get(theme);
+    if (ThemeComponent) {
+      return (
+        <React.Suspense
+          fallback={<ReactJsonViewContent {...props} theme="rjv-default" />}
+        >
+          {React.createElement(ThemeComponent, props)}
+        </React.Suspense>
+      );
+    }
+  }
+  return <ReactJsonViewContent {...props} />;
 }

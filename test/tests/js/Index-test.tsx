@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import React from 'react';
 import sinon from 'sinon';
@@ -8,6 +8,20 @@ import Index from './../../../src/js/index';
 import ObjectAttributes from './../../../src/js/stores/ObjectAttributes';
 import Theme from './../../../src/js/themes/getStyle';
 describe('<Index />', function () {
+  it('loads the selected built-in theme asynchronously', async function () {
+    const wrapper = render(
+      <Index src={{ value: 1 }} theme="solarized" enableClipboard={false} />
+    );
+    await waitFor(() => {
+      expect(
+        wrapper.container.querySelector<HTMLElement>(
+          '.object-name-row > button:nth-of-type(2) > span'
+        )?.style.color
+      ).to.equal('rgb(253, 246, 227)');
+    });
+    wrapper.unmount();
+  });
+
   it('shares a single flash style tag between instances', function () {
     const wrapper = render(
       <>

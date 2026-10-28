@@ -86,7 +86,9 @@ try {
         message = 'Declaration contains inferred any';
       }
       if (
-        (isCallExpression(node) || isNewExpression(node)) &&
+        ((isCallExpression(node) &&
+          node.expression.kind !== SyntaxKind.ImportKeyword) ||
+          isNewExpression(node)) &&
         (checker.getTypeAtLocation(node.expression)?.flags ?? 0) & TypeFlags.Any
       ) {
         message = 'Unsafe invocation of any';
