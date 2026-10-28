@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-10-28
+
+### Changed
+
+- **BREAKING:** Restrict the root `name` prop to strings or `null` and default it to `null`.
+- **BREAKING:** Hide object sizes and data type labels by default.
+- Load selected built-in Base16 themes on demand in separate chunks to reduce the initial bundle size.
+
 ## [1.7.1] - 2026-10-28
 
 ### Added
@@ -115,7 +123,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Make disclosure, string, function, and clipboard controls keyboard-accessible.
 - Add regression coverage for prop updates, Strict Mode, expansion persistence, grouped-array commas, circular references, and read-only behavior.
 
-[Unreleased]: https://github.com/SergioTx/react-json-view/compare/v1.7.1...HEAD
+[Unreleased]: https://github.com/SergioTx/react-json-view/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/SergioTx/react-json-view/compare/v1.7.1...v2.0.0
 [1.7.1]: https://github.com/SergioTx/react-json-view/compare/v1.7.0...v1.7.1
 [1.7.0]: https://github.com/SergioTx/react-json-view/compare/v1.6.1...v1.7.0
 [1.6.1]: https://github.com/SergioTx/react-json-view/compare/v1.6.0...v1.6.1
