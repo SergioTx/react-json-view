@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.7.1] - 2026-10-28
+
+### Added
+
+- Deploy the live demo to GitHub Pages on pushes to `main` and link to it from the README.
+
+### Changed
+
+- Update development dependencies, including React, Vite, Vitest, and formatting and linting tools.
+- Upgrade the package manager to pnpm 12.15.0.
+- Use the latest Node.js LTS release in GitHub Actions.
+
 ## [1.7.0] - 2026-10-27
 
 ### Added
@@ -103,7 +115,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Make disclosure, string, function, and clipboard controls keyboard-accessible.
 - Add regression coverage for prop updates, Strict Mode, expansion persistence, grouped-array commas, circular references, and read-only behavior.
 
-[Unreleased]: https://github.com/SergioTx/react-json-view/compare/v1.7.0...HEAD
+[Unreleased]: https://github.com/SergioTx/react-json-view/compare/v1.7.1...HEAD
+[1.7.1]: https://github.com/SergioTx/react-json-view/compare/v1.7.0...v1.7.1
 [1.7.0]: https://github.com/SergioTx/react-json-view/compare/v1.6.1...v1.7.0
 [1.6.1]: https://github.com/SergioTx/react-json-view/compare/v1.6.0...v1.6.1
 [1.6.0]: https://github.com/SergioTx/react-json-view/compare/v1.5.0...v1.6.0
