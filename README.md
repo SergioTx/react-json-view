@@ -2,9 +2,11 @@
 
 **react-json-view** (rjv) is a React component for displaying JavaScript **arrays** and **JSON objects**.
 
+[Live demo](https://sergiotx.github.io/react-json-view/)
+
 Fork from [https://github.com/uiwjs/react-json-view](https://github.com/uiwjs/react-json-view).
 
-This fork aims to keep the viewer lightweight and reduce dependencies by removing editing, selection, and validation properties (`onEdit`, `onAdd`, `onDelete`, `onSelect`, `validationMessage`, `defaultValue`, `selectOnFocus`, and `keyModifier`), custom `bigNumber` support, and the configurable `showComma` property. Commas are always shown.
+This fork aims to keep the viewer lightweight and reduce dependencies by removing editing, selection, and validation properties. It also adds some extra features, like path pinning or flashing updates.
 
 ## Highlights
 
