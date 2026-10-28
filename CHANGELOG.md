@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Align nested collapse icons to the left of property names and give them a theme-colored background.
+
 ## [2.0.0] - 2026-10-28
 
 ### Changed

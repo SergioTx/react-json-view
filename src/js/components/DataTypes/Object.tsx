@@ -5,6 +5,7 @@ import { normalizeNamespace } from '../../types';
 import { getFlashClass, toType } from './../../helpers/util';
 import AttributeStore from './../../stores/ObjectAttributes';
 import Theme from './../../themes/getStyle';
+import constants from './../../themes/styleConstants';
 import ArrayGroup from './../ArrayGroup';
 import ObjectName from './../ObjectName';
 import { PathPinButton } from './../PathNavigation';
@@ -186,6 +187,13 @@ export default function RjvObject(props: NodeProps): React.JSX.Element {
         onNavigate={props.onNavigate}
       />
     ) : null;
+  const nestedIconStyle: React.CSSProperties = jsvRoot
+    ? {}
+    : {
+        position: 'absolute',
+        left: `-${constants.iconContainerWidth}`,
+        top: 0,
+      };
   return (
     <div
       className={['object-key-val', flashClass].filter(Boolean).join(' ')}
@@ -200,7 +208,10 @@ export default function RjvObject(props: NodeProps): React.JSX.Element {
           </span>
         </span>
       ) : (
-        <span className="object-name-row">
+        <span
+          className="object-name-row"
+          style={{ display: 'inline-block', position: 'relative' }}
+        >
           <button
             type="button"
             onClick={toggleCollapsed}
@@ -213,6 +224,7 @@ export default function RjvObject(props: NodeProps): React.JSX.Element {
               font: 'inherit',
               color: 'inherit',
               ...Theme(theme, 'brace-row').style,
+              ...nestedIconStyle,
             }}
           >
             <span

@@ -217,6 +217,7 @@ const getDefaultThemeStyling = (theme: Base16Theme): StylingConfig => {
     'icon-container': {
       display: 'inline-block',
       width: constants.iconContainerWidth,
+      backgroundColor: colors.backgroundColor,
     },
     tooltip: {
       padding: constants.tooltipPadding,

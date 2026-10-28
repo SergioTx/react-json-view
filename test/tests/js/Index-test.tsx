@@ -24,6 +24,33 @@ describe('<Index />', function () {
     ).to.have.length(0);
     wrapper.unmount();
   });
+  it('moves nested collapse icons left without shifting property names', function () {
+    const wrapper = render(
+      <Index
+        src={{ primitive: 1, nested: { value: 2 } }}
+        enableClipboard={false}
+      />
+    );
+    const rows =
+      wrapper.container.querySelectorAll<HTMLElement>('.object-key-val');
+    const rootRow = required(rows[0]);
+    const nestedRow = required(rows[1]);
+    const rootIcon = required(
+      rootRow.querySelector<HTMLButtonElement>('.object-name-row > button')
+    );
+    const objectNameRow = required(
+      nestedRow.querySelector<HTMLElement>('.object-name-row')
+    );
+    const nestedIcon = required(
+      objectNameRow.querySelector<HTMLButtonElement>('button')
+    );
+    expect(rootIcon.style.position).to.equal('');
+    expect(objectNameRow.style.position).to.equal('relative');
+    expect(objectNameRow.style.display).to.equal('inline-block');
+    expect(nestedIcon.style.position).to.equal('absolute');
+    expect(nestedIcon.style.left).to.equal('-17px');
+    wrapper.unmount();
+  });
 
   it('loads the selected built-in theme asynchronously', async function () {
     const wrapper = render(

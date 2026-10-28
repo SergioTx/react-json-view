@@ -46,6 +46,11 @@ describe('getStyle', function () {
       '#373737'
     );
   });
+  it('gives collapse icon containers the viewer background', function () {
+    expect(
+      getStyle('rjv-default', 'icon-container').style?.backgroundColor
+    ).to.equal('#1e1f21');
+  });
   it('test objectKeyVal return', function () {
     const style = getStyle('rjv-default', 'objectKeyVal', {
       paddingLeft: 10,
