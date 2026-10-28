@@ -24,7 +24,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v7
         with:
-          node-version: 24.15.0
+          node-version: lts/*
       - name: Setup PNPM
         uses: pnpm/action-setup@v6
       - name: Install
@@ -55,7 +55,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v7
         with:
-          node-version: 24.15.0
+          node-version: lts/*
           registry-url: https://registry.npmjs.org
       - name: Install npm CLI with staged publishing
         run: npm install --global npm@12.2.0
