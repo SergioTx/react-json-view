@@ -110,8 +110,8 @@ describe('escapeString', function () {
 describe('isTheme', function () {
   it('isTheme valid theme', function () {
     const test = {
-      scheme: 'rjv-grey',
-      author: 'mac gainor',
+      scheme: 'custom-test-theme',
+      author: 'rjv',
       base00: 'rgba(1, 1, 1, 0)',
       base01: 'rgba(1, 1, 1, 0.1)',
       base02: 'rgba(0, 0, 0, 0.2)',
@@ -133,8 +133,8 @@ describe('isTheme', function () {
   });
   it('isTheme invalid theme', function () {
     const test = {
-      scheme: 'rjv-grey',
-      author: 'mac gainor',
+      scheme: 'custom-test-theme',
+      author: 'rjv',
       base00: 'rgba(1, 1, 1, 0)',
       base01: 'rgba(1, 1, 1, 0.1)',
       base02: 'rgba(0, 0, 0, 0.2)',

@@ -21,6 +21,16 @@ describe('getStyle', function () {
     const style = getStyle('rjv-default', 'app-container');
     expect(required(style.style).cursor).to.equal('default');
   });
+  it('uses the Darcula palette for the default theme', function () {
+    expect(
+      getStyle('rjv-default', 'app-container').style?.backgroundColor
+    ).to.equal('#2b2b2b');
+    expect(getStyle('rjv-default', 'object-name').style?.color).to.equal(
+      '#a9b7c6'
+    );
+    expect(getStyle('rjv-default', 'string').style?.color).to.equal('#6a8759');
+    expect(getStyle('rjv-default', 'integer').style?.color).to.equal('#6897bb');
+  });
   it('test objectKeyVal return', function () {
     const style = getStyle('rjv-default', 'objectKeyVal', {
       paddingLeft: 10,
@@ -29,10 +39,10 @@ describe('getStyle', function () {
   });
   it('test "none" theme', function () {
     const style = getStyle('none', 'app-container');
-    expect(required(style.style)).to.not.equal(undefined);
+    expect(required(style.style).backgroundColor).to.equal('#2b2b2b');
   });
   it('test theme not set (NOTICE OUTPUT EXPECTED)', function () {
     const style = getStyle(false, 'app-container');
-    expect(required(style.style)).to.not.equal(undefined);
+    expect(required(style.style).backgroundColor).to.equal('#2b2b2b');
   });
 });

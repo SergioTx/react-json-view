@@ -2,7 +2,7 @@ import type { CSSProperties } from 'react';
 import type { Base16Theme, Styling, StylingConfig } from 'react-base16-styling';
 
 import type { StyleProps, Theme } from '../types';
-import { rjvDefault, rjvGrey } from './base16/rjv-themes';
+import { rjvDefault } from './base16/rjv-themes';
 import constants from './styleConstants';
 const colorMap = (theme: Base16Theme) => ({
   backgroundColor: theme.base00,
@@ -238,14 +238,10 @@ const getDefaultThemeStyling = (theme: Base16Theme): StylingConfig => {
   };
 };
 const getStyle = (theme: Theme | undefined) => {
-  let rjvTheme = rjvDefault;
-  if (theme === false || theme === 'none') {
-    rjvTheme = rjvGrey;
-  }
   const selected: Base16Theme =
     typeof theme === 'object' && theme
       ? { ...theme, scheme: 'custom', author: 'custom' }
-      : rjvTheme;
+      : rjvDefault;
   const styling = getDefaultThemeStyling(selected);
   return (component: string, args?: CSSProperties): StyleProps => {
     const value = styling[component];

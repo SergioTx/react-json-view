@@ -16,6 +16,7 @@ export interface ReactJsonViewProps {
   /**
    * RJV supports base-16 themes. Check out the list of supported themes in the demo.
    * A custom "rjv-default" theme applies by default.
+   * Other themes are loaded dynamically as needed.
    *
    * Default: "rjv-default"
    */
