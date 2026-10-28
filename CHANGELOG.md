@@ -7,15 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.0.0] - 2026-10-28
 
+### Added
+
+- Add a JSON editor to the demo with validation errors and flashing-mode synchronization.
+
 ### Changed
 
 - **BREAKING:** Restrict the root `name` prop to strings or `null` and default it to `null`.
 - **BREAKING:** Hide object sizes and data type labels by default.
+- Keep `src` required in TypeScript; omitted or `null` values render an empty object at runtime.
 - Add the `hideVerticalLines` prop to optionally hide vertical tree guides.
 - Load selected built-in Base16 themes on demand in separate chunks to reduce the initial bundle size.
+- Keep the active theme visible while another built-in theme loads.
 - Change `rjv-default` colors. It's now a dark theme.
 - Remove the alternate `rjv-grey` palette; `rjv-default` is now the sole built-in local palette.
 - Align nested collapse icons to the left of property names and give them a theme-colored background.
+- Align continuous vertical guides with the expand icon and extend them to closing braces.
+- Remove the extra gap before property colons.
 
 ## [1.7.1] - 2026-10-28
 

@@ -58,6 +58,9 @@ function ReactJsonViewContent(
   const [navigationPath, setNavigationPath] = React.useState<Namespace>([]);
   React.useEffect(() => () => AttributeStore.clear(rjvId), [rjvId]);
   let { src, name, theme } = props;
+  if (src === null) {
+    src = {};
+  }
   if (toType(theme) === 'object' && !isTheme(theme)) {
     // oxlint-disable-next-line eslint/no-console -- Report invalid public props.
     console.error(

@@ -2,13 +2,13 @@ import * as React from 'react';
 
 export interface ReactJsonViewProps {
   /**
-   * Parsed object or array to display. Raw JSON text strings and other
-   * primitive top-level values are not parsed; string values nested in the
-   * data are supported.
+   * Required object or array to display. If omitted or null at runtime,
+   * an empty object is rendered. Raw JSON text strings and other primitive
+   * top-level values are not parsed; nested string values are supported.
    *
-   * Default: {}
+   * Required.
    */
-  src?: object;
+  src: object;
   /**
    * Contains the name of your root node. Use null for no name.
    *

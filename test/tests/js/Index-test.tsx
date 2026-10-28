@@ -24,6 +24,21 @@ describe('<Index />', function () {
     ).to.have.length(0);
     wrapper.unmount();
   });
+  it('renders an empty object when src is omitted or null at runtime', function () {
+    const UntypedIndex = Index as unknown as React.ComponentType<{
+      src?: object | null;
+      enableClipboard?: boolean;
+    }>;
+    const omitted = render(<UntypedIndex enableClipboard={false} />);
+    expect(omitted.container.textContent).to.equal('{}');
+    omitted.unmount();
+
+    const nullSource = render(
+      <UntypedIndex src={null} enableClipboard={false} />
+    );
+    expect(nullSource.container.textContent).to.equal('{}');
+    nullSource.unmount();
+  });
   it('moves nested collapse icons left without shifting property names', function () {
     const wrapper = render(
       <Index
