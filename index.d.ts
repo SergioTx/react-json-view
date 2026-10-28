@@ -8,11 +8,11 @@ export interface ReactJsonViewProps {
    */
   src: object;
   /**
-   * Contains the name of your root node. Use null or false for no name.
+   * Contains the name of your root node. Use null for no name.
    *
-   * Default: "root"
+   * Default: null
    */
-  name?: React.JSX.Element | string | null | false;
+  name?: string | null;
   /**
    * RJV supports base-16 themes. Check out the list of supported themes in the demo.
    * A custom "rjv-default" theme applies by default.
@@ -85,13 +85,13 @@ export interface ReactJsonViewProps {
   /**
    * When set to true, objects and arrays are labeled with size.
    *
-   * Default: true
+   * Default: false
    */
   displayObjectSize?: boolean;
   /**
    * When set to true, data type labels prefix values.
    *
-   * Default: true
+   * Default: false
    */
   displayDataTypes?: boolean;
   /**

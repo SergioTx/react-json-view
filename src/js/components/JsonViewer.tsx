@@ -1,31 +1,10 @@
-import React from 'react';
-
 import type { Namespace, NodeProps } from '../types';
 import ArrayGroup from './ArrayGroup';
 import JsonObject from './DataTypes/Object';
-export default function JsonViewer(props: NodeProps) {
-  let namespace: Namespace = [
-    typeof props.name === 'string' ||
-    typeof props.name === 'number' ||
-    props.name === false
-      ? props.name
-      : null,
-  ];
+type JsonViewerProps = Omit<NodeProps, 'name'> & { name?: string | null };
+export default function JsonViewer(props: JsonViewerProps) {
+  let namespace: Namespace = [props.name ?? null];
   let ObjectComponent = JsonObject;
-  if (typeof props.name === 'object' && !Array.isArray(props.name)) {
-    // Support Classes and Functional Components
-    const component: unknown = props.name?.type;
-    const componentName =
-      typeof component === 'function'
-        ? component.name
-        : typeof component === 'object' &&
-            component !== null &&
-            'displayName' in component &&
-            typeof component.displayName === 'string'
-          ? component.displayName
-          : 'Anonymous';
-    namespace = [componentName];
-  }
   namespace = namespace.concat(props.navigationPath ?? []);
   if (
     Array.isArray(props.src) &&

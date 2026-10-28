@@ -64,7 +64,6 @@ createRoot(app).render(
       src={getExampleJson1()}
       theme="railscasts"
       collapseStringsAfterLength={15}
-      name={false}
       iconStyle="triangle"
       shouldCollapse={({ src, type }) =>
         type === 'object' &&
@@ -148,21 +147,8 @@ createRoot(app).render(
       src={getExampleJson4()}
     />
 
-    {/* Name as colored react component */}
-    <JsonViewer
-      collapsed
-      name={
-        <span
-          style={{
-            color: 'red',
-            fontWeight: 800,
-          }}
-        >
-          React Element as name
-        </span>
-      }
-      src={getExampleJson2()}
-    />
+    {/* Set a custom root name */}
+    <JsonViewer collapsed name="Custom name" src={getExampleJson2()} />
 
     {/* String with special escape sequences */}
     <JsonViewer

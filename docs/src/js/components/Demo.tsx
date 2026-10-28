@@ -152,11 +152,11 @@ export default function Demo() {
     theme: 'rjv-default',
     collapsed: false,
     collapseStringsAfterLength: 15,
-    displayObjectSize: true,
+    displayObjectSize: false,
     enableClipboard: true,
     enablePathNavigation: false,
     indentWidth: 4,
-    displayDataTypes: true,
+    displayDataTypes: false,
     iconStyle: 'triangle',
     flashingUpdates: true,
   });
@@ -323,7 +323,6 @@ export default function Demo() {
           })}
         </div>
         <ReactJson
-          name={false}
           style={{ padding: '10px', borderRadius: '3px', margin: '10px 0px' }}
           src={src}
           {...options}

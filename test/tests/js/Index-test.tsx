@@ -8,6 +8,23 @@ import Index from './../../../src/js/index';
 import ObjectAttributes from './../../../src/js/stores/ObjectAttributes';
 import Theme from './../../../src/js/themes/getStyle';
 describe('<Index />', function () {
+  it('hides the root name, object sizes, and data type labels by default', function () {
+    const wrapper = render(
+      <Index
+        src={{ bool: true, nested: { value: 1 } }}
+        enableClipboard={false}
+      />
+    );
+    expect(wrapper.container.textContent).not.to.include('root');
+    expect(
+      wrapper.container.querySelectorAll<HTMLElement>('.object-size')
+    ).to.have.length(0);
+    expect(
+      wrapper.container.querySelectorAll<HTMLElement>('.data-type-label')
+    ).to.have.length(0);
+    wrapper.unmount();
+  });
+
   it('loads the selected built-in theme asynchronously', async function () {
     const wrapper = render(
       <Index src={{ value: 1 }} theme="solarized" enableClipboard={false} />
@@ -93,6 +110,7 @@ describe('<Index />', function () {
       <Index
         src={{ a: 1, list: [1] }}
         flashingUpdates
+        displayObjectSize
         enableClipboard={false}
       />
     );
@@ -105,6 +123,7 @@ describe('<Index />', function () {
       <Index
         src={{ a: 1, b: 2, nested: { c: 3 }, list: [1, 2] }}
         flashingUpdates
+        displayObjectSize
         enableClipboard={false}
       />
     );
@@ -135,6 +154,7 @@ describe('<Index />', function () {
       <Index
         src={{ a: 1, list: [1] }}
         flashingUpdates
+        displayObjectSize
         enableClipboard={false}
       />
     );
@@ -161,6 +181,7 @@ describe('<Index />', function () {
         src={{ account: { name: 'Ada', details: { active: true } }, other: 1 }}
         enablePathNavigation
         enableClipboard={false}
+        displayDataTypes
       />
     );
     const pin = wrapper.container.querySelector<HTMLButtonElement>(
@@ -268,10 +289,8 @@ describe('<Index />', function () {
     expect(wrapper.container.textContent).to.include('other');
     wrapper.unmount();
   });
-  it('uses root as the breadcrumb label when the root name is hidden', function () {
-    const wrapper = render(
-      <Index src={{ value: 1 }} name={false} enablePathNavigation />
-    );
+  it('uses root as the breadcrumb label when the name is omitted', function () {
+    const wrapper = render(<Index src={{ value: 1 }} enablePathNavigation />);
     expect(
       wrapper.container.querySelector('.path-breadcrumb')?.textContent
     ).to.equal('root');
@@ -336,6 +355,7 @@ describe('<Index />', function () {
         enablePathNavigation
         enableClipboard={false}
         groupArraysAfterLength={2}
+        displayDataTypes
       />
     );
     const arrayPin = required(
@@ -377,6 +397,7 @@ describe('<Index />', function () {
             value: 1,
           }}
           enableClipboard={false}
+          displayDataTypes
         />
       </React.StrictMode>
     );
@@ -400,6 +421,7 @@ describe('<Index />', function () {
             other: true,
           }}
           enableClipboard={false}
+          displayDataTypes
         />
       </React.StrictMode>
     );
@@ -462,7 +484,9 @@ describe('<Index />', function () {
       previous,
     };
     next.self = next;
-    const _element = <Index src={previous} enableClipboard={false} />;
+    const _element = (
+      <Index src={previous} enableClipboard={false} displayDataTypes />
+    );
     const wrapper = render(_element);
     wrapper.rerender(
       React.cloneElement(_element, {
@@ -489,7 +513,6 @@ describe('<Index />', function () {
           },
           [3, 4],
         ]}
-        name={false}
         quotesOnKeys={false}
         displayArrayKey={false}
         displayObjectSize={false}
@@ -503,7 +526,6 @@ describe('<Index />', function () {
     const wrapper = render(
       <Index
         src={[1, 2, 3, 4]}
-        name={false}
         groupArraysAfterLength={2}
         displayArrayKey={false}
         displayObjectSize={false}
@@ -558,9 +580,12 @@ describe('<Index />', function () {
         )
       );
       const rjvId = required(setAttribute.firstCall).args[0];
-      expect(ObjectAttributes.get(rjvId, ['root'], 'expanded')).to.equal(false);
+      const namespace = required(setAttribute.firstCall).args[1];
+      expect(ObjectAttributes.get(rjvId, namespace, 'expanded')).to.equal(
+        false
+      );
       wrapper.unmount();
-      expect(ObjectAttributes.get(rjvId, ['root'], 'expanded')).to.equal(
+      expect(ObjectAttributes.get(rjvId, namespace, 'expanded')).to.equal(
         undefined
       );
     } finally {
@@ -593,6 +618,7 @@ describe('<Index />', function () {
           ],
           regexp: /[0-9]/gi,
         }}
+        displayDataTypes
       />
     );
     expect(
@@ -650,6 +676,7 @@ describe('<Index />', function () {
     const wrapper = render(
       <Index
         src={'{jsonEncodedString:true, createError:true}' as unknown as object}
+        displayDataTypes
       />
     );
     expect(
@@ -680,6 +707,7 @@ describe('<Index />', function () {
         src={{
           test: true,
         }}
+        displayDataTypes
       />
     );
     const wrapper = render(_element3);
@@ -719,6 +747,7 @@ describe('<Index />', function () {
           second: 'second property',
           length: 1000,
         }}
+        displayObjectSize
       />
     );
     expect(

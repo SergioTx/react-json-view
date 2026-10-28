@@ -11,7 +11,7 @@ import { loadTheme, themeNames } from './themes/loadTheme';
 import type { Namespace } from './types';
 const defaultProps: Required<ReactJsonViewProps> = {
   src: {},
-  name: 'root',
+  name: null,
   theme: 'rjv-default',
   collapsed: false,
   collapseStringsAfterLength: false,
@@ -23,8 +23,8 @@ const defaultProps: Required<ReactJsonViewProps> = {
   enableClipboard: true,
   enablePathNavigation: false,
   escapeStrings: true,
-  displayObjectSize: true,
-  displayDataTypes: true,
+  displayObjectSize: false,
+  displayDataTypes: false,
   iconStyle: 'triangle',
   style: {},
   displayArrayKey: true,
@@ -83,18 +83,12 @@ function ReactJsonViewContent(
   const selectedType = toType(selectedSrc);
   const selectedIsContainer =
     selectedType === 'object' || selectedType === 'array';
-  const rootNamespace: Namespace = [
-    typeof name === 'string' || typeof name === 'number' || name === false
-      ? name
-      : null,
-  ];
+  const rootNamespace: Namespace = [typeof name === 'string' ? name : null];
   const selectedParentPath = activePath.slice(0, -1);
   const selectedParent = resolvePath(src, selectedParentPath).value;
   const selectedName = activePath.at(-1);
   const breadcrumbRootLabel =
-    name === false || name === null || name === undefined || name === ''
-      ? 'root'
-      : name;
+    name === null || name === undefined || name === '' ? 'root' : name;
   return (
     <div
       className="react-json-view"
