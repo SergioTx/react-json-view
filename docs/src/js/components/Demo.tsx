@@ -230,6 +230,21 @@ export default function Demo() {
   });
   const [siteTheme, setSiteTheme] = React.useState<SiteTheme | null>(null);
   const viewerRef = React.useRef<HTMLDivElement | null>(null);
+  const [previousJsonSync, setPreviousJsonSync] = React.useState({
+    src,
+    flashingUpdates: options.flashingUpdates,
+  });
+
+  if (
+    previousJsonSync.src !== src ||
+    previousJsonSync.flashingUpdates !== options.flashingUpdates
+  ) {
+    setPreviousJsonSync({ src, flashingUpdates: options.flashingUpdates });
+    if (options.flashingUpdates) {
+      setJsonInput(JSON.stringify(src) ?? '');
+      setJsonError(null);
+    }
+  }
 
   React.useEffect(() => {
     if (!options.flashingUpdates) {
@@ -281,14 +296,6 @@ export default function Demo() {
     }, 2000);
     return () => window.clearInterval(interval);
   }, [options.flashingUpdates]);
-
-  React.useEffect(() => {
-    if (!options.flashingUpdates) {
-      return;
-    }
-    setJsonInput(JSON.stringify(src) ?? '');
-    setJsonError(null);
-  }, [options.flashingUpdates, src]);
 
   function handleJsonInputChange(value: string) {
     setJsonInput(value);
