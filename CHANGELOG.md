@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.2] - 2026-11-03
+
+### Added
+
+- Add an nvm configuration and contributor guidance matching the latest Node.js LTS used in CI.
+
+### Removed
+
+- Remove the published Node.js engine restriction so development tooling requirements do not constrain consumers.
+
 ## [2.0.1] - 2026-11-03
 
 ### Changed
@@ -139,7 +149,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Make disclosure, string, function, and clipboard controls keyboard-accessible.
 - Add regression coverage for prop updates, Strict Mode, expansion persistence, grouped-array commas, circular references, and read-only behavior.
 
-[Unreleased]: https://github.com/SergioTx/react-json-view/compare/v2.0.1...HEAD
+[Unreleased]: https://github.com/SergioTx/react-json-view/compare/v2.0.2...HEAD
+[2.0.2]: https://github.com/SergioTx/react-json-view/compare/v2.0.1...v2.0.2
 [2.0.1]: https://github.com/SergioTx/react-json-view/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/SergioTx/react-json-view/compare/v1.7.1...v2.0.0
 [1.7.1]: https://github.com/SergioTx/react-json-view/compare/v1.7.0...v1.7.1

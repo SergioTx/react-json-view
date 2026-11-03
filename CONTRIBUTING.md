@@ -1,5 +1,9 @@
 ## Run the Dev Server
 
+Development and CI use the latest Node.js LTS. With nvm installed, run
+`nvm install` and `nvm use` to select the version specified in .nvmrc.
+The published library does not impose a Node.js engine requirement on consumers.
+
 ```bash
 # clone this repository
 git clone git@github.com:sergiotx/react-json-view.git && cd react-json-view
