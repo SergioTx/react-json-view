@@ -1,6 +1,6 @@
 {
   "name": "@sergiotx/react-json-view",
-  "version": "2.0.3",
+  "version": "3.0.0",
   "description": "Interactive React component for inspecting JSON objects and arrays with expand/collapse.",
   "keywords": [
     "component",
@@ -27,6 +27,7 @@
     "url": "git+https://github.com/sergiotx/react-json-view.git"
   },
   "files": [
+    "LICENSE-base16.md",
     "dist",
     "index.d.ts"
   ],
@@ -39,6 +40,14 @@
       "types": "./index.d.ts",
       "import": "./dist/main.js",
       "default": "./dist/main.js"
+    },
+    "./themes": {
+      "types": "./dist/themes.d.ts",
+      "import": "./dist/themes.js"
+    },
+    "./themes/*": {
+      "types": "./dist/js/themes/base16/palettes/*.d.ts",
+      "import": "./dist/themes/*.js"
     },
     "./package.json": "./package.json"
   },
@@ -58,9 +67,6 @@
     "test:unit": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit && node scripts/check-types.mjs"
-  },
-  "dependencies": {
-    "react-base16-styling": "^0.10.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^21.2.4",

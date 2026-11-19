@@ -11,7 +11,6 @@ import {
   getFlashClass,
   isSameValue,
 } from './../helpers/util';
-import Theme from './../themes/getStyle';
 import CopyToClipboard from './CopyToClipboard';
 import * as DataTypes from './DataTypes/DataTypes';
 import { PathPinButton } from './PathNavigation';
@@ -32,13 +31,10 @@ const valueComponents: Partial<
 export default function VariableEditor(props: VariableProps) {
   const {
     variable,
-    singleIndent = 5,
     type,
     theme,
     namespace: namespaceProp,
-    indentWidth = 4,
     enableClipboard,
-    hideVerticalLines,
     displayArrayKey,
     quotesOnKeys,
     isLast,
@@ -51,7 +47,6 @@ export default function VariableEditor(props: VariableProps) {
     rootValue = false,
   } = props;
   const namespace = normalizeNamespace(namespaceProp);
-  const [hovered, setHovered] = React.useState(false);
   const [flash, setFlash] = React.useState({
     value: variable.value,
     count: flashOnMount ? 1 : 0,
@@ -72,12 +67,10 @@ export default function VariableEditor(props: VariableProps) {
   const timestampTitle = isTimestampField
     ? formatTimestamp(variable.value)
     : undefined;
-  const objectNameStyle = Theme(theme, 'object-name');
   const pathPin =
     enablePathNavigation && onNavigate && !rootValue ? (
       <PathPinButton
         path={navigationPath.length > 0 ? navigationPath : [variable.name]}
-        visible={hovered}
         onNavigate={onNavigate}
       />
     ) : null;
@@ -90,69 +83,31 @@ export default function VariableEditor(props: VariableProps) {
     }
   }
   return (
-    <div
-      {...Theme(theme, 'objectKeyVal', {
-        paddingLeft: rootValue ? 0 : indentWidth * singleIndent,
-        ...(hideVerticalLines ? { borderLeft: 'none' } : {}),
-      })}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      className="variable-row"
-    >
+    <div data-root-value={rootValue || undefined} className="variable-row">
       {!rootValue && type === 'array' ? (
         displayArrayKey ? (
-          <span {...Theme(theme, 'array-key')}>
-            <span style={{ userSelect: 'text' }}>{variable.name}</span>
+          <span className="rjv-array-key">
+            <span className="rjv-selectable">{variable.name}</span>
             {pathPin}
-            <span {...Theme(theme, 'colon')}>:</span>
+            <span className="rjv-colon">:</span>
           </span>
         ) : (
           pathPin
         )
       ) : !rootValue ? (
         <span>
-          <span
-            {...objectNameStyle}
-            className="object-key"
-            style={{ ...objectNameStyle.style, userSelect: 'text' }}
-          >
-            {!!quotesOnKeys && (
-              <span
-                style={{
-                  verticalAlign: 'top',
-                }}
-              >
-                {'"'}
-              </span>
-            )}
-            <span
-              style={{
-                display: 'inline-block',
-              }}
-            >
-              {escapeString(variable.name)}
-            </span>
-            {!!quotesOnKeys && (
-              <span
-                style={{
-                  verticalAlign: 'top',
-                }}
-              >
-                {'"'}
-              </span>
-            )}
+          <span className="object-key rjv-object-name rjv-selectable">
+            {!!quotesOnKeys && <span className="rjv-quote">{'"'}</span>}
+            <span className="rjv-key-text">{escapeString(variable.name)}</span>
+            {!!quotesOnKeys && <span className="rjv-quote">{'"'}</span>}
           </span>
           {pathPin}
-          <span {...Theme(theme, 'colon')}>:</span>
+          <span className="rjv-colon">:</span>
         </span>
       ) : null}
       <div
         className={['variable-value', flashClass].filter(Boolean).join(' ')}
         title={timestampTitle}
-        {...Theme(theme, 'variableValue', {
-          cursor: timestampTitle ? 'help' : 'default',
-          verticalAlign: enablePathNavigation ? 'top' : undefined,
-        })}
       >
         {ValueComponent ? (
           <ValueComponent value={variable.value} {...props} />
@@ -160,10 +115,9 @@ export default function VariableEditor(props: VariableProps) {
           <div className="object-value">{value}</div>
         )}
       </div>
-      {!rootValue && !isLast && <span {...Theme(theme, 'comma')}>,</span>}
+      {!rootValue && !isLast && <span className="rjv-comma">,</span>}
       {enableClipboard && (
         <CopyToClipboard
-          rowHovered={hovered}
           src={variable.value}
           clickCallback={enableClipboard}
           {...{

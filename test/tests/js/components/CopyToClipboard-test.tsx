@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import React from 'react';
 
@@ -39,6 +39,30 @@ function copyToClipboard(src: unknown) {
   return copied;
 }
 describe('<CopyToClipboard />', function () {
+  it('does not announce success when the clipboard write rejects', async function () {
+    const { clipboard } = global.navigator;
+    Object.defineProperty(global.navigator, 'clipboard', {
+      value: { writeText: () => Promise.reject(new Error('Denied')) },
+      configurable: true,
+    });
+    const wrapper = render(<CopyToClipboard src="text" theme="rjv-default" />);
+    try {
+      fireEvent.click(
+        wrapper.getByRole('button', { name: 'Copy to clipboard' })
+      );
+      await waitFor(() => {
+        expect(wrapper.getByRole('status').textContent).to.equal(
+          'Could not copy to clipboard.'
+        );
+      });
+    } finally {
+      wrapper.unmount();
+      Object.defineProperty(global.navigator, 'clipboard', {
+        value: clipboard,
+        configurable: true,
+      });
+    }
+  });
   it('CopyToClipboard clipboard should exist', function () {
     const wrapper = render(
       <CopyToClipboard
@@ -56,7 +80,7 @@ describe('<CopyToClipboard />', function () {
     ).to.have.length(1);
     wrapper.unmount();
   });
-  it('CopyToClipboard clipboard should be hidden', function () {
+  it('keeps the copy button keyboard-focusable', function () {
     const wrapper = render(
       <CopyToClipboard
         src={{
@@ -72,15 +96,9 @@ describe('<CopyToClipboard />', function () {
         '.copy-to-clipboard-container'
       )
     ).to.have.length(1);
-    expect(
-      required(
-        required(
-          wrapper.container.querySelectorAll<HTMLElement>(
-            '.copy-to-clipboard-container'
-          )[0]
-        ).style
-      ).display
-    ).to.equal('none');
+    const button = wrapper.getByRole('button', { name: 'Copy to clipboard' });
+    button.focus();
+    expect(document.activeElement).to.equal(button);
     wrapper.unmount();
   });
   it('CopyToClipboard copies a string without quotes', function () {

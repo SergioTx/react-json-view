@@ -1,9 +1,10 @@
 import React from 'react';
-import type { StylesConfig } from 'react-select';
 import ReactSelect from 'react-select';
 
-import type { ReactJsonViewProps, ThemeKeys } from '../../../../index';
+import type { ReactJsonViewProps, ThemeObject } from '../../../../index';
 import ReactJson from './../../../../src/js/index';
+import { rjvDefault } from './../../../../src/js/themes/base16/rjv-themes';
+import * as themes from './../../../../src/themes';
 
 import './../../style/rjv-demo.css';
 
@@ -13,6 +14,7 @@ type DemoOptions = Required<
     | 'collapsed'
     | 'collapseStringsAfterLength'
     | 'displayObjectSize'
+    | 'enableCollapse'
     | 'enableClipboard'
     | 'enablePathNavigation'
     | 'indentWidth'
@@ -21,7 +23,7 @@ type DemoOptions = Required<
     | 'iconStyle'
     | 'flashingUpdates'
   >
-> & { theme: ThemeKeys };
+> & { theme: string };
 type Setting = {
   [Key in keyof DemoOptions]: {
     field: Key;
@@ -30,51 +32,22 @@ type Setting = {
   };
 }[keyof DemoOptions];
 type Choice = { value: DemoOptions[keyof DemoOptions]; label: string };
-interface SiteTheme {
-  color: string;
-  bgColor: string;
-  borderColor: string;
-}
 
-const themeNames: ThemeKeys[] = [
+const { invertBase16Theme, ...palettes } = themes;
+const demoThemes = new Map<string, ThemeObject>([
+  ['rjv-default', rjvDefault],
+  ...Object.entries(palettes),
+]);
+for (const name of [
   'apathy',
-  'apathy:inverted',
-  'ashes',
-  'bespin',
-  'brewer',
-  'bright:inverted',
   'bright',
-  'chalk',
-  'codeschool',
-  'colors',
-  'eighties',
-  'embers',
-  'flat',
-  'google',
   'grayscale',
-  'grayscale:inverted',
-  'greenscreen',
-  'harmonic',
-  'hopscotch',
-  'isotope',
-  'marrakesh',
-  'mocha',
-  'monokai',
-  'ocean',
-  'paraiso',
-  'pop',
-  'railscasts',
-  'rjv-default',
   'shapeshifter',
-  'shapeshifter:inverted',
-  'solarized',
   'summerfruit',
-  'summerfruit:inverted',
-  'threezerotwofour',
-  'tomorrow',
-  'tube',
-  'twilight',
-];
+] as const) {
+  demoThemes.set(`${name}:inverted`, invertBase16Theme(palettes[name]));
+}
+const themeNames = [...demoThemes.keys()].sort();
 
 const settings: Setting[] = [
   { field: 'theme', label: 'Theme:', values: themeNames },
@@ -113,6 +86,7 @@ const settings: Setting[] = [
     label: 'Indent Width:',
     values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   },
+  { field: 'enableCollapse', label: 'Enable Collapse:', values: [true, false] },
   { field: 'collapsed', label: 'Collapsed:', values: [true, false, 1, 2] },
   {
     field: 'collapseStringsAfterLength',
@@ -210,13 +184,16 @@ function updateJsonSource(value: object): object {
 }
 
 export default function Demo() {
+  const settingsId = React.useId();
   const [src, setSrc] = React.useState<object>(getExampleJson);
   const [jsonInput, setJsonInput] = React.useState(
     () => JSON.stringify(src) ?? ''
   );
   const [jsonError, setJsonError] = React.useState<string | null>(null);
+  const pendingEdit = React.useRef(false);
   const [options, setOptions] = React.useState<DemoOptions>({
     theme: 'rjv-default',
+    enableCollapse: true,
     collapsed: false,
     collapseStringsAfterLength: false,
     displayObjectSize: false,
@@ -228,8 +205,7 @@ export default function Demo() {
     iconStyle: 'triangle',
     flashingUpdates: false,
   });
-  const [siteTheme, setSiteTheme] = React.useState<SiteTheme | null>(null);
-  const viewerRef = React.useRef<HTMLDivElement | null>(null);
+  const palette = demoThemes.get(options.theme) ?? rjvDefault;
   const [previousJsonSync, setPreviousJsonSync] = React.useState({
     src,
     flashingUpdates: options.flashingUpdates,
@@ -250,7 +226,7 @@ export default function Demo() {
     if (!options.flashingUpdates) {
       return;
     }
-    const interval = window.setInterval(() => {
+    function tick() {
       setSrc((previous) => {
         if (!isFlashableExample(previous)) {
           return updateJsonSource(previous);
@@ -293,172 +269,120 @@ export default function Demo() {
         }
         return next;
       });
-    }, 2000);
-    return () => window.clearInterval(interval);
+    }
+    let interval: number | undefined;
+    function syncVisibility() {
+      window.clearInterval(interval);
+      if (!document.hidden) {
+        interval = window.setInterval(tick, 2000);
+      }
+    }
+    syncVisibility();
+    document.addEventListener('visibilitychange', syncVisibility);
+    return () => {
+      window.clearInterval(interval);
+      document.removeEventListener('visibilitychange', syncVisibility);
+    };
   }, [options.flashingUpdates]);
 
-  function handleJsonInputChange(value: string) {
-    setJsonInput(value);
-    try {
-      const parsed: unknown = JSON.parse(value);
-      if (Array.isArray(parsed) || isRecord(parsed)) {
-        setSrc(parsed);
-        setJsonError(null);
-      } else {
-        setJsonError('The top-level JSON value must be an object or array.');
-      }
-    } catch (error) {
-      setJsonError(error instanceof Error ? error.message : 'Invalid JSON.');
-    }
-  }
-
   React.useEffect(() => {
-    const candidate = viewerRef.current?.querySelector('.react-json-view');
-    if (!candidate) {
+    if (options.flashingUpdates) {
+      pendingEdit.current = false;
       return;
     }
-    const viewer: Element = candidate;
-    function updateStyles() {
-      const getStyle = (element: Element, property: string): string =>
-        window.getComputedStyle(element).getPropertyValue(property);
-      let current: Element | null = viewer;
-      let background = 'rgb(255, 255, 255)';
-      while (current) {
-        const color = getStyle(current, 'background-color');
-        if (color && color !== 'transparent' && color !== 'rgba(0, 0, 0, 0)') {
-          background = color;
-          break;
-        }
-        current = current.parentElement;
-      }
-      const nextTheme = {
-        color: getStyle(viewer.querySelector('.object-key') || viewer, 'color'),
-        bgColor: background,
-        borderColor: getStyle(
-          viewer.querySelector('.variable-row') || viewer,
-          'border-left-color'
-        ),
-      };
-      setSiteTheme((previous) =>
-        previous &&
-        (['color', 'bgColor', 'borderColor'] as const).every(
-          (key) => previous[key] === nextTheme[key]
-        )
-          ? previous
-          : nextTheme
-      );
+    if (!pendingEdit.current) {
+      return;
     }
-    updateStyles();
-    const observer = new window.MutationObserver(updateStyles);
-    observer.observe(viewer, {
-      attributes: true,
-      childList: true,
-      subtree: true,
-    });
-    return () => observer.disconnect();
-  }, []);
-
-  const selectStyles: StylesConfig<Choice, false> = siteTheme
-    ? {
-        control: (base) => ({
-          ...base,
-          backgroundColor: siteTheme.bgColor,
-          borderColor: siteTheme.borderColor,
-          color: siteTheme.color,
-        }),
-        singleValue: (base) => ({ ...base, color: siteTheme.color }),
-        option: (base, { isFocused }) => ({
-          ...base,
-          backgroundColor: siteTheme.bgColor,
-          color: siteTheme.color,
-          opacity: isFocused ? 0.8 : 1,
-        }),
-        menu: (base) => ({ ...base, backgroundColor: siteTheme.bgColor }),
-        input: (base) => ({ ...base, color: siteTheme.color }),
-        indicatorSeparator: (base) => ({
-          ...base,
-          backgroundColor: siteTheme.borderColor,
-        }),
-        dropdownIndicator: (base) => ({ ...base, color: siteTheme.color }),
+    const timer = window.setTimeout(() => {
+      pendingEdit.current = false;
+      try {
+        const parsed: unknown = JSON.parse(jsonInput);
+        if (Array.isArray(parsed) || isRecord(parsed)) {
+          React.startTransition(() => setSrc(parsed));
+          setJsonError(null);
+        } else {
+          setJsonError('The top-level JSON value must be an object or array.');
+        }
+      } catch (error) {
+        setJsonError(error instanceof Error ? error.message : 'Invalid JSON.');
       }
-    : {};
+    }, 300);
+    return () => window.clearTimeout(timer);
+  }, [jsonInput, options.flashingUpdates]);
 
   return (
-    <>
-      {siteTheme && (
-        <style>{`body { color: ${siteTheme.color}; background-color: ${siteTheme.bgColor}; } .react-json-view { border: 1px solid ${siteTheme.borderColor}; }`}</style>
-      )}
-      <div className="rjv-demo" ref={viewerRef}>
-        <div className="rjv-header">
-          <div className="header-1">@sergiotx/react-json-view</div>
-        </div>
-        <div className="rjv-settings">
-          {settings.map(({ field, label, values }) => {
-            const choices: Choice[] = values.map((value) => ({
-              value,
-              label: String(value),
-            }));
-            return (
-              <div className="rjv-input" key={field}>
-                <div className="rjv-label">{label}</div>
-                <ReactSelect<Choice, false>
-                  name={field}
-                  value={
-                    choices.find((choice) => choice.value === options[field]) ??
-                    null
+    <main className="rjv-demo">
+      <header className="rjv-header">
+        <h1 className="header-1">@sergiotx/react-json-view</h1>
+      </header>
+      <div className="rjv-settings">
+        {settings.map(({ field, label, values }) => {
+          const inputId = `${settingsId}-${field}`;
+          const choices: Choice[] = values.map((value) => ({
+            value,
+            label: String(value),
+          }));
+          return (
+            <div className="rjv-input" key={field}>
+              <label className="rjv-label" htmlFor={inputId}>
+                {label}
+              </label>
+              <ReactSelect<Choice, false>
+                inputId={inputId}
+                name={field}
+                value={
+                  choices.find((choice) => choice.value === options[field]) ??
+                  null
+                }
+                options={choices}
+                onChange={(choice) => {
+                  if (!choice) {
+                    return;
                   }
-                  options={choices}
-                  styles={selectStyles}
-                  onChange={(choice) => {
-                    if (!choice) {
-                      return;
-                    }
-                    setOptions((previous) => ({
-                      ...previous,
-                      [field]: choice.value,
-                    }));
-                  }}
-                />
-              </div>
-            );
-          })}
-        </div>
-        <div className="rjv-json-source">
-          <label className="rjv-label" htmlFor="rjv-json-source-input">
-            JSON source:
-          </label>
-          <textarea
-            id="rjv-json-source-input"
-            rows={3}
-            value={jsonInput}
-            disabled={options.flashingUpdates}
-            aria-invalid={Boolean(jsonError)}
-            aria-describedby={jsonError ? 'rjv-json-source-error' : undefined}
-            onChange={(event) =>
-              handleJsonInputChange(event.currentTarget.value)
-            }
-            style={{
-              color: siteTheme?.color,
-              backgroundColor: siteTheme?.bgColor,
-              borderColor: siteTheme?.borderColor,
-            }}
-          />
-          {jsonError && (
-            <div
-              className="rjv-json-error"
-              id="rjv-json-source-error"
-              role="alert"
-            >
-              {jsonError}
+                  setOptions((previous) => ({
+                    ...previous,
+                    [field]: choice.value,
+                  }));
+                }}
+              />
             </div>
-          )}
-        </div>
-        <ReactJson
-          style={{ padding: '10px', borderRadius: '3px', margin: '10px 0px' }}
-          src={src}
-          {...options}
-        />
+          );
+        })}
       </div>
-    </>
+      <div className="rjv-json-source">
+        <label className="rjv-label" htmlFor="rjv-json-source-input">
+          JSON source:
+        </label>
+        <textarea
+          id="rjv-json-source-input"
+          rows={3}
+          value={jsonInput}
+          disabled={options.flashingUpdates}
+          aria-invalid={Boolean(jsonError)}
+          aria-describedby={jsonError ? 'rjv-json-source-error' : undefined}
+          onChange={(event) => {
+            pendingEdit.current = true;
+            setJsonInput(event.currentTarget.value);
+            setJsonError(null);
+          }}
+        />
+        {jsonError && (
+          <output className="rjv-json-error" id="rjv-json-source-error">
+            {jsonError}
+          </output>
+        )}
+      </div>
+      <ReactJson
+        style={{
+          padding: '10px',
+          borderRadius: '3px',
+          margin: '10px 0px',
+          border: `1px solid ${palette.base02}`,
+        }}
+        src={src}
+        {...options}
+        theme={palette}
+      />
+    </main>
   );
 }

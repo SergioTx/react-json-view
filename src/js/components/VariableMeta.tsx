@@ -2,7 +2,6 @@ import React from 'react';
 
 import type { MetadataProps } from '../types';
 import { getFlashClass } from './../helpers/util';
-import Theme from './../themes/getStyle';
 import CopyToClipboard from './CopyToClipboard';
 export default function VariableMeta({
   size,
@@ -11,7 +10,6 @@ export default function VariableMeta({
   enableClipboard,
   src,
   namespace,
-  rowHovered,
   flashingUpdates,
 }: MetadataProps) {
   const [flash, setFlash] = React.useState({ size, count: 0 });
@@ -23,18 +21,14 @@ export default function VariableMeta({
   }
   const flashClass = getFlashClass(flashingUpdates, flash.count);
   return (
-    <div {...Theme(theme, 'object-meta-data')} className="object-meta-data">
+    <div className="object-meta-data">
       {displayObjectSize && (
-        <span
-          className={['object-size', flashClass].filter(Boolean).join(' ')}
-          {...Theme(theme, 'object-size')}
-        >
+        <span className={['object-size', flashClass].filter(Boolean).join(' ')}>
           {size} item{size === 1 ? '' : 's'}
         </span>
       )}
       {enableClipboard && (
         <CopyToClipboard
-          rowHovered={rowHovered}
           clickCallback={enableClipboard}
           {...{
             src,

@@ -54,13 +54,6 @@ describe('<JsonString />', function () {
         component.container.querySelectorAll<HTMLElement>('.string-value')[0]
       ).textContent
     ).to.equal('"123 ..."');
-    expect(
-      required(
-        component.container.querySelectorAll<HTMLButtonElement>(
-          'button.string-value'
-        )[0]
-      ).style.userSelect
-    ).to.equal('text');
     fireEvent.click(
       required(
         component.container.querySelectorAll<HTMLElement>('.string-value')[0]

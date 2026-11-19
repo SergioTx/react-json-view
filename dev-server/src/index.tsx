@@ -7,6 +7,7 @@ import { createRoot } from 'react-dom/client';
 
 //import the react-json-view component (installed with npm)
 import JsonViewer from './../../src/js/index';
+import { hopscotch, monokai, railscasts, solarized } from './../../src/themes';
 type ExampleJson = ReturnType<typeof getExampleJson1>;
 type CircularJson = Omit<ExampleJson, 'parent' | 'timestamp'> & {
   self?: object;
@@ -62,7 +63,7 @@ createRoot(app).render(
     {/* use a base16 theme */}
     <JsonViewer
       src={getExampleJson1()}
-      theme="railscasts"
+      theme={railscasts}
       collapseStringsAfterLength={15}
       iconStyle="triangle"
       shouldCollapse={({ src, type }) =>
@@ -110,7 +111,7 @@ createRoot(app).render(
     <br />
 
     {/*demo array support*/}
-    <JsonViewer src={getExampleArray()} theme="solarized" />
+    <JsonViewer src={getExampleArray()} theme={solarized} />
 
     <br />
 
@@ -140,7 +141,7 @@ createRoot(app).render(
     />
 
     <JsonViewer
-      theme="hopscotch"
+      theme={hopscotch}
       collapsed={false}
       name="large_array"
       groupArraysAfterLength={50}
@@ -152,7 +153,7 @@ createRoot(app).render(
 
     {/* String with special escape sequences */}
     <JsonViewer
-      theme="monokai"
+      theme={monokai}
       name="String with special escape sequences"
       src={getExampleWithStringEscapeSequences()}
     />

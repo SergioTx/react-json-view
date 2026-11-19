@@ -1,22 +1,479 @@
-.react-json-view {
-  min-height: 96px;
-  word-break: break-all;
-  -ms-word-break: break-all;
-}
+@layer react-json-view {
+  .react-json-view {
+    --rjv-icon-width: 17px;
+    --rjv-guide-width: 1px;
+    --rjv-row-block-padding: 3px;
+    --rjv-group-offset: 6px;
+    --rjv-root-gutter: calc(var(--rjv-icon-width) - var(--rjv-group-offset));
+    --rjv-action-size: 24px;
+    --rjv-flash-color: rgb(255 196 0 / 55%);
 
-.react-json-view .copy-to-clipboard-container {
-  vertical-align: top;
-  display: none;
-}
+    position: relative;
+    background-color: var(--rjv-base00);
+    cursor: default;
+    font-family: monospace;
 
-.react-json-view
-  .object-key-val:hover
-  > span
-  > .object-meta-data
-  > .copy-to-clipboard-container {
-  display: inline-block;
-}
+    @media (pointer: coarse) {
+      --rjv-action-size: 44px;
+    }
 
-.react-json-view .variable-row:hover .copy-to-clipboard-container {
-  display: inline-block;
+    & button:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: 2px;
+    }
+
+    &
+      :is(
+        .object-key-val,
+        .variable-row:not(.rjv-circular-row),
+        .rjv-circular-key
+      ) {
+      padding: var(--rjv-row-block-padding) 5px var(--rjv-row-block-padding)
+        var(--rjv-indent);
+      border-left: var(--rjv-guide-width) solid var(--rjv-base02);
+    }
+
+    &[data-hide-guides] :is(.object-key-val, .variable-row, .rjv-circular-key) {
+      border-left: none;
+    }
+
+    & .variable-row[data-root-value] {
+      padding-left: 0;
+    }
+
+    & .object-key-val {
+      &:not([data-group-list], .array-group, [data-group-content]) {
+        position: relative;
+      }
+
+      &[data-root] {
+        padding: 0 0 0 var(--rjv-root-gutter);
+        border-left: none;
+
+        &[data-group-list] {
+          padding-left: 0;
+        }
+
+        & > .object-guide {
+          inset-block: 0;
+          left: calc((var(--rjv-icon-width) - var(--rjv-guide-width)) / 2);
+        }
+
+        & > .object-name-row > .rjv-disclosure {
+          position: relative;
+          left: auto;
+          margin-left: calc(-1 * var(--rjv-root-gutter));
+        }
+
+        & > .pushed-content > .object-content {
+          margin-left: calc(
+            (var(--rjv-icon-width) - var(--rjv-guide-width)) / 2 -
+              var(--rjv-root-gutter)
+          );
+        }
+      }
+
+      &[data-group-content] {
+        display: inline;
+        padding-left: 0;
+        border-left: none;
+
+        & > .pushed-content > .object-content {
+          margin-left: var(--rjv-group-offset);
+        }
+      }
+
+      &[data-expanded] > .brace-row > .rjv-brace {
+        padding-left: 3px;
+      }
+
+      & > .pushed-content > .object-content {
+        margin-left: calc(
+          (var(--rjv-icon-width) + var(--rjv-guide-width)) / -2
+        );
+      }
+    }
+
+    & .object-guide {
+      position: absolute;
+      inset-block: var(--rjv-row-block-padding);
+      left: calc(
+        var(--rjv-indent) - (var(--rjv-icon-width) + var(--rjv-guide-width)) / 2
+      );
+      border-left: var(--rjv-guide-width) solid var(--rjv-base02);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    & .object-name-row {
+      display: inline-block;
+      position: relative;
+    }
+
+    &
+      :is(
+        .rjv-disclosure,
+        .array-group button.icon-container,
+        .rjv-copy-button,
+        .path-navigation-button,
+        .path-breadcrumb-segment,
+        button.string-value,
+        button.rjv-function-container
+      ) {
+      border: 0;
+      padding: 0;
+      background: none;
+    }
+
+    &
+      :is(
+        .rjv-disclosure,
+        .rjv-copy-button,
+        .path-navigation-button,
+        button.string-value
+      ) {
+      font: inherit;
+    }
+
+    & .rjv-disclosure {
+      display: inline-block;
+      position: absolute;
+      top: 0;
+      left: calc(-1 * var(--rjv-icon-width));
+      z-index: 1;
+    }
+
+    &
+      :is(
+        .rjv-disclosure,
+        .array-group button.icon-container,
+        button.string-value,
+        button.rjv-function-container
+      ) {
+      color: inherit;
+      cursor: pointer;
+    }
+
+    & .array-group {
+      margin-left: var(--rjv-group-offset);
+
+      & button.icon-container {
+        background-color: var(--rjv-base00);
+      }
+    }
+
+    &
+      :is(
+        .rjv-group-row,
+        .icon-container,
+        .rjv-brace,
+        .array-group-brace,
+        .rjv-colon,
+        .rjv-comma,
+        .rjv-key-text,
+        .rjv-value,
+        .rjv-literal
+      ) {
+      display: inline-block;
+    }
+
+    & .rjv-group-content:not([hidden]) {
+      display: inline;
+    }
+
+    & .icon-container {
+      width: var(--rjv-icon-width);
+      background-color: var(--rjv-base00);
+    }
+
+    & .rjv-icon {
+      width: 1em;
+      height: 1em;
+      vertical-align: middle;
+
+      &.rjv-arrow {
+        padding-left: 2px;
+        vertical-align: top;
+      }
+    }
+
+    & :is(.expanded-icon, .collapsed-icon) {
+      color: var(--rjv-base02);
+    }
+
+    & :is(.rjv-brace, .array-group-brace) {
+      color: var(--rjv-base07);
+      font-weight: bold;
+    }
+
+    & :is(.rjv-object-name, .rjv-array-key) {
+      display: inline-block;
+      color: var(--rjv-base07);
+      letter-spacing: 0.5px;
+      font-style: normal;
+      vertical-align: top;
+      opacity: 0.85;
+    }
+
+    & .rjv-array-key {
+      color: var(--rjv-base0c);
+    }
+
+    & :is(.rjv-colon, .rjv-quote) {
+      vertical-align: top;
+    }
+
+    & .rjv-colon {
+      margin-right: 5px;
+      color: var(--rjv-base07);
+    }
+
+    & .rjv-comma {
+      margin-right: 4px;
+      color: #666;
+      font-size: 12px;
+    }
+
+    & .rjv-selectable {
+      user-select: text;
+    }
+
+    & .variable-value {
+      display: inline-block;
+      padding-right: 6px;
+      position: relative;
+      vertical-align: top;
+
+      &[title] {
+        cursor: help;
+      }
+    }
+
+    & .data-type-label {
+      margin-right: 4px;
+      font-size: 11px;
+      opacity: 0.8;
+    }
+
+    & .rjv-literal {
+      background-color: var(--rjv-base02);
+      padding: 1px 2px;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    & .rjv-null,
+    & .rjv-regexp {
+      color: var(--rjv-base0a);
+    }
+
+    & .rjv-nan {
+      color: var(--rjv-base08);
+    }
+
+    & .rjv-undefined {
+      color: var(--rjv-base05);
+      font-weight: normal;
+    }
+
+    & .rjv-boolean {
+      color: var(--rjv-base0e);
+    }
+
+    & .rjv-float {
+      color: var(--rjv-base0b);
+    }
+
+    & .rjv-integer,
+    & .copy-icon {
+      color: var(--rjv-base0f);
+    }
+
+    & .rjv-date,
+    & .rjv-function,
+    & .rjv-copy-check {
+      color: var(--rjv-base0d);
+    }
+
+    & .date-value {
+      margin-left: 2px;
+    }
+
+    & .rjv-string,
+    & :is(.rjv-ellipsis, .node-ellipsis) {
+      color: var(--rjv-base09);
+    }
+
+    & :is(.rjv-ellipsis, .node-ellipsis) {
+      display: inline-block;
+      font-size: 18px;
+      line-height: 10px;
+    }
+
+    & .string-value {
+      word-break: break-all;
+    }
+
+    & button.string-value {
+      display: inline;
+      vertical-align: baseline;
+      user-select: text;
+    }
+
+    & .rjv-function {
+      white-space: pre-line;
+    }
+
+    & .rjv-function-container {
+      font-style: italic;
+    }
+
+    & button.rjv-function-container {
+      user-select: text;
+    }
+
+    & .function-collapsed {
+      font-weight: bold;
+    }
+
+    & .object-size {
+      color: var(--rjv-base04);
+      border-radius: 3px;
+      font-style: italic;
+      margin-right: 6px;
+    }
+
+    & .object-meta-data {
+      display: inline-block;
+      padding-left: 10px;
+    }
+
+    & .array-group-meta-data {
+      display: inline-block;
+      padding-left: 4px;
+    }
+
+    & .copy-to-clipboard-container {
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    & :is(.rjv-copy-button, .path-navigation-button) {
+      display: inline-flex;
+      align-items: flex-start;
+      min-inline-size: var(--rjv-action-size);
+      min-block-size: var(--rjv-action-size);
+      cursor: pointer;
+    }
+
+    & .rjv-copy-button {
+      opacity: 0;
+      pointer-events: none;
+
+      &:focus {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      &:focus-visible {
+        outline-color: var(--rjv-base05);
+      }
+
+      @media (max-width: 48rem) {
+        opacity: 1;
+        pointer-events: auto;
+      }
+    }
+
+    & :is(.copy-icon, .rjv-path-icon) {
+      display: inline-flex;
+      align-items: center;
+      block-size: 1lh;
+    }
+
+    & .copy-icon {
+      margin-right: 3px;
+
+      & .rjv-icon {
+        display: block;
+        width: 15px;
+        height: 15px;
+      }
+    }
+
+    & .rjv-copy-check {
+      margin-left: -12px;
+    }
+
+    & .rjv-copy-success {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+    }
+
+    & .path-navigation-button {
+      justify-content: center;
+      vertical-align: top;
+      margin-inline: 2px;
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    & .rjv-path-icon > span {
+      font-size: 0.75em;
+      line-height: 1;
+    }
+
+    & .path-breadcrumb {
+      padding-bottom: 4px;
+    }
+
+    & .path-breadcrumb-segment {
+      font: inherit;
+      user-select: text;
+      cursor: default;
+
+      &:not(:disabled) {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      & .rjv-flash-a {
+        animation: rjv-flash-a 1s ease-out;
+      }
+
+      & .rjv-flash-b {
+        animation: rjv-flash-b 1s ease-out;
+      }
+    }
+  }
+
+  .rjv-clipboard-fallback {
+    position: fixed;
+    inset-block-start: 0;
+    opacity: 0;
+  }
+
+  @keyframes rjv-flash-a {
+    from {
+      background-color: var(--rjv-flash-color);
+    }
+    to {
+      background-color: transparent;
+    }
+  }
+
+  @keyframes rjv-flash-b {
+    from {
+      background-color: var(--rjv-flash-color);
+    }
+    to {
+      background-color: transparent;
+    }
+  }
 }

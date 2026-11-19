@@ -1,13 +1,11 @@
 import React from 'react';
 
 import type { NameProps } from '../types';
-import Theme from './../themes/getStyle';
 export default function getObjectName(props: NameProps) {
   const {
     parent_type: parentType,
     namespace,
     quotesOnKeys,
-    theme,
     jsvRoot,
     name,
     displayArrayKey,
@@ -19,42 +17,24 @@ export default function getObjectName(props: NameProps) {
     return <span />;
   } else if (parentType === 'array') {
     return displayArrayKey ? (
-      <span {...Theme(theme, 'array-key')} key={JSON.stringify(namespace)}>
-        <span className="array-key" style={{ userSelect: 'text' }}>
-          {displayName}
-        </span>
+      <span className="rjv-array-key" key={JSON.stringify(namespace)}>
+        <span className="array-key rjv-selectable">{displayName}</span>
         {afterName}
-        {displayColon && <span {...Theme(theme, 'colon')}>:</span>}
+        {displayColon && <span className="rjv-colon">:</span>}
       </span>
     ) : (
       <span />
     );
   } else {
     return (
-      <span {...Theme(theme, 'object-name')} key={JSON.stringify(namespace)}>
-        <span className="object-key" style={{ userSelect: 'text' }}>
-          {quotesOnKeys && (
-            <span
-              style={{
-                verticalAlign: 'top',
-              }}
-            >
-              {'"'}
-            </span>
-          )}
+      <span className="rjv-object-name" key={JSON.stringify(namespace)}>
+        <span className="object-key rjv-selectable">
+          {quotesOnKeys && <span className="rjv-quote">{'"'}</span>}
           <span>{displayName}</span>
-          {quotesOnKeys && (
-            <span
-              style={{
-                verticalAlign: 'top',
-              }}
-            >
-              {'"'}
-            </span>
-          )}
+          {quotesOnKeys && <span className="rjv-quote">{'"'}</span>}
         </span>
         {afterName}
-        {displayColon && <span {...Theme(theme, 'colon')}>:</span>}
+        {displayColon && <span className="rjv-colon">:</span>}
       </span>
     );
   }

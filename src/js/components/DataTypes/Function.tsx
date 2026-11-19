@@ -3,8 +3,6 @@ import React from 'react';
 import type { ValueProps } from '../../types';
 // attribute store for storing collapsed state
 import AttributeStore from './../../stores/ObjectAttributes';
-// theme
-import Theme from './../../themes/getStyle';
 import DataTypeLabel from './DataTypeLabel';
 export default function JsonFunction(props: ValueProps) {
   const [collapsed, setCollapsed] = React.useState(() =>
@@ -21,6 +19,14 @@ export default function JsonFunction(props: ValueProps) {
     setCollapsed(nextCollapsed);
   };
   const typeName = 'function';
+  if (props.enableCollapse === false) {
+    return (
+      <div className="rjv-value rjv-function">
+        <DataTypeLabel typeName={typeName} {...props} />
+        <span className="rjv-function-container">{String(props.value)}</span>
+      </div>
+    );
+  }
   const getFunctionDisplay = () => {
     if (collapsed) {
       return (
@@ -28,14 +34,9 @@ export default function JsonFunction(props: ValueProps) {
           {String(props.value)
             .slice(9, -1)
             .replace(/\{[\s\S]+/, '')}
-          <span
-            className="function-collapsed"
-            style={{
-              fontWeight: 'bold',
-            }}
-          >
+          <span className="function-collapsed">
             <span>{'{'}</span>
-            <span {...Theme(props.theme, 'ellipsis')}>...</span>
+            <span className="rjv-ellipsis">...</span>
             <span>{'}'}</span>
           </span>
         </span>
@@ -45,20 +46,13 @@ export default function JsonFunction(props: ValueProps) {
     }
   };
   return (
-    <div {...Theme(props.theme, 'function')}>
+    <div className="rjv-value rjv-function">
       <DataTypeLabel typeName={typeName} {...props} />
       <button
         type="button"
-        {...Theme(props.theme, 'function-value')}
+        aria-label={collapsed ? 'Expand function' : 'Collapse function'}
+        aria-expanded={!collapsed}
         className="rjv-function-container"
-        style={{
-          border: 0,
-          padding: 0,
-          background: 'none',
-          color: 'inherit',
-          ...Theme(props.theme, 'function-value').style,
-          userSelect: 'text',
-        }}
         onClick={handleToggleCollapsed}
       >
         {getFunctionDisplay()}

@@ -5,6 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0] - 2026-11-19
+
+### Added
+
+- Accept partial Base16 theme objects and inherit missing colors from `rjv-default`.
+- Add `enableCollapse={false}` to show all content without collapse controls, and expose the option in the demo.
+- Export built-in palettes and `invertBase16Theme` from `@sergiotx/react-json-view/themes`. Each palette is also available individually, for example at `@sergiotx/react-json-view/themes/monokai`.
+
+### Changed
+
+- Make disclosure controls announce their state. Show copy buttons on focus or on narrow screens, and keep path navigation available without hover.
+- Keep optional palettes out of the viewer entry point so consumers bundle only the palettes they import.
+- Store the built-in palettes locally and ship their upstream MIT license notice.
+- Move viewer styling into the `react-json-view` CSS layer and load one shared stylesheet automatically, with per-viewer theme and indentation variables.
+
+### Fixed
+
+- Report clipboard success only after the write succeeds and announce failures.
+- Improve demo zoom, responsive layout, and reduced-motion behavior; defer JSON validation and pause flashing while the page is hidden.
+
+### Removed
+
+- **BREAKING:** Remove string theme names, including `:inverted` variants, and the `ThemeKeys` type. Import a palette and pass it as `theme={palette}`; use `invertBase16Theme(palette)` for an inverted palette. Omit `theme` to use the default.
+- Remove the `react-base16-styling` dependency.
+
 ## [2.0.3] - 2026-11-16
 
 ### Changed
@@ -155,7 +180,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Make disclosure, string, function, and clipboard controls keyboard-accessible.
 - Add regression coverage for prop updates, Strict Mode, expansion persistence, grouped-array commas, circular references, and read-only behavior.
 
-[Unreleased]: https://github.com/SergioTx/react-json-view/compare/v2.0.3...HEAD
+[Unreleased]: https://github.com/SergioTx/react-json-view/compare/v3.0.0...HEAD
+[3.0.0]: https://github.com/SergioTx/react-json-view/compare/v2.0.3...v3.0.0
 [2.0.3]: https://github.com/SergioTx/react-json-view/compare/v2.0.2...v2.0.3
 [2.0.2]: https://github.com/SergioTx/react-json-view/compare/v2.0.1...v2.0.2
 [2.0.1]: https://github.com/SergioTx/react-json-view/compare/v2.0.0...v2.0.1

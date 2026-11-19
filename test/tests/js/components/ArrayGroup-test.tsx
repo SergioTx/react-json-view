@@ -35,9 +35,7 @@ describe('<ArrayGroup />', function () {
       />
     );
     fireEvent.click(
-      required(
-        wrapper.container.querySelectorAll<HTMLElement>('.array-group-brace')[0]
-      )
+      required(wrapper.getByRole('button', { name: 'Items 0–4' }))
     );
     expect(
       wrapper.container.querySelectorAll<HTMLElement>(
@@ -70,9 +68,7 @@ describe('<ArrayGroup />', function () {
       />
     );
     fireEvent.click(
-      required(
-        wrapper.container.querySelectorAll<HTMLElement>('.array-group-brace')[0]
-      )
+      required(wrapper.getByRole('button', { name: 'Items 0–4' }))
     );
     expect(
       wrapper.container.querySelectorAll<HTMLElement>(
@@ -106,7 +102,9 @@ describe('<ArrayGroup />', function () {
     fireEvent.click(
       required(
         Array.from(
-          wrapper.container.querySelectorAll<HTMLElement>('.array-group-brace')
+          wrapper.container.querySelectorAll<HTMLElement>(
+            '.array-group .icon-container'
+          )
         ).at(-1)
       )
     );

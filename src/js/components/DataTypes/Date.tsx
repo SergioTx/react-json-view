@@ -1,8 +1,6 @@
 import React from 'react';
 
 import type { ValueProps } from '../../types';
-// theme
-import Theme from './../../themes/getStyle';
 import DataTypeLabel from './DataTypeLabel';
 export default function Date(props: ValueProps) {
   const value = props.value;
@@ -19,9 +17,9 @@ export default function Date(props: ValueProps) {
     minute: '2-digit',
   };
   return (
-    <div {...Theme(props.theme, 'date')}>
+    <div className="rjv-value rjv-date">
       <DataTypeLabel typeName={typeName} {...props} />
-      <span className="date-value" {...Theme(props.theme, 'date-value')}>
+      <span className="date-value">
         {value.toLocaleTimeString('en-us', displayOptions)}
       </span>
     </div>

@@ -1,12 +1,11 @@
-import type {
-  CSSProperties,
-  HTMLAttributes,
-  ReactElement,
-  ReactNode,
-} from 'react';
+import type { HTMLAttributes, ReactElement, ReactNode } from 'react';
 
-import type { ReactJsonViewProps, ThemeKeys, ThemeObject } from '../../index';
-export type Theme = ThemeKeys | ThemeObject | 'none' | false;
+import type { ReactJsonViewProps } from '../../index';
+export type Theme =
+  | NonNullable<ReactJsonViewProps['theme']>
+  | 'rjv-default'
+  | 'none'
+  | false;
 export type NodeName = string | number | false | null | ReactElement;
 export type Namespace = (string | number | false | null)[];
 export type CacheNamespace = Namespace | string | undefined;
@@ -44,7 +43,6 @@ export interface VariableProps extends DisplayProps {
     type: string;
   };
   namespace?: CacheNamespace;
-  singleIndent?: number | undefined;
   type?: 'array' | 'object' | undefined;
   isLast?: boolean | undefined;
   flashOnMount?: boolean | undefined;
@@ -68,7 +66,6 @@ export interface CircularProps extends DisplayProps {
   name?: NodeName | undefined;
   namespace?: CacheNamespace;
   indentWidth?: number | undefined;
-  singleIndent?: number | undefined;
   isLast?: boolean | undefined;
   jsvRoot?: boolean | undefined;
 }
@@ -84,10 +81,6 @@ export interface NameProps extends DisplayProps {
 export interface LabelProps extends DisplayProps {
   typeName: string;
 }
-export type StyleProps = {
-  className?: string | undefined;
-  style?: CSSProperties | undefined;
-};
 export function normalizeNamespace(namespace: CacheNamespace): Namespace {
   return typeof namespace === 'string' ? [namespace] : (namespace ?? []);
 }

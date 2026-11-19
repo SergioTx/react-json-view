@@ -1,7 +1,6 @@
 import React from 'react';
 
 import type { NodeProps } from '../types';
-import Theme from './../themes/getStyle';
 import ObjectComponent from './DataTypes/Object';
 import ObjectName from './ObjectName';
 import { PathPinButton } from './PathNavigation';
@@ -10,10 +9,9 @@ import { CollapsedIcon, ExpandedIcon } from './ToggleIcons';
 import VariableMeta from './VariableMeta';
 
 // single indent is 5px
-const SINGLE_INDENT = 5;
 export default function ArrayGroup(props: NodeProps): React.JSX.Element {
   const [expanded, setExpanded] = React.useState<boolean[]>([]);
-  const [hovered, setHovered] = React.useState(false);
+  const groupId = React.useId();
   const toggleCollapsed = (index: number) => {
     const newExpanded: boolean[] = [];
     const maxLength = Math.max(expanded.length || 0, index + 1);
@@ -54,22 +52,14 @@ export default function ArrayGroup(props: NodeProps): React.JSX.Element {
     ...rest
   } = props;
   const src: unknown[] = Array.isArray(source) ? source : [];
-  let objectPaddingLeft = 0;
-  const arrayGroupPaddingLeft = (props.indentWidth ?? 4) * SINGLE_INDENT;
-  if (!jsvRoot) {
-    objectPaddingLeft = (props.indentWidth ?? 4) * SINGLE_INDENT;
-  }
   const size = groupArraysAfterLength;
   const groups = Math.ceil(src.length / size);
+  const collapseEnabled = props.enableCollapse !== false;
   return (
     <div
       className="object-key-val"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      {...Theme(theme, jsvRoot ? 'jsv-root' : 'objectKeyVal', {
-        paddingLeft: objectPaddingLeft,
-        ...(props.hideVerticalLines ? { borderLeft: 'none' } : {}),
-      })}
+      data-group-list=""
+      data-root={jsvRoot || undefined}
     >
       <ObjectName
         {...props}
@@ -77,7 +67,6 @@ export default function ArrayGroup(props: NodeProps): React.JSX.Element {
           props.enablePathNavigation && props.onNavigate && !jsvRoot ? (
             <PathPinButton
               path={props.navigationPath ?? []}
-              visible={hovered}
               onNavigate={props.onNavigate}
             />
           ) : null
@@ -87,88 +76,73 @@ export default function ArrayGroup(props: NodeProps): React.JSX.Element {
       <span>
         <VariableMeta size={src.length} {...props} />
       </span>
-      {Array.from({ length: groups }, (_, index) => (
-        <div
-          key={index}
-          className="object-key-val array-group"
-          {...Theme(theme, 'objectKeyVal', {
-            marginLeft: 6,
-            paddingLeft: arrayGroupPaddingLeft,
-            ...(props.hideVerticalLines ? { borderLeft: 'none' } : {}),
-          })}
-        >
-          <span {...Theme(theme, 'brace-row')}>
-            <button
-              type="button"
-              className="icon-container"
-              {...Theme(theme, 'icon-container')}
-              style={{
-                border: 0,
-                padding: 0,
-                background: 'none',
-                color: 'inherit',
-                ...Theme(theme, 'icon-container').style,
-              }}
-              onClick={() => {
-                toggleCollapsed(index);
-              }}
-            >
-              {getExpandedIcon(index)}
-            </button>
-            {expanded[index] ? (
-              <ObjectComponent
-                {...rest}
-                key={String(name) + index}
-                depth={0}
-                name={false}
-                collapsed={false}
-                groupArraysAfterLength={size}
-                index_offset={index * size}
-                src={src.slice(index * size, index * size + size)}
-                namespace={namespace}
-                navigationPath={props.navigationPath}
-                onNavigate={props.onNavigate}
-                type="array"
-                parent_type="array_group"
-                theme={theme}
-                isLast={index === groups - 1 && (jsvRoot || props.isLast)}
-                listOfAncestors={[...(props.listOfAncestors || []), src]}
-              />
-            ) : (
-              <button
-                type="button"
-                {...Theme(theme, 'brace')}
-                onClick={() => {
-                  toggleCollapsed(index);
-                }}
-                className="array-group-brace"
-              >
-                [
-                <span
-                  {...Theme(theme, 'array-group-meta-data')}
-                  className="array-group-meta-data"
+      {Array.from({ length: groups }, (_, index) => {
+        const start = index * size;
+        const end = Math.min(start + size, src.length);
+        const contentId = `${groupId}-${index}`;
+        const open = !collapseEnabled || expanded[index] === true;
+        return (
+          <div key={index} className="object-key-val array-group">
+            <div className="rjv-group-row">
+              {collapseEnabled && (
+                <button
+                  type="button"
+                  aria-label={`Items ${start}–${end - 1}`}
+                  aria-expanded={open}
+                  aria-controls={contentId}
+                  className="icon-container"
+                  onClick={() => {
+                    toggleCollapsed(index);
+                  }}
                 >
-                  <span
-                    className="object-size"
-                    {...Theme(theme, 'object-size')}
-                  >
-                    {index * size}
-                    {' - '}
-                    {index * size + size - 1 > src.length
-                      ? src.length - 1
-                      : index * size + size - 1}
-                  </span>
-                </span>
-                ]
-              </button>
-            )}
-            {!expanded[index] &&
-              (index !== groups - 1 || (!jsvRoot && !props.isLast)) && (
-                <span {...Theme(theme, 'comma')}>,</span>
+                  {getExpandedIcon(index)}
+                </button>
               )}
-          </span>
-        </div>
-      ))}
+              <div id={contentId} hidden={!open} className="rjv-group-content">
+                {open && (
+                  <ObjectComponent
+                    {...rest}
+                    key={String(name) + index}
+                    depth={0}
+                    name={false}
+                    collapsed={false}
+                    groupArraysAfterLength={size}
+                    index_offset={index * size}
+                    src={src.slice(index * size, index * size + size)}
+                    namespace={namespace}
+                    navigationPath={props.navigationPath}
+                    onNavigate={props.onNavigate}
+                    type="array"
+                    parent_type="array_group"
+                    theme={theme}
+                    isLast={index === groups - 1 && (jsvRoot || props.isLast)}
+                    listOfAncestors={[...(props.listOfAncestors || []), src]}
+                  />
+                )}
+              </div>
+              {!open && (
+                <span className="array-group-brace">
+                  [
+                  <span className="array-group-meta-data">
+                    <span className="object-size">
+                      {index * size}
+                      {' - '}
+                      {index * size + size - 1 > src.length
+                        ? src.length - 1
+                        : index * size + size - 1}
+                    </span>
+                  </span>
+                  ]
+                </span>
+              )}
+              {!open &&
+                (index !== groups - 1 || (!jsvRoot && !props.isLast)) && (
+                  <span className="rjv-comma">,</span>
+                )}
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }

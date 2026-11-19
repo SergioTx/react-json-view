@@ -4,8 +4,6 @@ import type { ValueProps } from '../../types';
 import { escapeString, toType } from './../../helpers/util';
 // attribute store for storing collapsed state
 import AttributeStore from './../../stores/ObjectAttributes';
-// theme
-import Theme from './../../themes/getStyle';
 import DataTypeLabel from './DataTypeLabel';
 export default function JsonString(props: ValueProps) {
   const [collapsed, setCollapsed] = React.useState(() =>
@@ -22,11 +20,12 @@ export default function JsonString(props: ValueProps) {
     setCollapsed(nextCollapsed);
   };
   const typeName = 'string';
-  const { collapseStringsAfterLength, theme, escapeStrings } = props;
+  const { collapseStringsAfterLength, escapeStrings } = props;
   const rawValue =
     typeof props.value === 'string' ? props.value : String(props.value);
   const content = escapeStrings ? escapeString(rawValue) : rawValue;
   const expandable =
+    props.enableCollapse !== false &&
     typeof collapseStringsAfterLength === 'number' &&
     toType(collapseStringsAfterLength) === 'integer' &&
     content.length > collapseStringsAfterLength;
@@ -34,31 +33,20 @@ export default function JsonString(props: ValueProps) {
     expandable && collapsed ? (
       <span>
         {content.substring(0, collapseStringsAfterLength)}
-        <span {...Theme(theme, 'ellipsis')}> ...</span>
+        <span className="rjv-ellipsis"> ...</span>
       </span>
     ) : (
       content
     );
   return (
-    <div {...Theme(theme, 'string')}>
+    <div className="rjv-value rjv-string">
       <DataTypeLabel typeName={typeName} {...props} />
       {expandable ? (
         <button
           type="button"
+          aria-expanded={!collapsed}
           className="string-value"
           aria-label={collapsed ? 'Expand string' : 'Collapse string'}
-          style={{
-            cursor: 'pointer',
-            wordBreak: 'break-all',
-            userSelect: 'text',
-            display: 'inline',
-            border: 0,
-            padding: 0,
-            background: 'none',
-            font: 'inherit',
-            color: 'inherit',
-            verticalAlign: 'baseline',
-          }}
           onClick={handleToggleCollapsed}
         >
           {'"'}
@@ -66,10 +54,7 @@ export default function JsonString(props: ValueProps) {
           {'"'}
         </button>
       ) : (
-        <span
-          className="string-value"
-          style={{ cursor: 'default', wordBreak: 'break-all' }}
-        >
+        <span className="string-value">
           {'"'}
           {value}
           {'"'}

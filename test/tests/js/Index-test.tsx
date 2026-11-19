@@ -1,12 +1,13 @@
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
 import React from 'react';
+import { renderToString } from 'react-dom/server';
 import sinon from 'sinon';
 
 import { required } from '../../testHelpers/requireSources';
 import Index from './../../../src/js/index';
 import ObjectAttributes from './../../../src/js/stores/ObjectAttributes';
-import Theme from './../../../src/js/themes/getStyle';
+import { solarized, twilight } from './../../../src/themes';
 describe('<Index />', function () {
   it('hides the root name, object sizes, and data type labels by default', function () {
     const wrapper = render(
@@ -39,79 +40,22 @@ describe('<Index />', function () {
     expect(nullSource.container.textContent).to.equal('{}');
     nullSource.unmount();
   });
-  it('moves nested collapse icons left without shifting property names', function () {
+  it('updates the shared indentation without adding row styles', function () {
     const wrapper = render(
       <Index
         src={{ primitive: 1, nested: { value: 2 } }}
         enableClipboard={false}
       />
     );
-    const rows =
-      wrapper.container.querySelectorAll<HTMLElement>('.object-key-val');
-    const rootRow = required(rows[0]);
-    const nestedRow = required(rows[1]);
-    const rootIcon = required(
-      rootRow.querySelector<HTMLButtonElement>('.object-name-row > button')
+    const viewer = required(
+      wrapper.container.querySelector<HTMLElement>('.react-json-view')
     );
-    const rootIconContainer = required(
-      rootIcon.querySelector<HTMLElement>('.icon-container')
+    expect(viewer.style.getPropertyValue('--rjv-indent')).to.equal('20px');
+    wrapper.rerender(
+      <Index src={{ primitive: 1, nested: { value: 2 } }} indentWidth={2} />
     );
-    const rootContent = required(
-      rootRow.querySelector<HTMLElement>('.object-content')
-    );
-    const objectNameRow = required(
-      nestedRow.querySelector<HTMLElement>('.object-name-row')
-    );
-    const nestedIcon = required(
-      objectNameRow.querySelector<HTMLButtonElement>('button')
-    );
-    const rootGuide = required(
-      rootRow.querySelector<HTMLElement>('.object-guide')
-    );
-    const nestedGuide = required(
-      nestedRow.querySelector<HTMLElement>('.object-guide')
-    );
-    expect(rootRow.style.paddingLeft).to.equal('11px');
-    expect(rootIcon.style.marginLeft).to.equal('-11px');
-    const guideBorderWidth = Number.parseFloat(
-      getComputedStyle(nestedRow).borderLeftWidth
-    );
-    expect(
-      Number.parseFloat(rootRow.style.paddingLeft) +
-        Number.parseFloat(rootContent.style.marginLeft) +
-        guideBorderWidth / 2
-    ).to.equal(Number.parseFloat(rootIconContainer.style.width) / 2);
-    expect(rootGuide.style.top).to.equal('0px');
-    expect(rootGuide.style.bottom).to.equal('0px');
-    expect(
-      Number.parseFloat(rootGuide.style.left) + guideBorderWidth / 2
-    ).to.equal(Number.parseFloat(rootIconContainer.style.width) / 2);
-    expect(nestedGuide.style.top).to.equal('3px');
-    expect(nestedGuide.style.bottom).to.equal('3px');
-    expect(nestedRow.style.paddingLeft).to.equal('20px');
-    const nestedIconCenter =
-      Number.parseFloat(nestedRow.style.borderLeftWidth) +
-      Number.parseFloat(nestedRow.style.paddingLeft) +
-      Number.parseFloat(nestedIcon.style.left) +
-      Number.parseFloat(rootIconContainer.style.width) / 2;
-    expect(
-      Number.parseFloat(nestedRow.style.borderLeftWidth) +
-        Number.parseFloat(nestedGuide.style.left) +
-        guideBorderWidth / 2
-    ).to.equal(nestedIconCenter);
-    expect(
-      Number.parseFloat(nestedRow.style.paddingLeft) +
-        Number.parseFloat(nestedRow.style.borderLeftWidth) +
-        Number.parseFloat(
-          required(nestedRow.querySelector<HTMLElement>('.object-content'))
-            .style.marginLeft
-        ) +
-        guideBorderWidth / 2
-    ).to.equal(nestedIconCenter);
-    expect(objectNameRow.style.position).to.equal('relative');
-    expect(objectNameRow.style.display).to.equal('inline-block');
-    expect(nestedIcon.style.position).to.equal('absolute');
-    expect(nestedIcon.style.left).to.equal('-17px');
+    expect(viewer.style.getPropertyValue('--rjv-indent')).to.equal('10px');
+    expect(viewer.querySelector('[style]')).to.equal(null);
     wrapper.unmount();
   });
   it('hides vertical guides only when requested', function () {
@@ -140,61 +84,231 @@ describe('<Index />', function () {
     wrapper.unmount();
   });
 
-  it('loads the selected built-in theme asynchronously', async function () {
-    const wrapper = render(
-      <Index src={{ value: 1 }} theme="solarized" enableClipboard={false} />
+  it('merges partial themes with the default palette', function () {
+    const src = { value: 'sample' };
+    const theme = Object.freeze({ base09: '#123456' });
+    const wrapper = render(<Index src={src} theme={theme} />);
+    const app = required(
+      wrapper.container.querySelector<HTMLElement>('.react-json-view')
     );
-    await waitFor(() => {
-      expect(
-        wrapper.container.querySelector<HTMLElement>(
-          '.object-name-row > button:nth-of-type(2) > span'
-        )?.style.color
-      ).to.equal('rgb(253, 246, 227)');
-    });
-    wrapper.unmount();
-  });
-  it('keeps the active theme visible while loading another theme', async function () {
-    const wrapper = render(
-      <Index src={{ value: 1 }} theme="solarized" enableClipboard={false} />
-    );
-    await waitFor(() => {
-      expect(
-        wrapper.container.querySelector<HTMLElement>('.react-json-view')?.style
-          .backgroundColor
-      ).to.equal('rgb(0, 43, 54)');
-    });
+    expect(app.style.getPropertyValue('--rjv-base00')).to.equal('#1e1f21');
+    expect(app.style.getPropertyValue('--rjv-base09')).to.equal('#123456');
+
     wrapper.rerender(
-      <Index src={{ value: 1 }} theme="twilight" enableClipboard={false} />
+      <Index src={src} theme={{ base00: '#ffffff', base09: undefined }} />
     );
-    expect(
-      wrapper.container.querySelector<HTMLElement>('.react-json-view')?.style
-        .backgroundColor
-    ).to.equal('rgb(0, 43, 54)');
-    await waitFor(() => {
-      expect(
-        wrapper.container.querySelector<HTMLElement>('.react-json-view')?.style
-          .backgroundColor
-      ).not.to.equal('rgb(0, 43, 54)');
-    });
+    expect(app.style.getPropertyValue('--rjv-base00')).to.equal('#ffffff');
+    expect(app.style.getPropertyValue('--rjv-base09')).to.equal('#ff9940');
+
+    wrapper.rerender(<Index src={src} theme={{}} />);
+    expect(app.style.getPropertyValue('--rjv-base00')).to.equal('#1e1f21');
+    expect(app.style.getPropertyValue('--rjv-base09')).to.equal('#ff9940');
     wrapper.unmount();
   });
 
-  it('shares a single flash style tag between instances', function () {
+  it('reports an invalid partial theme and falls back to the default palette', function () {
+    // oxlint-disable-next-line eslint/no-console -- Check the public invalid-theme diagnostic.
+    const error = sinon.stub(console, 'error');
+    try {
+      const wrapper = render(
+        <Index
+          src={{}}
+          // @ts-expect-error -- A provided Base16 color must be a string.
+          theme={{ base00: '#ffffff', base09: 123 }}
+        />
+      );
+      expect(error.calledOnce).to.equal(true);
+      expect(error.firstCall.args[1]).to.include('valid base-16 theme object');
+      expect(
+        wrapper.container
+          .querySelector<HTMLElement>('.react-json-view')
+          ?.style.getPropertyValue('--rjv-base00')
+      ).to.equal('#1e1f21');
+      wrapper.unmount();
+    } finally {
+      error.restore();
+    }
+  });
+
+  it('shows all disclosures in full without collapse controls', function () {
+    const fn = () => 'function result';
+    const shouldCollapse = sinon.stub().returns(true);
+    const src = {
+      nested: { child: true },
+      ungrouped: [42],
+      grouped: ['zero', 'one', 'two', 'three'],
+      fn,
+    };
     const wrapper = render(
-      <>
-        <Index src={{ a: 1 }} flashingUpdates />
-        <Index src={{ b: 2 }} flashingUpdates />
-      </>
+      <Index
+        src={src}
+        enableCollapse={false}
+        shouldCollapse={shouldCollapse}
+        groupArraysAfterLength={2}
+        collapseStringsAfterLength={1}
+        enableClipboard={false}
+      />
+    );
+    expect(shouldCollapse.called).to.equal(false);
+    expect(wrapper.queryByText('child')).not.to.equal(null);
+    expect(wrapper.queryByText('42')).not.to.equal(null);
+    expect(wrapper.queryByText('"zero"')).not.to.equal(null);
+    expect(wrapper.queryByText('"three"')).not.to.equal(null);
+    expect(
+      wrapper.container.querySelector('.rjv-function-container')?.textContent
+    ).to.equal(String(fn));
+    expect(wrapper.container.querySelectorAll('.array-group')).to.have.length(
+      2
+    );
+    expect(wrapper.queryAllByRole('button')).to.have.length(0);
+    wrapper.unmount();
+  });
+
+  it('keeps collapse state when temporarily disabling disclosure', function () {
+    const src = { nested: { child: true }, value: 'text value' };
+    const wrapper = render(
+      <Index src={src} collapseStringsAfterLength={2} enableClipboard={false} />
+    );
+    fireEvent.click(
+      required(wrapper.getAllByRole('button', { name: 'Collapse nested' })[0])
+    );
+    fireEvent.click(wrapper.getByRole('button', { name: 'Expand string' }));
+    wrapper.rerender(
+      <Index
+        src={src}
+        collapseStringsAfterLength={2}
+        enableClipboard={false}
+        enableCollapse={false}
+        collapsed
+      />
+    );
+    expect(wrapper.queryByText('child')).not.to.equal(null);
+    expect(wrapper.queryByText('"text value"')).not.to.equal(null);
+    expect(wrapper.queryAllByRole('button')).to.have.length(0);
+    wrapper.rerender(
+      <Index src={src} collapseStringsAfterLength={2} enableClipboard={false} />
+    );
+    expect(wrapper.queryByText('child')).to.equal(null);
+    expect(
+      wrapper.queryByRole('button', { name: 'Collapse string' })
+    ).not.to.equal(null);
+    wrapper.unmount();
+  });
+
+  it('keeps path navigation and clipboard controls when collapse is disabled', function () {
+    const wrapper = render(
+      <Index
+        src={{ items: ['zero', 'one', 'two'] }}
+        enableCollapse={false}
+        enablePathNavigation
+        groupArraysAfterLength={2}
+        collapseStringsAfterLength={1}
+      />
+    );
+    const row = required(wrapper.getByText('"two"').closest('.variable-row'));
+    fireEvent.mouseEnter(row);
+    fireEvent.click(required(row.querySelector('.path-navigation-button')));
+    expect(
+      wrapper.container.querySelector('.path-breadcrumb')?.textContent
+    ).to.equal('root > items > 2');
+    expect(wrapper.queryByText('"two"')).not.to.equal(null);
+    expect(wrapper.queryByText('"zero"')).to.equal(null);
+    expect(
+      wrapper.container.querySelector('.copy-to-clipboard-container')
+    ).not.to.equal(null);
+    expect(
+      wrapper.queryByRole('button', { name: /expand|collapse/i })
+    ).to.equal(null);
+    wrapper.unmount();
+  });
+
+  it('applies an imported palette immediately', function () {
+    const wrapper = render(
+      <Index src={{ value: 1 }} theme={solarized} enableClipboard={false} />
+    );
+    expect(
+      wrapper.container
+        .querySelector<HTMLElement>('.react-json-view')
+        ?.style.getPropertyValue('--rjv-base07')
+    ).to.equal(solarized.base07);
+    wrapper.unmount();
+  });
+  it('updates the viewer immediately when an imported palette changes', function () {
+    const wrapper = render(
+      <Index src={{ value: 1 }} theme={solarized} enableClipboard={false} />
+    );
+    const viewer = required(
+      wrapper.container.querySelector<HTMLElement>('.react-json-view')
+    );
+    expect(viewer.style.getPropertyValue('--rjv-base00')).to.equal(
+      solarized.base00
+    );
+    wrapper.rerender(
+      <Index src={{ value: 1 }} theme={twilight} enableClipboard={false} />
+    );
+    expect(viewer.style.getPropertyValue('--rjv-base00')).to.equal(
+      twilight.base00
+    );
+    wrapper.unmount();
+  });
+  it('reports a legacy string theme and falls back to the default', function () {
+    // oxlint-disable-next-line eslint/no-console -- Check the public invalid-theme diagnostic.
+    const error = sinon.stub(console, 'error');
+    try {
+      // @ts-expect-error -- Theme names are no longer accepted.
+      const wrapper = render(<Index src={{}} theme="solarized" />);
+      expect(error.calledOnce).to.equal(true);
+      expect(error.firstCall.args[1]).to.include('valid base-16 theme object');
+      expect(
+        wrapper.container
+          .querySelector<HTMLElement>('.react-json-view')
+          ?.style.getPropertyValue('--rjv-base00')
+      ).to.equal('#1e1f21');
+      wrapper.unmount();
+    } finally {
+      error.restore();
+    }
+  });
+
+  it('automatically shares one stylesheet across independent viewer roots', function () {
+    const first = render(<Index src={{ a: 1 }} theme={solarized} />);
+    const second = render(
+      <Index
+        src={{ b: 2 }}
+        theme={twilight}
+        flashingUpdates
+        style={{ padding: 3 }}
+      />
     );
     const styles = document.head.querySelectorAll(
-      'style[data-href="rjv-flash"]'
+      'style[data-href="react-json-view"]'
     );
     expect(styles).to.have.length(1);
     expect(required(styles[0]).textContent).to.include(
-      '@keyframes rjv-flash-a'
+      '@layer react-json-view'
     );
-    expect(wrapper.container.querySelector('style')).to.equal(null);
-    wrapper.unmount();
+    expect(first.container.querySelector('style')).to.equal(null);
+    expect(second.container.querySelector('style')).to.equal(null);
+    const viewers = [first, second].map(({ container }) =>
+      required(container.querySelector<HTMLElement>('.react-json-view'))
+    );
+    expect(
+      viewers.map((viewer) => viewer.style.getPropertyValue('--rjv-base00'))
+    ).to.deep.equal([solarized.base00, twilight.base00]);
+    expect(required(viewers[1]).style.padding).to.equal('3px');
+    first.unmount();
+    expect(document.head.contains(required(styles[0]))).to.equal(true);
+    second.unmount();
+  });
+  it('includes the stylesheet once when rendering multiple viewers on the server', function () {
+    const html = renderToString(
+      <>
+        <Index src={{ a: 1 }} />
+        <Index src={{ b: 2 }} />
+      </>
+    );
+    expect(html.match(/data-href="react-json-view"/g)).to.have.length(1);
+    expect(html).to.include('@layer react-json-view');
   });
   it('flashes changed values when flashingUpdates is enabled', function () {
     const wrapper = render(
@@ -336,24 +450,13 @@ describe('<Index />', function () {
       )
     );
     expect(rootCrumb.disabled).to.equal(true);
-    expect(rootCrumb.style.textDecoration).to.equal('none');
     const objectRow = required(pin?.closest('.object-key-val'));
-    expect(required(pin).style.opacity).to.equal('0');
-    expect(required(pin).style.verticalAlign).to.equal('top');
-    expect(
-      required(wrapper.container.querySelector<HTMLElement>('.variable-value'))
-        .style.verticalAlign
-    ).to.equal('top');
-    expect(
-      required(wrapper.container.querySelector<HTMLElement>('.object-key'))
-        .style.userSelect
-    ).to.equal('text');
+    expect(required(pin).style.opacity).to.equal('');
     fireEvent.mouseEnter(objectRow);
-    expect(required(pin).style.opacity).to.equal('1');
+    expect(required(pin).style.opacity).to.equal('');
     fireEvent.click(required(pin));
     expect(required(pin).tagName).to.equal('BUTTON');
     expect(required(pin).getAttribute('aria-label')).to.include('account');
-    expect(required(pin).style.userSelect).to.equal('none');
     expect(required(pin).parentElement?.closest('button')).to.equal(null);
     expect(
       required(pin?.previousElementSibling?.querySelector('.object-key'))
@@ -367,13 +470,7 @@ describe('<Index />', function () {
       '.path-breadcrumb-segment'
     );
     expect(required(accountCrumbs[0]).disabled).to.equal(false);
-    expect(required(accountCrumbs[0]).style.cursor).to.equal('pointer');
-    expect(required(accountCrumbs[0]).style.textDecoration).to.equal(
-      'underline'
-    );
     expect(required(accountCrumbs[1]).disabled).to.equal(true);
-    expect(required(accountCrumbs[1]).style.cursor).to.equal('default');
-    expect(required(accountCrumbs[1]).style.textDecoration).to.equal('none');
     expect(wrapper.container.textContent).to.include('name');
     expect(wrapper.container.textContent).not.to.include('other');
 
@@ -385,9 +482,9 @@ describe('<Index />', function () {
     ).to.equal(true);
     expect(namePin?.nextElementSibling?.textContent).to.equal(':');
     const nameRow = required(namePin?.closest('.variable-row'));
-    expect(required(namePin).style.opacity).to.equal('0');
+    expect(required(namePin).style.opacity).to.equal('');
     fireEvent.mouseEnter(nameRow);
-    expect(required(namePin).style.opacity).to.equal('1');
+    expect(required(namePin).style.opacity).to.equal('');
     fireEvent.click(required(namePin));
     expect(
       wrapper.container.querySelector('.path-breadcrumb')?.textContent
@@ -408,11 +505,6 @@ describe('<Index />', function () {
     expect(required(crumbs[0]).disabled).to.equal(false);
     expect(required(crumbs[1]).disabled).to.equal(false);
     expect(required(crumbs[2]).disabled).to.equal(true);
-    expect(required(crumbs[1]).style.cursor).to.equal('pointer');
-    expect(required(crumbs[2]).style.cursor).to.equal('default');
-    expect(required(crumbs[0]).style.textDecoration).to.equal('underline');
-    expect(required(crumbs[1]).style.textDecoration).to.equal('underline');
-    expect(required(crumbs[2]).style.textDecoration).to.equal('none');
     expect(wrapper.container.textContent).to.include('undefined');
     fireEvent.click(required(crumbs[0]));
     expect(
@@ -460,9 +552,9 @@ describe('<Index />', function () {
       '.variable-row .path-navigation-button'
     );
     expect(indexPin?.nextElementSibling?.textContent).to.equal(':');
-    expect(required(indexPin).style.opacity).to.equal('0');
+    expect(required(indexPin).style.opacity).to.equal('');
     fireEvent.mouseEnter(required(indexPin?.closest('.variable-row')));
-    expect(required(indexPin).style.opacity).to.equal('1');
+    expect(required(indexPin).style.opacity).to.equal('');
     fireEvent.click(required(indexPin));
     expect(
       wrapper.container.querySelector('.path-breadcrumb')?.textContent
@@ -473,19 +565,12 @@ describe('<Index />', function () {
     expect(crumbs).to.have.length(3);
     expect(required(crumbs[0]).textContent).to.equal('payload');
     expect(required(crumbs[2]).disabled).to.equal(true);
-    expect(required(crumbs[2]).style.textDecoration).to.equal('none');
-    const objectKeyColor = document.createElement('span');
-    objectKeyColor.style.color = String(
-      Theme('rjv-default', 'object-name').style?.color
+    expect(required(crumbs[0]).classList.contains('rjv-object-name')).to.equal(
+      true
     );
-    const arrayKeyColor = document.createElement('span');
-    arrayKeyColor.style.color = String(
-      Theme('rjv-default', 'array-key').style?.color
+    expect(required(crumbs[2]).classList.contains('rjv-array-key')).to.equal(
+      true
     );
-    expect(required(crumbs[0]).style.color).to.equal(
-      objectKeyColor.style.color
-    );
-    expect(required(crumbs[2]).style.color).to.equal(arrayKeyColor.style.color);
     wrapper.unmount();
   });
   it('navigates to the correct index inside a grouped array', function () {
@@ -503,9 +588,9 @@ describe('<Index />', function () {
         '.path-navigation-button'
       )
     );
-    expect(arrayPin.style.opacity).to.equal('0');
+    expect(arrayPin.style.opacity).to.equal('');
     fireEvent.mouseEnter(required(arrayPin.closest('.object-key-val')));
-    expect(arrayPin.style.opacity).to.equal('1');
+    expect(arrayPin.style.opacity).to.equal('');
     fireEvent.click(arrayPin);
     fireEvent.click(
       required(
@@ -518,9 +603,9 @@ describe('<Index />', function () {
       '.variable-row .path-navigation-button'
     );
     expect(itemPins).to.have.length(2);
-    expect(required(itemPins[0]).style.opacity).to.equal('0');
+    expect(required(itemPins[0]).style.opacity).to.equal('');
     fireEvent.mouseEnter(required(itemPins[0]?.closest('.variable-row')));
-    expect(required(itemPins[0]).style.opacity).to.equal('1');
+    expect(required(itemPins[0]).style.opacity).to.equal('');
     fireEvent.click(required(itemPins[0]));
     expect(
       wrapper.container.querySelector('.path-breadcrumb')?.textContent
@@ -676,12 +761,16 @@ describe('<Index />', function () {
     expect(wrapper.container.textContent).to.equal('[0 - 1],[2 - 3]');
     fireEvent.click(
       required(
-        wrapper.container.querySelectorAll<HTMLElement>('.array-group-brace')[0]
+        wrapper.container.querySelectorAll<HTMLElement>(
+          '.array-group .icon-container'
+        )[0]
       )
     );
     fireEvent.click(
       required(
-        wrapper.container.querySelectorAll<HTMLElement>('.array-group-brace')[0]
+        wrapper.container.querySelectorAll<HTMLElement>(
+          '.array-group .icon-container'
+        )[1]
       )
     );
     expect(wrapper.container.textContent).to.equal('[1,2],[3,4]');
@@ -696,7 +785,9 @@ describe('<Index />', function () {
     fireEvent.click(
       required(
         Array.from(
-          wrapper.container.querySelectorAll<HTMLElement>('.array-group-brace')
+          wrapper.container.querySelectorAll<HTMLElement>(
+            '.array-group .icon-container'
+          )
         ).at(-1)
       )
     );

@@ -1,8 +1,6 @@
 import React from 'react';
 
 import type { ValueProps } from '../../types';
-// theme
-import Theme from './../../themes/getStyle';
-export default function Null(props: ValueProps) {
-  return <div {...Theme(props.theme, 'null')}>NULL</div>;
+export default function Null(_props: ValueProps) {
+  return <div className="rjv-literal rjv-null">NULL</div>;
 }

@@ -1,5 +1,6 @@
 // returns a string "type" of input object
 import type { ThemeObject } from '../../../index';
+import type { Theme } from '../types';
 export function toType(obj: unknown): string {
   let type = getType(obj);
   // some extra disambiguation for numbers
@@ -81,31 +82,38 @@ export function formatTimestamp(value: unknown): string | undefined {
   return Number.isNaN(date.getTime()) ? undefined : date.toISOString();
 }
 
-// validation for base-16 themes
-export function isTheme(theme: unknown): theme is ThemeObject {
-  const themeKeys = [
-    'base00',
-    'base01',
-    'base02',
-    'base03',
-    'base04',
-    'base05',
-    'base06',
-    'base07',
-    'base08',
-    'base09',
-    'base0A',
-    'base0B',
-    'base0C',
-    'base0D',
-    'base0E',
-    'base0F',
-  ];
+export const base16Keys = [
+  'base00',
+  'base01',
+  'base02',
+  'base03',
+  'base04',
+  'base05',
+  'base06',
+  'base07',
+  'base08',
+  'base09',
+  'base0A',
+  'base0B',
+  'base0C',
+  'base0D',
+  'base0E',
+  'base0F',
+] as const satisfies readonly (keyof ThemeObject)[];
+
+export function isTheme(theme: unknown): theme is Extract<Theme, object> {
   return (
     typeof theme === 'object' &&
     theme !== null &&
-    themeKeys.every(
-      (key) => key in theme && typeof Reflect.get(theme, key) === 'string'
-    )
+    !Array.isArray(theme) &&
+    (Object.keys(theme).length === 0 ||
+      base16Keys.some((key) => Object.hasOwn(theme, key))) &&
+    base16Keys.every((key) => {
+      if (!Object.hasOwn(theme, key)) {
+        return true;
+      }
+      const value: unknown = Reflect.get(theme, key);
+      return value === undefined || typeof value === 'string';
+    })
   );
 }

@@ -1,4 +1,8 @@
-export const rjvDefault = {
+import type { ThemeObject } from '../../../../index.js';
+
+export type Base16Theme = ThemeObject & { scheme: string; author: string };
+
+export const rjvDefault: Base16Theme = {
   scheme: 'rjv-default',
   author: 'rjv',
   base00: '#1e1f21', // viewer background

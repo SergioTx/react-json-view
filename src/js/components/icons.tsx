@@ -1,13 +1,11 @@
 import React from 'react';
 
 import type { IconProps } from '../types';
-const DEFAULT_COLOR = '#000000';
 export function CircleMinus(props: IconProps) {
-  const { style, ...rest } = props;
   return (
-    <span {...rest}>
+    <span {...props}>
       <svg
-        {...getIconStyle(style)}
+        className="rjv-icon"
         viewBox="0 0 24 24"
         fill="currentColor"
         preserveAspectRatio="xMidYMid meet"
@@ -18,11 +16,10 @@ export function CircleMinus(props: IconProps) {
   );
 }
 export function CirclePlus(props: IconProps) {
-  const { style, ...rest } = props;
   return (
-    <span {...rest}>
+    <span {...props}>
       <svg
-        {...getIconStyle(style)}
+        className="rjv-icon"
         viewBox="0 0 24 24"
         fill="currentColor"
         preserveAspectRatio="xMidYMid meet"
@@ -33,49 +30,28 @@ export function CirclePlus(props: IconProps) {
   );
 }
 export function SquareMinus(props: IconProps) {
-  const { style, ...rest } = props;
-  const svgStyle = getIconStyle(style).style;
   return (
-    <span {...rest}>
-      <svg
-        fill={svgStyle.color}
-        width={svgStyle.height}
-        height={svgStyle.width}
-        style={svgStyle}
-        viewBox="0 0 1792 1792"
-      >
+    <span {...props}>
+      <svg className="rjv-icon" fill="currentColor" viewBox="0 0 1792 1792">
         <path d="M1344 800v64q0 14-9 23t-23 9h-832q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h832q14 0 23 9t9 23zm128 448v-832q0-66-47-113t-113-47h-832q-66 0-113 47t-47 113v832q0 66 47 113t113 47h832q66 0 113-47t47-113zm128-832v832q0 119-84.5 203.5t-203.5 84.5h-832q-119 0-203.5-84.5t-84.5-203.5v-832q0-119 84.5-203.5t203.5-84.5h832q119 0 203.5 84.5t84.5 203.5z" />
       </svg>
     </span>
   );
 }
 export function SquarePlus(props: IconProps) {
-  const { style, ...rest } = props;
-  const svgStyle = getIconStyle(style).style;
   return (
-    <span {...rest}>
-      <svg
-        fill={svgStyle.color}
-        width={svgStyle.height}
-        height={svgStyle.width}
-        style={svgStyle}
-        viewBox="0 0 1792 1792"
-      >
+    <span {...props}>
+      <svg className="rjv-icon" fill="currentColor" viewBox="0 0 1792 1792">
         <path d="M1344 800v64q0 14-9 23t-23 9h-352v352q0 14-9 23t-23 9h-64q-14 0-23-9t-9-23v-352h-352q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h352v-352q0-14 9-23t23-9h64q14 0 23 9t9 23v352h352q14 0 23 9t9 23zm128 448v-832q0-66-47-113t-113-47h-832q-66 0-113 47t-47 113v832q0 66 47 113t113 47h832q66 0 113-47t47-113zm128-832v832q0 119-84.5 203.5t-203.5 84.5h-832q-119 0-203.5-84.5t-84.5-203.5v-832q0-119 84.5-203.5t203.5-84.5h832q119 0 203.5 84.5t84.5 203.5z" />
       </svg>
     </span>
   );
 }
 export function ArrowRight(props: IconProps) {
-  const { style, ...rest } = props;
   return (
-    <span {...rest}>
+    <span {...props}>
       <svg
-        style={{
-          ...getIconStyle(style).style,
-          paddingLeft: '2px',
-          verticalAlign: 'top',
-        }}
+        className="rjv-icon rjv-arrow"
         viewBox="0 0 15 15"
         fill="currentColor"
       >
@@ -85,15 +61,10 @@ export function ArrowRight(props: IconProps) {
   );
 }
 export function ArrowDown(props: IconProps) {
-  const { style, ...rest } = props;
   return (
-    <span {...rest}>
+    <span {...props}>
       <svg
-        style={{
-          ...getIconStyle(style).style,
-          paddingLeft: '2px',
-          verticalAlign: 'top',
-        }}
+        className="rjv-icon rjv-arrow"
         viewBox="0 0 15 15"
         fill="currentColor"
       >
@@ -103,11 +74,10 @@ export function ArrowDown(props: IconProps) {
   );
 }
 export function Clippy(props: IconProps) {
-  const { style, ...rest } = props;
   return (
-    <span {...rest}>
+    <span {...props}>
       <svg
-        {...getIconStyle(style)}
+        className="rjv-icon"
         viewBox="0 0 40 40"
         fill="currentColor"
         preserveAspectRatio="xMidYMid meet"
@@ -118,18 +88,4 @@ export function Clippy(props: IconProps) {
       </svg>
     </span>
   );
-}
-function getIconStyle(style: React.CSSProperties | undefined) {
-  if (!style) {
-    style = {};
-  }
-  return {
-    style: {
-      verticalAlign: 'middle',
-      ...style,
-      color: style.color ? style.color : DEFAULT_COLOR,
-      height: '1em',
-      width: '1em',
-    },
-  };
 }

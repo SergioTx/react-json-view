@@ -16,13 +16,12 @@ export interface ReactJsonViewProps {
    */
   name?: string | null;
   /**
-   * RJV supports base-16 themes. Check out the list of supported themes in the demo.
-   * A custom "rjv-default" theme applies by default.
-   * Other themes are loaded dynamically as needed.
+   * Import a Base16 palette from "@sergiotx/react-json-view/themes" or
+   * pass your own color overrides. Omitted colors use the built-in default.
    *
    * Default: "rjv-default"
    */
-  theme?: ThemeKeys | ThemeObject;
+  theme?: { [Key in keyof ThemeObject]?: ThemeObject[Key] | undefined };
   /**
    * Style attributes for react-json-view container.
    * Explicit style attributes will override attributes provided by a theme.
@@ -42,6 +41,14 @@ export interface ReactJsonViewProps {
    * Default: 4
    */
   indentWidth?: number;
+  /**
+   * Set to false to show all objects, arrays, array groups, strings, and
+   * functions in full, without collapse controls. Overrides collapsed,
+   * shouldCollapse, and collapseStringsAfterLength.
+   *
+   * Default: true
+   */
+  enableCollapse?: boolean;
   /**
    * When set to true, all nodes will be collapsed by default.
    * Use an integer value to collapse at a particular depth.
@@ -66,7 +73,8 @@ export interface ReactJsonViewProps {
   shouldCollapse?: false | ((field: CollapsedFieldProps) => boolean);
   /**
    * When an integer value is assigned, arrays will be displayed in groups by count of the value.
-   * Groups are displayed with brakcet notation and can be expanded and collapsed by clickong on the brackets.
+   * Groups are displayed with bracket notation. When enableCollapse is false,
+   * all groups are open.
    *
    * Default: 100
    */
@@ -200,45 +208,6 @@ export interface ThemeObject {
   base0E: string;
   base0F: string;
 }
-
-export type ThemeKeys =
-  | 'apathy'
-  | 'apathy:inverted'
-  | 'ashes'
-  | 'bespin'
-  | 'brewer'
-  | 'bright:inverted'
-  | 'bright'
-  | 'chalk'
-  | 'codeschool'
-  | 'colors'
-  | 'eighties'
-  | 'embers'
-  | 'flat'
-  | 'google'
-  | 'grayscale'
-  | 'grayscale:inverted'
-  | 'greenscreen'
-  | 'harmonic'
-  | 'hopscotch'
-  | 'isotope'
-  | 'marrakesh'
-  | 'mocha'
-  | 'monokai'
-  | 'ocean'
-  | 'paraiso'
-  | 'pop'
-  | 'railscasts'
-  | 'rjv-default'
-  | 'shapeshifter'
-  | 'shapeshifter:inverted'
-  | 'solarized'
-  | 'summerfruit'
-  | 'summerfruit:inverted'
-  | 'threezerotwofour'
-  | 'tomorrow'
-  | 'tube'
-  | 'twilight';
 
 declare const ReactJson: React.ComponentType<ReactJsonViewProps>;
 export default ReactJson;

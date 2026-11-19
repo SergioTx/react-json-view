@@ -82,7 +82,6 @@ describe('<JsonFunction />', function () {
         '.rjv-function-container'
       )[0]
     );
-    expect(functionButton.style.userSelect).to.equal('text');
     fireEvent.click(functionButton);
     expect(
       wrapper.container.querySelectorAll<HTMLElement>('.function-collapsed')

@@ -1,9 +1,6 @@
 import React from 'react';
 
-import Theme from '../themes/getStyle';
-import type { Namespace, Theme as ThemeType } from '../types';
-
-type NavigationTheme = ThemeType | undefined;
+import type { Namespace } from '../types';
 
 export type PathResolution = {
   value: unknown;
@@ -35,13 +32,11 @@ export function resolvePath(source: unknown, path: Namespace): PathResolution {
 
 type PathPinButtonProps = {
   path: Namespace;
-  visible: boolean;
   onNavigate: (path: Namespace) => void;
 };
 
 export function PathPinButton({
   path,
-  visible,
   onNavigate,
 }: PathPinButtonProps): React.JSX.Element {
   return (
@@ -51,87 +46,49 @@ export function PathPinButton({
       aria-label={`Show only ${path.map(String).join(' > ')}`}
       title={`Show only ${path.map(String).join(' > ')}`}
       onClick={() => onNavigate(path)}
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        verticalAlign: 'top',
-        width: '1.2em',
-        height: '1.2em',
-        border: 0,
-        padding: 0,
-        marginInline: '2px',
-        background: 'none',
-        font: 'inherit',
-        fontSize: '0.75em',
-        lineHeight: 1,
-        whiteSpace: 'nowrap',
-        cursor: 'pointer',
-        userSelect: 'none',
-        opacity: visible ? 1 : 0,
-        pointerEvents: visible ? 'auto' : 'none',
-      }}
     >
-      📍
+      <span className="rjv-path-icon" aria-hidden="true">
+        <span>📍</span>
+      </span>
     </button>
   );
 }
 
 type PathBreadcrumbProps = {
+  navRef?: React.Ref<HTMLElement>;
   path: Namespace;
   rootLabel: React.ReactNode;
   validPrefixes: boolean[];
   arrayPrefixes: boolean[];
-  theme: NavigationTheme;
   onNavigate: (path: Namespace) => void;
 };
 
 export function PathBreadcrumb({
+  navRef,
   path,
   rootLabel,
   validPrefixes,
   arrayPrefixes,
-  theme,
   onNavigate,
 }: PathBreadcrumbProps): React.JSX.Element {
-  const rootStyle = Theme(theme, 'object-name');
   return (
     <nav
+      ref={navRef}
+      tabIndex={-1}
       className="path-breadcrumb"
       aria-label="Object path"
-      style={{ paddingBottom: 4 }}
     >
       <button
         type="button"
-        className={[
-          rootStyle.className,
-          'path-breadcrumb-segment',
-          'path-breadcrumb-valid',
-        ]
-          .filter(Boolean)
-          .join(' ')}
+        className="rjv-object-name path-breadcrumb-segment path-breadcrumb-valid"
         aria-label="Show full object"
         aria-current={path.length === 0 ? 'location' : undefined}
         disabled={path.length === 0}
         onClick={() => onNavigate([])}
-        style={{
-          ...rootStyle.style,
-          border: 0,
-          padding: 0,
-          background: 'none',
-          font: 'inherit',
-          cursor: path.length === 0 ? 'default' : 'pointer',
-          textDecoration: path.length === 0 ? 'none' : 'underline',
-          userSelect: 'text',
-        }}
       >
         {rootLabel}
       </button>
       {path.map((segment, index) => {
-        const keyStyle = Theme(
-          theme,
-          arrayPrefixes[index] ? 'array-key' : 'object-name'
-        );
         const pathPrefix = path.slice(0, index + 1);
         const isValid = validPrefixes[index] === true;
         const isCurrent = index === path.length - 1;
@@ -143,7 +100,7 @@ export function PathBreadcrumb({
             <button
               type="button"
               className={[
-                keyStyle.className,
+                arrayPrefixes[index] ? 'rjv-array-key' : 'rjv-object-name',
                 'path-breadcrumb-segment',
                 isValid ? 'path-breadcrumb-valid' : 'path-breadcrumb-invalid',
                 isCurrent ? 'path-breadcrumb-current' : '',
@@ -154,16 +111,6 @@ export function PathBreadcrumb({
               aria-current={isCurrent ? 'location' : undefined}
               disabled={!isValid || isCurrent}
               onClick={() => onNavigate(pathPrefix)}
-              style={{
-                ...keyStyle.style,
-                border: 0,
-                padding: 0,
-                background: 'none',
-                font: 'inherit',
-                cursor: isValid && !isCurrent ? 'pointer' : 'default',
-                textDecoration: isValid && !isCurrent ? 'underline' : 'none',
-                userSelect: 'text',
-              }}
             >
               {String(segment)}
             </button>

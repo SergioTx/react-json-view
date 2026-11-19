@@ -1,8 +1,6 @@
 import React from 'react';
 
 import type { ValueProps } from '../../types';
-// theme
-import Theme from './../../themes/getStyle';
-export default function Nan(props: ValueProps) {
-  return <div {...Theme(props.theme, 'nan')}>NaN</div>;
+export default function Nan(_props: ValueProps) {
+  return <div className="rjv-literal rjv-nan">NaN</div>;
 }

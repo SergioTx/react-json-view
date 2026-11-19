@@ -142,6 +142,7 @@ describe('isTheme', function () {
       base04: 'rgba(0, 0, 0, 0.4)',
       base05: 'rgba(1, 1, 1, 0.5)',
       base06: 'rgba(1, 1, 1, 0.6)',
+      base07: 7,
       base08: 'rgba(1, 1, 1, 0.8)',
       base09: 'rgba(1, 1, 1, 0.8)',
       base0A: 'rgba(1, 1, 1, 0.8)',

@@ -1,18 +1,19 @@
 import React from 'react';
 
 import type { ReactJsonViewProps } from '../../index';
+import stylesheet from '../style/global.css?inline';
 import JsonViewer from './components/JsonViewer';
 import { PathBreadcrumb, resolvePath } from './components/PathNavigation';
 import VariableEditor from './components/VariableEditor';
-import { isTheme, toType } from './helpers/util';
+import { base16Keys, isTheme, toType } from './helpers/util';
 import AttributeStore from './stores/ObjectAttributes';
-import Theme from './themes/getStyle';
-import { loadTheme, themeNames } from './themes/loadTheme';
+import { rjvDefault } from './themes/base16/rjv-themes';
 import type { Namespace } from './types';
 const defaultProps: Required<ReactJsonViewProps> = {
   src: {},
   name: null,
-  theme: 'rjv-default',
+  theme: rjvDefault,
+  enableCollapse: true,
   collapsed: false,
   collapseStringsAfterLength: false,
   shouldCollapse: false,
@@ -32,15 +33,7 @@ const defaultProps: Required<ReactJsonViewProps> = {
   timestampFields: 'timestamp',
   flashingUpdates: false,
 };
-const flashStyles = `
-@keyframes rjv-flash-a { from { background-color: rgba(255, 196, 0, 0.55); } to { background-color: transparent; } }
-@keyframes rjv-flash-b { from { background-color: rgba(255, 196, 0, 0.55); } to { background-color: transparent; } }
-.react-json-view .rjv-flash-a { animation: rjv-flash-a 1s ease-out; }
-.react-json-view .rjv-flash-b { animation: rjv-flash-b 1s ease-out; }
-@media (prefers-reduced-motion: reduce) {
-  .react-json-view .rjv-flash-a, .react-json-view .rjv-flash-b { animation: none; }
-}`;
-function ReactJsonViewContent(
+export default function ReactJsonView(
   inputProps: ReactJsonViewProps
 ): React.JSX.Element {
   const supplied = Object.fromEntries<unknown>(
@@ -56,19 +49,31 @@ function ReactJsonViewContent(
     () => Date.now().toString() + Math.random().toString(36).slice(2)
   );
   const [navigationPath, setNavigationPath] = React.useState<Namespace>([]);
+  const breadcrumbRef = React.useRef<HTMLElement>(null);
+  const focusBreadcrumb = React.useRef(false);
+  React.useEffect(() => {
+    if (focusBreadcrumb.current) {
+      focusBreadcrumb.current = false;
+      breadcrumbRef.current?.focus();
+    }
+  }, [navigationPath]);
+  function navigate(path: Namespace) {
+    focusBreadcrumb.current = true;
+    setNavigationPath(path);
+  }
   React.useEffect(() => () => AttributeStore.clear(rjvId), [rjvId]);
   let { src, name, theme } = props;
   if (src === null) {
     src = {};
   }
-  if (toType(theme) === 'object' && !isTheme(theme)) {
+  if (!isTheme(theme)) {
     // oxlint-disable-next-line eslint/no-console -- Report invalid public props.
     console.error(
       'react-json-view error:',
-      'theme prop must be a theme name or valid base-16 theme object.',
+      'theme prop must be a valid base-16 theme object.',
       'defaulting to "rjv-default" theme'
     );
-    theme = 'rjv-default';
+    theme = rjvDefault;
   }
   if (toType(src) !== 'object' && toType(src) !== 'array') {
     // oxlint-disable-next-line eslint/no-console -- Report invalid public props.
@@ -93,27 +98,30 @@ function ReactJsonViewContent(
   const selectedName = activePath.at(-1);
   const breadcrumbRootLabel =
     name === null || name === undefined || name === '' ? 'root' : name;
+  const rootStyle: React.CSSProperties & Record<`--rjv-${string}`, string> = {
+    '--rjv-indent': `${(props.indentWidth ?? 4) * 5}px`,
+  };
+  for (const key of base16Keys) {
+    rootStyle[`--rjv-${key.toLowerCase()}`] =
+      (Object.hasOwn(theme, key) ? theme[key] : undefined) ?? rjvDefault[key];
+  }
   return (
     <div
       className="react-json-view"
-      style={{
-        ...Theme(theme, 'app-container').style,
-        ...props.style,
-      }}
+      data-hide-guides={props.hideVerticalLines || undefined}
+      style={{ ...rootStyle, ...props.style }}
     >
-      {props.flashingUpdates && (
-        <style href="rjv-flash" precedence="default">
-          {flashStyles}
-        </style>
-      )}
+      <style href="react-json-view" precedence="default">
+        {stylesheet}
+      </style>
       {props.enablePathNavigation && (
         <PathBreadcrumb
+          navRef={breadcrumbRef}
           path={navigationPath}
           rootLabel={breadcrumbRootLabel}
           validPrefixes={pathResolution.validPrefixes}
           arrayPrefixes={pathResolution.arrayPrefixes}
-          theme={theme}
-          onNavigate={setNavigationPath}
+          onNavigate={navigate}
         />
       )}
       {selectedIsContainer ? (
@@ -125,7 +133,7 @@ function ReactJsonViewContent(
           type={Array.isArray(selectedSrc) ? 'array' : 'object'}
           rjvId={rjvId}
           navigationPath={activePath}
-          onNavigate={setNavigationPath}
+          onNavigate={navigate}
         />
       ) : (
         <div className="pretty-json-container object-container">
@@ -144,7 +152,7 @@ function ReactJsonViewContent(
               namespace={rootNamespace.concat(activePath)}
               type={Array.isArray(selectedParent) ? 'array' : 'object'}
               rootValue
-              indentWidth={0}
+              navigationPath={activePath}
               isLast
               theme={theme}
               rjvId={rjvId}
@@ -154,48 +162,4 @@ function ReactJsonViewContent(
       )}
     </div>
   );
-}
-
-const themeComponents = new Map<
-  string,
-  React.LazyExoticComponent<React.ComponentType<ReactJsonViewProps>>
->(
-  themeNames.map((themeName) => [
-    themeName,
-    React.lazy(() =>
-      loadTheme(themeName).then((theme) => ({
-        default: (props: ReactJsonViewProps) => (
-          <ReactJsonViewContent {...props} theme={theme} />
-        ),
-      }))
-    ),
-  ])
-);
-
-export default function ReactJsonView(
-  props: ReactJsonViewProps
-): React.JSX.Element {
-  const theme = props.theme ?? defaultProps.theme;
-  const deferredTheme = React.useDeferredValue(theme);
-  const renderProps =
-    deferredTheme === theme ? props : { ...props, theme: deferredTheme };
-  if (
-    typeof deferredTheme === 'string' &&
-    deferredTheme !== 'rjv-default' &&
-    String(deferredTheme) !== 'none'
-  ) {
-    const ThemeComponent = themeComponents.get(deferredTheme);
-    if (ThemeComponent) {
-      return (
-        <React.Suspense
-          fallback={
-            <ReactJsonViewContent {...renderProps} theme="rjv-default" />
-          }
-        >
-          {React.createElement(ThemeComponent, renderProps)}
-        </React.Suspense>
-      );
-    }
-  }
-  return <ReactJsonViewContent {...renderProps} />;
 }

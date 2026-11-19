@@ -18,7 +18,6 @@ describe('<VariableEditor />', function () {
         namespace={['root']}
         type="object"
         indentWidth={4}
-        singleIndent={5}
         quotesOnKeys
         displayDataTypes
         {...props}
@@ -68,7 +67,6 @@ describe('<VariableEditor />', function () {
     expect(secondsValue.getAttribute('title')).to.equal(
       '2023-11-14T22:13:20.000Z'
     );
-    expect(secondsValue.style.cursor).to.equal('help');
     seconds.unmount();
 
     const milliseconds = render(
@@ -104,7 +102,6 @@ describe('<VariableEditor />', function () {
       )[0]
     );
     expect(regularNumberValue.getAttribute('title')).to.equal(null);
-    expect(regularNumberValue.style.cursor).to.equal('default');
     regularNumber.unmount();
   });
   it('accepts a custom timestamp field name', function () {
@@ -122,7 +119,6 @@ describe('<VariableEditor />', function () {
       wrapper.container.querySelectorAll<HTMLElement>('.variable-value')[0]
     );
     expect(value.getAttribute('title')).to.equal('2023-11-14T22:13:20.000Z');
-    expect(value.style.cursor).to.equal('help');
     wrapper.unmount();
   });
   it('accepts multiple timestamp field names', function () {
@@ -140,7 +136,6 @@ describe('<VariableEditor />', function () {
       wrapper.container.querySelectorAll<HTMLElement>('.variable-value')[0]
     );
     expect(value.getAttribute('title')).to.equal('2023-11-14T22:13:20.000Z');
-    expect(value.style.cursor).to.equal('help');
     wrapper.unmount();
   });
   it('shows a comma between values but not after the last value', function () {
@@ -157,49 +152,15 @@ describe('<VariableEditor />', function () {
     expect(wrapper.container.textContent).not.to.include(',');
     wrapper.unmount();
   });
-  it('shows clipboard controls only while hovered', function () {
+  it('renders a copy button when clipboard support is enabled', function () {
     const wrapper = render(
       getVariable({
         enableClipboard: true,
       })
     );
     expect(
-      required(
-        required(
-          wrapper.container.querySelectorAll<HTMLElement>(
-            '.copy-to-clipboard-container'
-          )[0]
-        ).style
-      ).display
-    ).to.equal('none');
-    fireEvent.mouseEnter(
-      required(
-        wrapper.container.querySelectorAll<HTMLElement>('.variable-row')[0]
-      )
-    );
-    expect(
-      required(
-        required(
-          wrapper.container.querySelectorAll<HTMLElement>(
-            '.copy-to-clipboard-container'
-          )[0]
-        ).style
-      ).display
-    ).to.equal('inline-block');
-    fireEvent.mouseLeave(
-      required(
-        wrapper.container.querySelectorAll<HTMLElement>('.variable-row')[0]
-      )
-    );
-    expect(
-      required(
-        required(
-          wrapper.container.querySelectorAll<HTMLElement>(
-            '.copy-to-clipboard-container'
-          )[0]
-        ).style
-      ).display
-    ).to.equal('none');
+      wrapper.getByRole('button', { name: 'Copy to clipboard' })
+    ).not.to.equal(null);
     wrapper.unmount();
   });
 });
