@@ -10,7 +10,8 @@ This fork aims to keep the viewer lightweight and reduce dependencies by removin
 
 The viewer loads its stylesheet automatically. Multiple viewers on the same page share one stylesheet, but can use different themes and indentation. The library styles are in the `react-json-view` cascade layer, so normal unlayered CSS can override them.
 
-Copy buttons are always visible on viewports up to `48rem` wide. On wider screens, use Tab to focus and reveal them.
+Copy buttons are always visible on viewports up to `48rem` wide or on devices without hover. Otherwise, hover over a row or press Tab to focus and reveal its copy button.
+Viewer buttons use the active theme's property name color (`base07`) for their keyboard focus outlines.
 
 ## Highlights
 

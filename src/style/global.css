@@ -18,7 +18,7 @@
     }
 
     & button:focus-visible {
-      outline: 2px solid currentColor;
+      outline: 2px solid var(--rjv-base07);
       outline-offset: 2px;
     }
 
@@ -367,6 +367,19 @@
       cursor: pointer;
     }
 
+    @media (hover: hover) {
+      & .variable-row:hover > .copy-to-clipboard-container > .rjv-copy-button,
+      &
+        .object-key-val:hover:not(
+          :has(> .pushed-content:hover, > .array-group:hover)
+        )
+        > :is(.object-meta-data, span:has(> .object-meta-data))
+        .rjv-copy-button {
+        opacity: 1;
+        pointer-events: auto;
+      }
+    }
+
     & .rjv-copy-button {
       opacity: 0;
       pointer-events: none;
@@ -377,10 +390,15 @@
       }
 
       &:focus-visible {
-        outline-color: var(--rjv-base05);
+        outline: none;
+
+        & .copy-icon {
+          outline: 2px solid var(--rjv-base07);
+          outline-offset: 1px;
+        }
       }
 
-      @media (max-width: 48rem) {
+      @media (max-width: 48rem), (hover: none) {
         opacity: 1;
         pointer-events: auto;
       }
