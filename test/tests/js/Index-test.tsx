@@ -58,12 +58,42 @@ describe('<Index />', function () {
     expect(viewer.querySelector('[style]')).to.equal(null);
     wrapper.unmount();
   });
+  it('aligns nested contents with their property name at zero indentation', function () {
+    const wrapper = render(
+      <Index
+        src={{ parent: { child: { value: 1 } } }}
+        indentWidth={0}
+        enableClipboard={false}
+      />
+    );
+    const viewer = required(
+      wrapper.container.querySelector<HTMLElement>('.react-json-view')
+    );
+    const stylesheet = required(
+      document.head.querySelector<HTMLStyleElement>(
+        'style[data-href="react-json-view"]'
+      )
+    );
+    expect(viewer.style.getPropertyValue('--rjv-indent')).to.equal('0px');
+    expect(stylesheet.textContent).to.include(
+      'margin-left: calc(0px - var(--rjv-guide-width));'
+    );
+    wrapper.unmount();
+  });
   it('hides vertical guides only when requested', function () {
     const src = { value: 1, nested: { child: 2 }, items: [1, 2, 3] };
     const wrapper = render(
       <Index src={src} groupArraysAfterLength={2} enableClipboard={false} />
     );
     expect(wrapper.container.querySelector('.object-guide')).not.to.equal(null);
+    const rows = wrapper.container.querySelectorAll<HTMLElement>(
+      '.object-key-val, .variable-row'
+    );
+    expect(
+      Array.from(rows).every(
+        (row) => getComputedStyle(row).borderLeftStyle === 'none'
+      )
+    ).to.equal(true);
     wrapper.rerender(
       <Index
         src={src}
@@ -73,9 +103,6 @@ describe('<Index />', function () {
       />
     );
     expect(wrapper.container.querySelector('.object-guide')).to.equal(null);
-    const rows = wrapper.container.querySelectorAll<HTMLElement>(
-      '.object-key-val, .variable-row'
-    );
     expect(
       Array.from(rows).every(
         (row) => getComputedStyle(row).borderLeftStyle === 'none'

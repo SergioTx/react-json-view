@@ -106,11 +106,7 @@ export default function ReactJsonView(
       (Object.hasOwn(theme, key) ? theme[key] : undefined) ?? rjvDefault[key];
   }
   return (
-    <div
-      className="react-json-view"
-      data-hide-guides={props.hideVerticalLines || undefined}
-      style={{ ...rootStyle, ...props.style }}
-    >
+    <div className="react-json-view" style={{ ...rootStyle, ...props.style }}>
       <style href="react-json-view" precedence="default">
         {stylesheet}
       </style>

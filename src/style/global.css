@@ -30,11 +30,6 @@
       ) {
       padding: var(--rjv-row-block-padding) 5px var(--rjv-row-block-padding)
         var(--rjv-indent);
-      border-left: var(--rjv-guide-width) solid var(--rjv-base02);
-    }
-
-    &[data-hide-guides] :is(.object-key-val, .variable-row, .rjv-circular-key) {
-      border-left: none;
     }
 
     & .variable-row[data-root-value] {
@@ -88,9 +83,7 @@
       }
 
       & > .pushed-content > .object-content {
-        margin-left: calc(
-          (var(--rjv-icon-width) + var(--rjv-guide-width)) / -2
-        );
+        margin-left: calc(0px - var(--rjv-guide-width));
       }
     }
 
