@@ -1,6 +1,6 @@
 {
   "name": "@sergiotx/react-json-view",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "Interactive React component for inspecting JSON objects and arrays with expand/collapse.",
   "keywords": [
     "component",
